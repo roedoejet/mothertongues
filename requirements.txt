@@ -1,0 +1,7 @@
+Flask
+Frozen-Flask
+openpyxl
+pandas
+requests
+Fabric3
+gspread
