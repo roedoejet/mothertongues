@@ -1,8 +1,8 @@
 from openpyxl import load_workbook
 import pandas as pd
-from mtd.parsers import BaseParser
+from mtd.parsers.utils import BaseParser
 
-class XlsxParser(BaseParser):
+class Parser(BaseParser):
     '''
     Parse data for MTD
     '''

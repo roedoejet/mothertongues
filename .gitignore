@@ -3,3 +3,5 @@
 /dist
 mtd/static
 mtd/build
+.DS_Store
+__pycache__

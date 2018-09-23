@@ -1,21 +1,88 @@
-from mtd.tests import MANIFEST_SCHEMA
+import os
+import importlib
+import glob
+import re
+import json
+from urllib.parse import urlparse
+import requests
+from mtd.parsers import request_parser
+from mtd.languages import MANIFEST_SCHEMA
+from mtd.tests import logger
+from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 
-class BaseParser():
-    def __init__(self):
-        pass
+from .. import exceptions
 
-    def validate_manifest(self, m):
+# filename format
+_FN_SUFFIX = "_parser"
+
+def validate_manifest(m):
+    '''Validate manifest json against manifest json schema
+    '''
+    try:
+        validate(m, MANIFEST_SCHEMA)
+    except ValidationError as e:
+        raise ValidationError(f"Attempted to validate the manifest file at {m}, but got {e}. Please refer to the Mother Tongues data manifest schema.")
+
+def warn_extra_properties_in(props, schema_props):
+    for t in props:
+        if not t in schema_props:
+            logger.warning(f"{t} is declared in your manifest but is not part of the default schema.")
+
+def parse_manifest(manifest_path):
+    # Allow for URL loaded manifest
+    if urlparse(manifest_path).scheme != "":
+        r = requests.get(manifest_path)
+        manifest = r.json()
+    else:
         try:
-            validate(m, MANIFEST_SCHEMA)
-        except ValidationError as e:
-            raise ValidationError(f"Attempted to validate the manifest file at {m}, but got {e}. Please refer to the Mother Tongues data manifest schema.")
+            with open(manifest) as f:
+                manifest = json.load(f)
+        except ValueError:
+            raise ValidationError(f"The manifest JSON file at {manifest} seems to be malformed. Please run it through a JSON validator")
+    
+    validate_manifest(manifest)
 
-    def return_list(self, d):
-        if isinstance(d, list):
-            return d
-        elif isinstance(d, str):
-            return [d]
-        else:
-            print("should go in log, not string or list")
+    schema_targets = MANIFEST_SCHEMA['targets']['properties'].keys()
+    manifest_targets = manifest['targets'].keys()
+    schema_properties = MANIFEST_SCHEMA['properties'].keys()
+    manifest_properties = manifest['properties'].keys()
+
+    warn_extra_properties_in(schema_properties, manifest_properties)
+    warn_extra_properties_in(schema_targets, manifest_targets)
+    
+    return manifest
+
+def parse(manifest_path, resource_path):
+    '''Find the right filetype parser and parse it
+    '''
+
+    manifest = parse_manifest(manifest_path)
+
+    # If resource is URL, use request parser
+    if urlparse(resource_path).scheme != "":
+        parser = request_parser.Parser(manifest, resource_path)
+    else:
+        # Check if file exists and filetype is supported, then return parser
+        if not os.path.exists(resource_path):
+            raise MissingFileError(f"File at {resource_path} does not exist")
+        _, ext = os.path.splitext(resource_path)
+        ext = ext.lower()
+
+        rel_module = ext + _FN_SUFFIX
+
+        try:
+            filetype_module = importlib.import_module(
+                rel_module, 'mtd.parsers'
+            )
+        except ImportError:
+            raise UnsupportedFiletypeError(f"{ext} files are not supported")
+        parser = filetype_module.Parser(manifest, resource_path)
+    
+    return parser.parse()
+        
+
+
+
+

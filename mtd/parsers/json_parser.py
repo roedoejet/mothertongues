@@ -1,38 +1,28 @@
 import json
-import jsonpointer
+from jsonpointer import resolve_pointer
 import pandas as pd
-from mtd.exceptions.validation import ValidationError
-from mtd.parsers import BaseParser
-from jsonschema import validate
+from mtd.exceptions import ValidationError
+from mtd.parsers.utils import BaseParser
+from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
 
-class JsonParser(BaseParser):
+class Parser(BaseParser):
     '''
     Parse data for MTD
     '''
-    def __init__(self, manifest, resource):
+    def __init__(self, manifest, resource_path):
         try:
-            with open(manifest) as f:
-                self.manifest = json.load(f)
-        except ValueError:
-            raise ValidationError(f"The manifest JSON file at {manifest} seems to be malformed. Please run it through a JSON validator")
-        
-        try:
-            with open(resource) as f:
+            with open(resource_path) as f:
                 self.resource = json.load(f)
         except ValueError:
-            raise ValidationError(f"The JSON file at {resource} seems to be malformed. Please run it through a JSON validator")
-        
-        self.validate_manifest(self.manifest)
+            raise ValidationError(f"The JSON file at {resource_path} seems to be malformed. Please run it through a JSON validator")
+        self.manifest = manifest
+        self.entry_template = self.manifest['targets']
 
     def resolve_targets(self):
         word_list = []
         for entry in self.resource:
-            new_lemma = {}
-            for key, value in self.manifest["targets"].iteritems():
-                value = jsonpointer.resolve_pointer(entry, value)
-                new_lemma[key] = self.return_list(value)
-            word_list.append(new_lemma)
+            word_list.append(self.fill_entry_template(self.entry_template, entry, resolve_pointer))
         return word_list
     
     def parse(self):

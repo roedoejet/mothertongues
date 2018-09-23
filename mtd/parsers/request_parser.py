@@ -1,6 +1,8 @@
-class RequestParser:
+from mtd.parsers.utils import BaseParser
+
+class Parser(BaseParser):
     '''
     Parse data for MTD
     '''
-    def __init__(self):
+    def __init__(self, manifest, resource_path):
         pass

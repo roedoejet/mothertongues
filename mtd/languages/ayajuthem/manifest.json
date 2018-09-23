@@ -1,0 +1,14 @@
+{
+    "name": "words",
+    "display": "word",
+    "compare": "word",
+    "sorting": "word",
+    "targets": {
+        "word": "/word",
+        "definition": "/definition",
+        "entryID": "/entryID",
+        "optional": [
+            { "test": "/underlying_form"}, 
+            { "test2": "/compare_form"}]
+    }
+}

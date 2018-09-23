@@ -1,0 +1,12 @@
+{"config": {
+    "L1": "ayajuthem",
+    "L2": "english",
+    "credits": [{
+        "role": "funding",
+        "name": "UBC"
+    }],
+    "data": [
+        {"manifest_path": "ayajuthem/manifest.json",
+         "data_path": "ayajuthem/data.json"}
+    ]
+}}
