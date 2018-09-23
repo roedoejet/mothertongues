@@ -14,7 +14,8 @@ CONFIG_SCHEMA = {
                                "name": {"type": "string"}
                            }
                        }},
-            }
+            },
+            "required": ["L1", "L2"]
         },
         "data": {
             "type": "array",
@@ -23,7 +24,8 @@ CONFIG_SCHEMA = {
                 "properties": {
                     "manifest_path": {"type": "string"},
                     "data_path": {"type": "string"}
-                }
+                },
+                "required": ["manifest_path", "data_path"]
             }
         },
         "adhoc_vars": {

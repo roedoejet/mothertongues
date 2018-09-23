@@ -6,3 +6,6 @@ class UnsupportedFiletypeError(Exception):
 
 class ValidationError(Exception):
     """Raise when file does not pass validation"""
+
+class UnfoundConfigErrror(Exception):
+    """Raise when config files cannot be found"""

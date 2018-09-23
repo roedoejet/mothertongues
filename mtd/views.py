@@ -1,4 +1,4 @@
-from mtd import app
+from mtd.app import app
 import os
 from flask import render_template
 
