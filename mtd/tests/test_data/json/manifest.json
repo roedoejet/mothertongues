@@ -1,0 +1,27 @@
+{
+    "name": "words",
+    "format": "csv_data",
+    "norm": "norm",
+    "display": "display_composite",
+    "underlying": "display_composite",
+    "compare": "compare_composite",
+    "message": "The command completed successfully",
+    "sorting": "sorting",
+    "transducers": [
+        {
+                "source": "forms",
+                "target": "word",
+                "function": "lambda x: x"
+            }
+        ],
+    "targets": {
+        "entryID": "A",
+        "definition": "J",
+        "word": "W",
+        "audio": "AG",
+        "img": "AN",
+        "theme": "AB",
+        "secondary_theme": "Z",
+        "optional": {"Cultural Note": "F", "Part of Speech": "AC"}
+    }
+}
