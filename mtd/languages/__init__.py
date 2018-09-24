@@ -23,9 +23,9 @@ CONFIG_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "manifest_path": {"type": "string"},
-                    "data_path": {"type": "string"}
+                    "resource_path": {"type": "string"}
                 },
-                "required": ["manifest_path", "data_path"]
+                "required": ["manifest_path", "resource_path"]
             }
         },
         "adhoc_vars": {
@@ -34,7 +34,8 @@ CONFIG_SCHEMA = {
                 "type": "object"
             }
         }
-    }
+    },
+    "required": ["config", "data"]
 }
 
 

@@ -22,12 +22,14 @@ class Parser(BaseParser):
     def resolve_targets(self):
         word_list = []
         for entry in self.resource:
+            print(entry)
             word_list.append(self.fill_entry_template(self.entry_template, entry, resolve_pointer))
         return word_list
     
     def parse(self):
         try:
             data = self.resolve_targets()
+            print(data)
             return pd.DataFrame(data)
         except:
             print('no targets')

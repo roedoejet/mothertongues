@@ -7,12 +7,10 @@ from mtd.languages.suites import LanguageSuite
 
 @app.cli.command()
 @click.argument('path', type=click.Path(exists=True))
-@click.pass_context
-def return_configs(ctx, path):
+def return_configs(path):
     if os.path.isdir(path):
         configs = glob.glob(os.path.join(os.path.dirname(path), '**', 'config.json'), recursive=True)
     elif os.path.isfile(path):
-        print(path)
         with open(path, 'r') as f:
             configs = f.read().splitlines()
     else:

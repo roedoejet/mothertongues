@@ -4,9 +4,8 @@
     "credits": [{
         "role": "funding",
         "name": "UBC"
-    }],
-    "data": [
-        {"manifest_path": "ayajuthem/manifest.json",
-         "data_path": "ayajuthem/data.json"}
-    ]
-}}
+    }]},
+"data": [
+    {"manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/manifest.json",
+        "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/data.json"}
+]}

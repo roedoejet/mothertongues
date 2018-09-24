@@ -8,7 +8,7 @@ class BaseParser():
 
     def fill_entry_template(self, entry_template, entry, convert_function):
         new_lemma = {}
-        for k, v in entry_template.iteritems():
+        for k, v in entry_template.items():
             if isinstance(v, dict):
                 new_v = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):

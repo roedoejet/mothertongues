@@ -23,13 +23,15 @@ def validate_manifest(m):
     try:
         validate(m, MANIFEST_SCHEMA)
     except ValidationError as e:
-        raise ValidationError(f"Attempted to validate the manifest file at {m}, but got {e}. Please refer to the Mother Tongues data manifest schema.")
+        raise ValidationError(f"Attempted to validate the manifest file, but got {e}. Please refer to the Mother Tongues data manifest schema.")
 
 def warn_extra_properties_in(props, schema_props):
     for t in props:
         if not t in schema_props:
-            logger.warning(f"{t} is declared in your manifest but is not part of the default schema.")
-
+            logger.info(f"'{t}' is declared in the default schema but is not part of your manifest. You may not have full functionality in your Mother Tongues Dictionary.")
+    for t in schema_props:
+        if not t in props:
+            logger.info(f"'{t}' is declared in your manifest but is not part of the default schema. You may need to modify your Mother Tongues Dictionary to use this data.")
 def parse_manifest(manifest_path):
     # Allow for URL loaded manifest
     if urlparse(manifest_path).scheme != "":
@@ -37,17 +39,17 @@ def parse_manifest(manifest_path):
         manifest = r.json()
     else:
         try:
-            with open(manifest) as f:
+            with open(manifest_path, 'r') as f:
                 manifest = json.load(f)
         except ValueError:
-            raise ValidationError(f"The manifest JSON file at {manifest} seems to be malformed. Please run it through a JSON validator")
+            raise ValidationError(f"The manifest JSON file at {manifest_path} seems to be malformed. Please run it through a JSON validator")
     
     validate_manifest(manifest)
 
-    schema_targets = MANIFEST_SCHEMA['targets']['properties'].keys()
+    schema_targets = MANIFEST_SCHEMA['properties']['targets']['properties'].keys()
     manifest_targets = manifest['targets'].keys()
     schema_properties = MANIFEST_SCHEMA['properties'].keys()
-    manifest_properties = manifest['properties'].keys()
+    manifest_properties = manifest.keys()
 
     warn_extra_properties_in(schema_properties, manifest_properties)
     warn_extra_properties_in(schema_targets, manifest_targets)
@@ -79,7 +81,7 @@ def parse(manifest_path, resource_path):
         except ImportError:
             raise UnsupportedFiletypeError(f"{ext} files are not supported")
         parser = filetype_module.Parser(manifest, resource_path)
-    
+    print(parser)
     return parser.parse()
         
 
