@@ -1,0 +1,4 @@
+definition	entryID	optional	word
+definition	entryID	[{'test': 'test1'}, {'test2': 'test2'}]	word
+He piled it.	457	"[{'test': ""čihiqʷatəs'""}, {'test2': 'čihikwates'}]"	čihiqʷatəs
+good at something (good at what you're doing)	135	[{'test': 'čɩgat'}, {'test2': 'čigat'}]	čɩgat

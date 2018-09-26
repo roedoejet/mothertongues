@@ -1,4 +1,3 @@
-
 class BaseParser():
     """This class contains common methods that are used
     between many of the format specific parsers

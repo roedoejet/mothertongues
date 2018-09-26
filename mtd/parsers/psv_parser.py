@@ -13,7 +13,7 @@ class Parser(BaseParser):
         self.resource = []
         try:
             with open(resource_path) as f:
-                reader = csv.reader(f, delimiter="\t")
+                reader = csv.reader(f, delimiter="|")
                 # if skipheader: next(reader)
                 for line in reader:
                     self.resource.append(line)
