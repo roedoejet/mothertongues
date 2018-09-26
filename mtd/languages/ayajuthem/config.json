@@ -8,6 +8,6 @@
         "name": "UBC"
     }]},
 "data": [
-    {"manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/manifest.json",
-        "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/data.json"}
+    {"manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/manifest.json",
+        "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/data.csv"}
 ]}

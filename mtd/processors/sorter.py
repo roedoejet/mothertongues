@@ -35,6 +35,6 @@ class ArbSorter(object):
         return sorted_list
     
     def add_to_data_frame(self, df, sort_key):
-        df['Sorting Form'] = df[sort_key].apply(lambda x: self.word_as_values(x))
-        return df.sort_values(by=['Sorting Form'])
+        df['sorting_form'] = df[sort_key].apply(lambda x: self.word_as_values(x))
+        return df.sort_values(by=['sorting_form'])
         
