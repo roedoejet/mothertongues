@@ -40,6 +40,17 @@ CONFIG_SCHEMA = {
 
 
 MANIFEST_SCHEMA = {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {
+        "audio": {
+                "type": "object",
+                "properties": {
+                    "speaker": {"type": "string"},
+                    "filename": {"type": "string"}
+                },
+                "required": ["filename"]
+            }
+    },
     "type": "object",
     "properties": {
         "name": {"type": "string"},
@@ -71,19 +82,11 @@ MANIFEST_SCHEMA = {
                 "secondary_theme": {"type": "string"},
                 "audio": {"type": "array",
                           "items": {
-                              "type": "object",
-                              "properties": {
-                                  "speaker": "string",
-                                  "filename": "string"
-                              }
+                              "$ref": "#/definitions/audio"
                           }},
                 "definition_audio": {"type": "array",
                           "items": {
-                              "type": "object",
-                              "properties": {
-                                  "speaker": "string",
-                                  "filename": "string"
-                              }
+                                "$ref": "#/definitions/audio"
                           }},
                 "example_sentence": {"type": "array",
                             "items": {
@@ -97,22 +100,14 @@ MANIFEST_SCHEMA = {
                             "items": {
                                 "type": "array",
                                 "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "speaker": "string",
-                                        "filename": "string"
-                                    }
+                                    "$ref": "#/definitions/audio"
                                 }
                             }}, 
                 "example_sentence_definition_audio": {"type": "array",
                             "items": {
                                 "type": "array",
                                 "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "speaker": "string",
-                                        "filename": "string"
-                                    }
+                                    "$ref": "#/definitions/audio"
                                 }
                             }},
                 "img": {"type": "string"}
