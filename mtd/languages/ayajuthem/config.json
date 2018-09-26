@@ -1,6 +1,8 @@
 {"config": {
     "L1": "ayajuthem",
     "L2": "english",
+    "optional_field_title": "Optional Field",
+    "alphabet": ["a", "b", "c", "d", "e", "f", "g"],
     "credits": [{
         "role": "funding",
         "name": "UBC"

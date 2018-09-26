@@ -6,6 +6,16 @@ CONFIG_SCHEMA = {
             "properties": {
                 "L1": {"type": "string"},
                 "L2": {"type": "string"},
+                "optional_field_name": {"type": "string"},
+                "alphabet": {
+                        "oneOf": [
+                        {"type": "string"},
+                        {"type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }]
+                },
                 "credits": {"type": "array",
                        "items": {
                            "type": "object",

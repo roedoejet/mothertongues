@@ -10,11 +10,12 @@ class BaseParser():
         new_lemma = {}
         for k, v in entry_template.items():
             if isinstance(v, dict):
-                new_v = self.fill_entry_template(v, entry, convert_function)
+                new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):
                 new_v = list()
                 for x in v:
                     new_v.append(self.fill_entry_template(x, entry, convert_function))
+                new_lemma[k] = new_v
             else:
                 new_lemma[k] = convert_function(entry, v)
         return new_lemma

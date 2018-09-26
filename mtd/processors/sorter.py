@@ -2,20 +2,17 @@ import re
 
 class ArbSorter(object):
     """
-        Sort entries based on alphabet.xlsx
+        Sort entries based on alphabet
     """
     def __init__(self, order):
-        elts = re.split(r'\s*', order, flags=re.UNICODE)
-        # Create a regex to split on each character or multicharacter
-        # sort key.  (As in "ch" after all "c"s, for example.)
-        split_order = sorted(elts, key=len, reverse=True)
+        split_order = sorted(order, key=len, reverse=True)
         self.splitter = re.compile(u"(%s)" % "|".join(split_order), re.UNICODE)
         # Next, collect weights for the ordering.
         self.ords = {}
         self.vals = []
-        for i in range(len(elts)):
-            self.ords[elts[i]] = i
-            self.vals.append(elts[i])
+        for i in range(len(order)):
+            self.ords[order[i]] = i
+            self.vals.append(order[i])
  
     # Turns a word into a list of ints representing the new
     # lexicographic ordering.  Python, helpfully, allows one to
