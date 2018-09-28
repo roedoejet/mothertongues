@@ -120,7 +120,8 @@ MANIFEST_SCHEMA = {
                                     "$ref": "#/definitions/audio"
                                 }
                             }},
-                "img": {"type": "string"}
+                "img": {"type": "string"},
+                "gsheet_credentials_path": {"type": "string"}
             },
             "required": ["word", "definition"]
         }},

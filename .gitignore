@@ -5,3 +5,4 @@ mtd/static
 mtd/build
 .DS_Store
 __pycache__
+mtd/languages/*/gsheet/*.json

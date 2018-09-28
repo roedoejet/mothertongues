@@ -12,10 +12,14 @@ class Parser(BaseParser):
     '''
     def __init__(self, manifest, resource_path):
         try:
-            with open(resource_path) as f:
-                self.resource = json.load(f)
+            if isinstance(resource_path, str):
+                with open(resource_path) as f:
+                    self.resource = json.load(f)
+            elif isinstance(resource_path, (dict, list)):
+                self.resource = resource_path
         except ValueError:
             raise ValidationError(f"The JSON file at {resource_path} seems to be malformed. Please run it through a JSON validator")
+            
         self.manifest = manifest
         self.entry_template = self.manifest['targets']
 

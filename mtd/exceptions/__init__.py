@@ -9,3 +9,6 @@ class ValidationError(Exception):
 
 class UnfoundConfigErrror(Exception):
     """Raise when config files cannot be found"""
+
+class RequestException(Exception):
+    """Raise when request returns anything other than a 2XX"""

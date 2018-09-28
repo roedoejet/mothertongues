@@ -5,7 +5,7 @@ import re
 import json
 from urllib.parse import urlparse
 import requests
-from mtd.parsers import request_parser
+from mtd.parsers import gsheet_parser, request_parser
 from mtd.languages import MANIFEST_SCHEMA
 from mtd.tests import logger
 from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
@@ -32,6 +32,7 @@ def warn_extra_properties_in(props, schema_props):
     for t in schema_props:
         if not t in props:
             logger.info(f"'{t}' is declared in your manifest but is not part of the default schema. You may need to modify your Mother Tongues Dictionary to use this data.")
+
 def parse_manifest(manifest_path):
     # Allow for URL loaded manifest
     if urlparse(manifest_path).scheme != "":
@@ -62,8 +63,10 @@ def parse(manifest_path, resource_path):
 
     manifest = parse_manifest(manifest_path)
 
+    if "gsheet_credentials_path" in manifest:
+        parser = gsheet_parser.Parser(manifest, resource_path)
     # If resource is URL, use request parser
-    if urlparse(resource_path).scheme != "":
+    elif urlparse(resource_path).scheme != "":
         parser = request_parser.Parser(manifest, resource_path)
     else:
         # Check if file exists and filetype is supported, then return parser
