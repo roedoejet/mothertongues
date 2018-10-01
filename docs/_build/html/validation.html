@@ -1,0 +1,568 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Schema validation &#8212; Mother Tongues  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Mobile Interface" href="mobile.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="schema-validation">
+<h1>Schema validation<a class="headerlink" href="#schema-validation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="mtd-language-configuration-file">
+<h2>MTD Language Configuration file<a class="headerlink" href="#mtd-language-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>Every language must have a configuration file, and it must be validated against the following schema.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>type</td>
+<td colspan="6"><em>object</em></td>
+</tr>
+<tr class="row-even"><td colspan="7">properties</td>
+</tr>
+<tr class="row-odd"><td rowspan="15"><ul class="first last simple">
+<li><strong>config</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="5"><em>object</em></td>
+</tr>
+<tr class="row-even"><td colspan="6">properties</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>L1</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>L2</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>optional_field_name</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="4"><ul class="first last simple">
+<li>alphabet</li>
+</ul>
+</td>
+<td rowspan="4">oneOf</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="6"><ul class="first last simple">
+<li>credits</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="5">items</td>
+</tr>
+<tr class="row-even"><td rowspan="4"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>object</em></td>
+</tr>
+<tr class="row-odd"><td colspan="4">properties</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>role</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>name</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="6"><ul class="first last simple">
+<li><strong>data</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="5"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="6">items</td>
+</tr>
+<tr class="row-even"><td rowspan="4"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>object</em></td>
+</tr>
+<tr class="row-odd"><td colspan="5">properties</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>manifest_path</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>resource_path</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="first last simple">
+<li>adhoc_vars</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="5"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="6">items</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>object</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mtd-resource-manifest-file">
+<h2>MTD Resource Manifest file<a class="headerlink" href="#mtd-resource-manifest-file" title="Permalink to this headline">¶</a></h2>
+<p>Every data resource must have a manifest, and it must be validating against the following schema.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>type</td>
+<td colspan="4"><em>object</em></td>
+</tr>
+<tr class="row-even"><td colspan="5">properties</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>name</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>display</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>compare</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>sorting</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td rowspan="7"><ul class="first last simple">
+<li>transducers</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="4">items</td>
+</tr>
+<tr class="row-odd"><td rowspan="5"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>object</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">properties</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>source</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>target</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>function</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="34"><ul class="first last simple">
+<li><strong>targets</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>object</em></td>
+</tr>
+<tr class="row-odd"><td colspan="4">properties</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>word</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>definition</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>entryID</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li>optional</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>object</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>theme</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>secondary_theme</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="first last simple">
+<li>audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="3">items</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td colspan="2"><span class="xref std std-ref">#/definitions/audio</span></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li>definition_audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td colspan="2"><span class="xref std std-ref">#/definitions/audio</span></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="first last simple">
+<li>example_sentence</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="3">items</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li>example_sentence_definition</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="5"><ul class="first last simple">
+<li>example_sentence_audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="3">items</td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="2">items</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><span class="xref std std-ref">#/definitions/audio</span></td>
+</tr>
+<tr class="row-odd"><td rowspan="5"><ul class="first last simple">
+<li>example_sentence_definition_audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">items</td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="2">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td><span class="xref std std-ref">#/definitions/audio</span></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>img</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>gsheet_credentials_path</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-even"><td colspan="5">definitions</td>
+</tr>
+<tr class="row-odd"><td rowspan="4"><ul class="first last simple">
+<li>audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>object</em></td>
+</tr>
+<tr class="row-even"><td colspan="4">properties</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>speaker</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>filename</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Mother Tongues</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web.html">Web interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile.html">Mobile Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Schema validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mtd-language-configuration-file">MTD Language Configuration file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mtd-resource-manifest-file">MTD Resource Manifest file</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="mobile.html" title="previous chapter">Mobile Interface</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Aidan Pine.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/validation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,4 @@
+.. web:
+
+Web interface
+=============

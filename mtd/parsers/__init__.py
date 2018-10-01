@@ -18,7 +18,7 @@ from .. import exceptions
 _FN_SUFFIX = "_parser"
 
 def validate_manifest(m):
-    '''Validate manifest json against manifest json schema
+    '''Validate manifest json against manifest json schema.
     '''
     try:
         validate(m, MANIFEST_SCHEMA)
@@ -58,7 +58,12 @@ def parse_manifest(manifest_path):
     return manifest
 
 def parse(manifest_path, resource_path):
-    '''Find the right filetype parser and parse it
+    '''Find the right filetype parser and parse it.
+
+    This function will read the file extension of your resource path determine the right parser.
+
+    :param str manifest_path: an absolute path or URL to a data manifest describing a data resource
+    :param str resource_path: an absolute path or URL to a data resource of one of the supported file types (CSV/TSV/PSV/TXT, Google Sheet, JSON)
     '''
 
     manifest = parse_manifest(manifest_path)
