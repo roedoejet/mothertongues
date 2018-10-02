@@ -10,5 +10,10 @@
         "optional": [
             { "test": "2"}, 
             { "test2": "3"}]
-    }
+    },
+    "transducers": [{
+        "source": "definitio",
+        "target": "definition",
+        "function": "lambda x: x.upper()"
+    }]
 }

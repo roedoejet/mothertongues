@@ -12,3 +12,6 @@ class UnfoundConfigErrror(Exception):
 
 class RequestException(Exception):
     """Raise when request returns anything other than a 2XX"""
+
+class TransducerSourceNotFoundError(Exception):
+    """Raise when transducer source does not exist"""
