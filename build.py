@@ -8,5 +8,6 @@ print(b.parsed_data)
 df = b.parsed_data[0]['data']
 print(b.sort(b.parsed_data[0])['data'].to_string())
 print(b.transduce(b.parsed_data[0]))
+print(b.validate(b.parsed_data[0]))
 # df.to_csv('test.csv', encoding='utf-8', index=False)
 # df.to_csv('test.tsv', sep='\t', encoding='utf-8', index=False)
