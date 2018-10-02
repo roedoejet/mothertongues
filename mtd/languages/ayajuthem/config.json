@@ -1,13 +1,28 @@
-{"config": {
-    "L1": "ayajuthem",
-    "L2": "english",
-    "optional_field_title": "Optional Field",
-    "alphabet": ["a", "b", "c", "d", "e", "f", "g"],
-    "credits": [{
-        "role": "funding",
-        "name": "UBC"
-    }]},
-"data": [
-    {"manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/tsv/manifest.json",
-        "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/tsv/data.tsv"}
-]}
+{
+    "config": {
+        "L1": "ayajuthem",
+        "L2": "english",
+        "optional_field_title": "Optional Field",
+        "alphabet": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g"
+        ],
+        "credits": [
+            {
+                "role": "funding",
+                "name": "UBC"
+            }
+        ]
+    },
+    "data": [
+        {
+            "manifest_path": "C:/Users/pinea/mothertongues/mtd/languages/ayajuthem/xlsx/manifest.json",
+            "resource_path": "C:/Users/pinea/mothertongues/mtd/languages/ayajuthem/xlsx/data.xlsx"
+        }
+    ]
+}

@@ -13,7 +13,8 @@ class LanguageSuite():
         self.languages_path = os.path.dirname(ldir.__file__)
         self.config_objects = []
         for cp in config_paths:
-            if urlparse(cp).scheme != "":
+            if 'http' in urlparse(cp).scheme:
+                print(urlparse(cp).scheme)
                 r = requests.get(cp)
                 self.config_objects.append(r.json())
             else:

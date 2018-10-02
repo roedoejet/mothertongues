@@ -35,7 +35,7 @@ def warn_extra_properties_in(props, schema_props):
 
 def parse_manifest(manifest_path):
     # Allow for URL loaded manifest
-    if urlparse(manifest_path).scheme != "":
+    if 'http' in urlparse(manifest_path).scheme:
         r = requests.get(manifest_path)
         manifest = r.json()
     else:
@@ -71,7 +71,7 @@ def parse(manifest_path, resource_path):
     if "gsheet_credentials_path" in manifest:
         parser = gsheet_parser.Parser(manifest, resource_path)
     # If resource is URL, use request parser
-    elif urlparse(resource_path).scheme != "":
+    elif 'http' in urlparse(resource_path).scheme:
         parser = request_parser.Parser(manifest, resource_path)
     else:
         # Check if file exists and filetype is supported, then return parser
