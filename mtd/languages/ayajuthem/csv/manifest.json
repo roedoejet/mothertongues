@@ -10,5 +10,10 @@
         "optional": [
             { "test": "2"}, 
             { "test2": "3"}]
-    }
+    },
+    "transducers": [
+        {"source": "wrd",
+         "target": "wrd",
+         "function": "lambda x: x.upper()"}
+    ]
 }

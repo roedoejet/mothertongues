@@ -14,7 +14,7 @@ class Parser(BaseParser):
         if res.status_code >= 200 and res.status_code < 300:
             self.resource = res.json()
         else:
-            raise RequestException(f"Request made to {resource_path}, but returned status: {res.status_code}")
+            raise RequestException(resource_path, res.status_code)
     
     def parse(self):
         parser = json_parser.Parser(self.manifest, self.resource)

@@ -76,7 +76,7 @@ def parse(manifest_path, resource_path):
     else:
         # Check if file exists and filetype is supported, then return parser
         if not os.path.exists(resource_path):
-            raise MissingFileError(f"File at {resource_path} does not exist")
+            raise MissingFileError(resource_path)
         _, ext = os.path.splitext(resource_path)
         ext = ext.lower()
 
@@ -87,9 +87,8 @@ def parse(manifest_path, resource_path):
                 rel_module, 'mtd.parsers'
             )
         except ImportError:
-            raise UnsupportedFiletypeError(f"{ext} files are not supported")
+            raise UnsupportedFiletypeError(ext)
         parser = filetype_module.Parser(manifest, resource_path)
-    print(parser)
     return parser.parse()
         
 

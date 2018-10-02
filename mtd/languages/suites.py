@@ -14,7 +14,6 @@ class LanguageSuite():
         self.config_objects = []
         for cp in config_paths:
             if 'http' in urlparse(cp).scheme:
-                print(urlparse(cp).scheme)
                 r = requests.get(cp)
                 self.config_objects.append(r.json())
             else:

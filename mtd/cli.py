@@ -19,9 +19,9 @@ def return_configs(path):
         with open(path, 'r') as f:
             configs = f.read().splitlines()
     else:
-        raise UnfoundConfigErrror(f"No config files found in {path}")
+        raise UnfoundConfigErrror(path)
     ls = LanguageSuite(configs)
     if ls.config_objects:
         click.echo(ls.config_objects)
     else:
-        click.echo(UnfoundConfigErrror(f"No config files found in {path}"))
+        click.echo(UnfoundConfigErrror(path))

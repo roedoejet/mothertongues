@@ -1,6 +1,6 @@
 import csv
 import pandas as pd
-from mtd.exceptions import ValidationError
+from mtd.exceptions import SchemaValidationError
 from mtd.parsers.utils import BaseParser
 from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
@@ -18,7 +18,7 @@ class Parser(BaseParser):
                 for line in reader:
                     self.resource.append(line)
         except ValueError:
-            raise ValidationError(f"The JSON file at {resource_path} seems to be malformed. Please run it through a JSON validator")
+            raise SchemaValidationError('tsv', resource_path)
         self.manifest = manifest
         self.entry_template = self.manifest['targets']
 

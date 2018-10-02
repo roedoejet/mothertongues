@@ -18,7 +18,7 @@ class Parser(BaseParser):
             min_row = 1
             self.resource = work_sheet.iter_rows(min_row=min_row)
         except:
-            raise UnsupportedFiletypeError(f"File at {resource_path} not found.")
+            raise UnsupportedFiletypeError(resource_path)
         
         self.entry_template = self.manifest['targets']
 

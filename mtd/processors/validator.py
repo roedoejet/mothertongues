@@ -1,8 +1,10 @@
-import numpy as np
-from mtd.exceptions import ValidationError
+from numpy import nan
+from mtd.exceptions import DfValidationError
+from mtd.tests import logger
+
 class DfValidator():
     def __init__(self, df):
-        self.df = df.replace('', np.nan)
+        self.df = df.replace('', nan)
 
     def check_not_null(self, notnull=['word', 'definition', 'entryID']):
         """Returns false if any of the keys in notnull are empty
@@ -15,5 +17,7 @@ class DfValidator():
         else:
             null_columns = self.df.columns[self.df.isnull().any()]
             all_null_values = self.df[self.df.isnull().any(axis=1)][null_columns].head()
-            raise ValidationError(f"Your data has null values in the following columns: {null_columns.values}. " +
-                                  f"See below for specific locations \n {all_null_values}")
+            e = DfValidationError(null_columns.values, all_null_values)
+            logger.error(e)
+            
+
