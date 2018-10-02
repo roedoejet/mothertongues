@@ -7,3 +7,5 @@ Fabric3
 gspread
 jsonschema
 oauth2client
+flask_restful
+flask_cors
