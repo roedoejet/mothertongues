@@ -1,24 +1,18 @@
+import json
 
 class MTDConfigTemplate:
-    def __init__(self):
-        self.config_template = '''
-                                var config = {{
-                                                "L1": {{
-                                                    "name": "{l1_name}",
-                                                    "underlying": "",
-                                                    "compare": "{l1_compare}",
-                                                    "lettersInLanguage" : {letters}
-                                                }},
-                                                "L2": {{
-                                                    "name": "{l2_name}",
-                                                    "compare": ""
-                                                }}
-                                            }};
-                                ''' 
+    def __init__(self, config):
+        self.config_template_object = {"L1": {"name": config['l1_name'],
+                                       "compare": config['l1_compare'],
+                                       "lettersInLanguage": config['alphabet']},
+                                "L2": {"name": config['l2_name'],
+                                       "compare": config['l2_compare']}}
+        self.config_json = json.dumps(self.config_template_object)
   
-class MTDTransducerTemplate:
-    def __init__(self, name, cors=[], composite_transducers=[]):
-        self.name = name
+class MTDTransducerTemplate(MTDConfigTemplate):
+    def __init__(self, config, cors=[], composite_transducers=[]):
+        super().__init__(self, config)
+        self.name = self.config_template_object['L1']['name']
         self.cors = cors
         self.keys = sorted([cor['from'] for cor in self.cors], key=len, reverse=True)
         self.composite_transducers = composite_transducers

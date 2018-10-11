@@ -70,3 +70,11 @@ class TransducerSourceNotFoundError(CommandLineError):
     
     def __str__(self):
         return self.render(("'%(source)s' does not exist in data frame. Please edit your manifest."))
+
+class TransducerNotFoundError(CommandLineError):
+    """Raise when transducer does not exist"""
+    def __init__(self, t):
+        self.t = t
+    
+    def __str__(self):
+        return self.render(("'%(t)s' does not exist. Please edit your manifest."))

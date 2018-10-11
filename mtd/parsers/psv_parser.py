@@ -8,6 +8,8 @@ from jsonschema.exceptions import ValidationError
 class Parser(BaseParser):
     '''
     Parse data for MTD
+
+    manifest param: skipheader skips first row
     '''
     def __init__(self, manifest, resource_path):
         self.resource = []

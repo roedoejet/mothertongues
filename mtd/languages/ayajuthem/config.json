@@ -21,8 +21,8 @@
     },
     "data": [
         {
-            "manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/json/manifest.json",
-            "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/json/data.json"
+            "manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/manifest.json",
+            "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/data.csv"
         }
     ]
 }
