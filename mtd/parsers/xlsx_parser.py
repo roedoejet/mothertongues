@@ -5,17 +5,23 @@ from mtd.exceptions import UnsupportedFiletypeError
 
 class Parser(BaseParser):
     '''
-    Parse data for MTD **TODO
+    Parse data for MTD **TODO: test worksheet location
+
+    manifest param: skipheader skips first row
+    manifest param: location decides worksheet
     '''
     def __init__(self, manifest, resource_path):
         self.manifest = manifest
         try:
             work_book = load_workbook(resource_path)
-            work_sheet = work_book.active
-            # if self.manifest['skip_first']: TODO
-            #     min_row = 2
-            # else:
-            min_row = 1
+            if "location" in self.manifest:
+                work_sheet = work_book["location"]
+            else:
+                work_sheet = work_book.active
+            if self.manifest['skipheader']:
+                min_row = 2
+            else:
+                min_row = 1
             self.resource = work_sheet.iter_rows(min_row=min_row)
         except:
             raise UnsupportedFiletypeError(resource_path)

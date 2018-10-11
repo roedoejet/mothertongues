@@ -1,5 +1,5 @@
 import json
-from jsonpointer import resolve_pointer
+from jsonpointer import resolve_pointer, JsonPointerException
 import pandas as pd
 from mtd.exceptions import SchemaValidationError
 from mtd.parsers.utils import BaseParser
@@ -9,8 +9,11 @@ from jsonschema.exceptions import ValidationError
 class Parser(BaseParser):
     '''
     Parse data for MTD
+
+    manifest param: location (jsonpath) specifies location of data
     '''
     def __init__(self, manifest, resource_path):
+        self.manifest = manifest
         try:
             if isinstance(resource_path, str):
                 with open(resource_path) as f:
@@ -19,8 +22,8 @@ class Parser(BaseParser):
                 self.resource = resource_path
         except ValueError:
             raise SchemaValidationError('json', resource_path)
-            
-        self.manifest = manifest
+        if "location" in self.manifest:
+            self.resource = resolve_pointer(self.resource, self.manifest['location'])
         self.entry_template = self.manifest['targets']
 
     def resolve_targets(self):
@@ -33,5 +36,5 @@ class Parser(BaseParser):
         try:
             data = self.resolve_targets()
             return {"manifest": self.manifest, "data": pd.DataFrame(data)}
-        except:
-            print('no targets')
+        except JsonPointerException as e:
+            raise e

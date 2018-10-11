@@ -4,11 +4,11 @@
     "compare": "word",
     "sorting": "word",
     "targets": {
-        "word": "4",
-        "definition": "0",
-        "entryID": "1",
+        "word": "/word",
+        "definition": "/definition",
+        "entryID": "/entryID",
         "optional": [
-            { "test": "2"}, 
-            { "test2": "3"}]
+            { "test": "/theme"}, 
+            { "test2": "/norm"}]
     }
 }

@@ -14,6 +14,8 @@
     "properties": {
         "name": {"type": "string"},
         "display": {"type": "string"},
+        "location": {"type": "string"},
+        "skipheader": {"type": "boolean"},
         "compare": {"type": "string"},
         "sorting": {"type": "string"},
         "transducers": {"type": "array",

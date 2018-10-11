@@ -11,15 +11,16 @@ class Parser(BaseParser):
     '''
     def __init__(self, manifest, resource_path):
         self.resource = []
+        self.manifest = manifest
         try:
             with open(resource_path) as f:
                 reader = csv.reader(f, delimiter="\t")
-                # if skipheader: next(reader)
+                if self.manifest['skipheader']:
+                    next(reader, [])
                 for line in reader:
                     self.resource.append(line)
         except ValueError:
             raise SchemaValidationError('tsv', resource_path)
-        self.manifest = manifest
         self.entry_template = self.manifest['targets']
 
     def resolve_targets(self):

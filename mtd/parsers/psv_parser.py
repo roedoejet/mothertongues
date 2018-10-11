@@ -15,7 +15,8 @@ class Parser(BaseParser):
         try:
             with open(resource_path) as f:
                 reader = csv.reader(f, delimiter="|")
-                # if skipheader: next(reader)
+                if self.manifest['skipheader']:
+                    next(reader, [])
                 for line in reader:
                     self.resource.append(line)
         except ValueError:

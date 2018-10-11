@@ -4,5 +4,6 @@
 mtd/static
 mtd/build
 .DS_Store
+.vscode
 __pycache__
 mtd/languages/*/gsheet/*.json
