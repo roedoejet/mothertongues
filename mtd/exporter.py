@@ -1,7 +1,7 @@
 import os
 from pandas import ExcelWriter
 
-def returnProcessedDFAs(df, export_path, export_type="json"):
+def returnProcessedDfAs(df, export_path, export_type="json"):
     """Use pandas export functions with some sensible defaults
     to export raw data to xlsx/json/csv/psv/tsv/html
     """
@@ -27,3 +27,4 @@ def returnProcessedDFAs(df, export_path, export_type="json"):
                 utf8 = "<head><meta charset=\"UTF-8\"></head>"
                 f.write(utf8)
                 df.to_html(f)
+                

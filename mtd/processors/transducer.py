@@ -22,6 +22,7 @@ class Transducer():
         :param t_name_or_path: <string> path to transducer or default transducer
         """
         cors = []
+        print(t_name_or_path)
         if t_name_or_path in self.available_transducers:
             t_path = self.available_transducers[t_name_or_path]
         elif os.path.exists(t_name_or_path):
@@ -78,17 +79,32 @@ class Transducer():
                     pass
             return to_parse
         return transduce
+    
+    def load_composite(self, composite_transducer):
+        t_path = self.available_transducers[composite_transducer]
+        fns = []
+        with open(t_path, encoding='utf8') as f:
+            composite = json.load(f)
+            for transducer in composite:
+                fn = self.createTransducerFunction(transducer)
+                fns.append(fn)
+        return fns
 
     def apply_to_data_frame(self, df):
         for transducer in self.transducers_needed:
-            source = transducer['source']
-            if not source in df:
-                e = TransducerSourceNotFoundError(source)
-                logger.error(e)
-                raise e
-            if "lambda" in transducer['function']:
-                df[transducer['target']] = df[source].apply(eval(transducer['function']))
-            else:
-                fn = self.createTransducerFunction(transducer['function'])
-                df[transducer['target']] = df[source].apply(fn)
+            for function in transducer['functions']:
+                source = transducer['source']
+                if not source in df:
+                    e = TransducerSourceNotFoundError(source)
+                    logger.error(e)
+                    raise e
+                elif "lambda" in function:
+                    df[transducer['target']] = df[source].apply(eval(function))
+                elif "composite" in function and function in self.available_transducers:
+                    print(function)
+                    for fn in self.load_composite(function):
+                        df[transducer['target']] = df[source].apply(fn)
+                else:
+                    fn = self.createTransducerFunction(function)
+                    df[transducer['target']] = df[source].apply(fn)
         return df

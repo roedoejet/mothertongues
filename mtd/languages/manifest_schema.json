@@ -24,9 +24,12 @@
                             "properties": {
                                 "source": {"type": "string"},
                                 "target": {"type": "string"},
-                                "function": {"type": "string"}
+                                "functions": {"type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              }}
                             },
-                            "required": ["source", "target", "function"]
+                            "required": ["source", "target", "functions"]
                             }
                         },
         "targets": {

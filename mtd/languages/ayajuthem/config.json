@@ -24,5 +24,10 @@
             "manifest_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/manifest.json",
             "resource_path": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/data.csv"
         }
+    ],
+    "adhoc_vars": [
+        {
+            "theme_hierarchy": true
+        }
     ]
 }
