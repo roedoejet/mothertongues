@@ -36,4 +36,4 @@ class Builder():
         df = data_obj['data']
         dfvalidator = DfValidator(df)
         return dfvalidator.check_not_null()
-    
+        

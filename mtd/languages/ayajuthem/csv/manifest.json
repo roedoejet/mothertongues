@@ -15,6 +15,6 @@
     "transducers": [
         {"source": "word",
          "target": "word",
-         "function": "ayajuthem"}
+         "function": "test"}
     ]
 }

@@ -4,14 +4,16 @@ from mtd import transducers as default_dir
 import os
 import glob
 import csv
+import json
 import random
 import re
 
 class Transducer():
     def __init__(self, transducers_needed, transducers_available_dir=os.path.dirname(default_dir.__file__)):
         self.transducers_needed = transducers_needed
-        files = os.path.join(transducers_available_dir, "*.csv")
-        self.paths_to_available_transducers = glob.glob(files)
+        csv_files = os.path.join(transducers_available_dir, "*.csv")
+        json_files = os.path.join(transducers_available_dir, "*.json")
+        self.paths_to_available_transducers = glob.glob(csv_files) + glob.glob(json_files)
         self.available_transducers = {os.path.splitext(os.path.basename(p))[0]: p for p in self.paths_to_available_transducers}
 
     def getCorrespondences(self, t_name_or_path):
@@ -27,10 +29,17 @@ class Transducer():
         else:
             raise TransducerNotFoundError(t_name_or_path)
         
-        with open(t_path) as f:
-                reader = csv.reader(f)
-                for cor in reader:
-                    cor = {"from": cor[0], "to": cor[1]}
+        if t_path.endswith('csv'):
+            with open(t_path, encoding='utf8') as f:
+                    reader = csv.reader(f)
+                    for cor in reader:
+                        cor = {"from": cor[0], "to": cor[1]}
+                        cors.append(cor)
+        elif t_path.endswith('json'):
+            with open(t_path, encoding='utf8') as f:
+                transducer = json.load(f)
+                for cor in transducer:
+                    cor = {"from": cor["from"], "to": cor["to"]}
                     cors.append(cor)
 
         # prevent feeding in rules

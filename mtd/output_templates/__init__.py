@@ -8,7 +8,10 @@ class MTDConfigTemplate:
                                 "L2": {"name": config['l2_name'],
                                        "compare": config['l2_compare']}}
         self.config_json = json.dumps(self.config_template_object)
-  
+
+    def createConfigJS(self):
+        return f"var config = {self.config_json}"
+
 class MTDTransducerTemplate(MTDConfigTemplate):
     def __init__(self, config, cors=[], composite_transducers=[]):
         super().__init__(self, config)
@@ -42,7 +45,7 @@ class MTDTransducerTemplate(MTDConfigTemplate):
         if (self.cors and self.keys and not self.composite_transducers):
             return self.transducer_template.format(name=self.name, cors=self.cors, keys=self.keys)
         elif (self.composite_transducers and not self.cors and not self.keys):
-            return self.composite_transducers.format(name=self.name, composite_transducers=self.composite_transducers)
+            return self.composite_template.format(name=self.name, composite_transducers=self.composite_transducers)
         else:
             print('should raise some sort of malformed transducer error')
         

@@ -15,7 +15,7 @@ class Parser(BaseParser):
         self.resource = []
         self.manifest = manifest
         try:
-            with open(resource_path) as f:
+            with open(resource_path, encoding='utf8') as f:
                 reader = csv.reader(f, delimiter="\t")
                 if self.manifest['skipheader']:
                     next(reader, [])

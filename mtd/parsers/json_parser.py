@@ -16,7 +16,7 @@ class Parser(BaseParser):
         self.manifest = manifest
         try:
             if isinstance(resource_path, str):
-                with open(resource_path) as f:
+                with open(resource_path, encoding='utf8') as f:
                     self.resource = json.load(f)
             elif isinstance(resource_path, (dict, list)):
                 self.resource = resource_path
