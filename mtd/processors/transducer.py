@@ -15,6 +15,23 @@ class Transducer():
         json_files = os.path.join(transducers_available_dir, "*.json")
         self.paths_to_available_transducers = glob.glob(csv_files) + glob.glob(json_files)
         self.available_transducers = {os.path.splitext(os.path.basename(p))[0]: p for p in self.paths_to_available_transducers}
+        
+    def return_transducer_path(self, t_name_or_path):
+        if t_name_or_path in self.available_transducers:
+            return self.available_transducers[t_name_or_path]
+        elif os.path.exists(t_name_or_path):
+            return t_name_or_path
+        else:
+            raise TransducerNotFoundError(t_name_or_path)
+        
+    def return_transducer_name(self, t_name_or_path):
+        if t_name_or_path in self.available_transducers:
+            return t_name_or_path
+        elif os.path.exists(t_name_or_path):
+            fn, ext = os.path.splitext(os.path.basename(t_name_or_path))
+            return fn
+        else:
+            raise TransducerNotFoundError(t_name_or_path)
 
     def getCorrespondences(self, t_name_or_path):
         """ Get all correspondences for transducer
@@ -22,14 +39,7 @@ class Transducer():
         :param t_name_or_path: <string> path to transducer or default transducer
         """
         cors = []
-        print(t_name_or_path)
-        if t_name_or_path in self.available_transducers:
-            t_path = self.available_transducers[t_name_or_path]
-        elif os.path.exists(t_name_or_path):
-            t_path = t_name_or_path
-        else:
-            raise TransducerNotFoundError(t_name_or_path)
-        
+        t_path = self.return_transducer_path(t_name_or_path)
         if t_path.endswith('csv'):
             with open(t_path, encoding='utf8') as f:
                     reader = csv.reader(f)
@@ -80,15 +90,12 @@ class Transducer():
             return to_parse
         return transduce
     
-    def load_composite(self, composite_transducer):
-        t_path = self.available_transducers[composite_transducer]
+    def load_composite(self, t_name_or_path):
+        t_path = self.return_transducer_path(t_name_or_path)
         fns = []
         with open(t_path, encoding='utf8') as f:
             composite = json.load(f)
-            for transducer in composite:
-                fn = self.createTransducerFunction(transducer)
-                fns.append(fn)
-        return fns
+            return composite
 
     def apply_to_data_frame(self, df):
         for transducer in self.transducers_needed:
@@ -100,11 +107,45 @@ class Transducer():
                     raise e
                 elif "lambda" in function:
                     df[transducer['target']] = df[source].apply(eval(function))
-                elif "composite" in function and function in self.available_transducers:
-                    print(function)
-                    for fn in self.load_composite(function):
+                elif "composite" in function:
+                    for t in self.load_composite(function):
+                        fn = self.createTransducerFunction(t)
                         df[transducer['target']] = df[source].apply(fn)
                 else:
                     fn = self.createTransducerFunction(function)
                     df[transducer['target']] = df[source].apply(fn)
         return df
+    
+    def return_js_template(self, t_name_or_path):
+        name = self.return_transducer_name(t_name_or_path)
+
+        transducer_js_template = '''\n\nmtd.transducers["{name}"] = (function() {{
+                                        var correspondences = {cors};
+                                        var keys = {keys};
+                                        var regex = new RegExp("(" + keys.join('|') + ")", 'g');
+                                        return function(str) {{
+                                            return str.replace(regex, function(a,b) {{
+                                                return correspondences[a];
+                                            }});
+                                        }};
+                                    }})();'''
+
+        composite_js_template = u'''\n\nmtd.transducers["{name}"] = (function(){{
+                                        var orths = {composite_transducers};
+                                        return function(str) {{
+                                            for (var i = 0; i < orths.length; i++) {{
+                                                transducer = mtd.transducers[orths[i]];
+                                                str = transducer(str);
+                                            }}
+                                            return str;
+                                        }};
+                                    }})();'''
+
+        if "composite" in t_name_or_path:
+            composite_transducers = self.load_composite(t_name_or_path)
+            return composite_js_template.format(name=name, composite_transducers=composite_transducers)
+        else:
+            cors = self.getCorrespondences(t_name_or_path)
+            keys = sorted([cor['from'] for cor in cors], key=len, reverse=True)
+            return transducer_js_template.format(name=name, cors=cors, keys=keys)
+        

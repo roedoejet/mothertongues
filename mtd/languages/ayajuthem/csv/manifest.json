@@ -1,5 +1,5 @@
 {
-    "name": "words",
+    "name": "words-csv",
     "display": "word",
     "compare": "word",
     "sorting": "word",
@@ -15,6 +15,6 @@
     "transducers": [
         {"source": "word",
          "target": "word",
-         "functions": ["test_composite"]}
+         "functions": ["/Users/pinea/Desktop/test_composite.json"]}
     ]
 }

@@ -3,6 +3,7 @@
     "display": "word",
     "compare": "word",
     "sorting": "word",
+    "location": "/entries",
     "targets": {
         "word": "/word",
         "definition": "/definition",
