@@ -5,12 +5,13 @@ import re
 import json
 from urllib.parse import urlparse
 import requests
-from mtd.parsers import gsheet_parser, request_parser
+from mtd.parsers import gsheet_parser, request_parser, dict_parser
 from mtd.languages import MANIFEST_SCHEMA
 from mtd.tests import logger
 from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
+import pandas as pd
 
 from .. import exceptions
 
@@ -57,27 +58,31 @@ def parse_manifest(manifest_path):
     
     return manifest
 
-def parse(manifest_path, resource_path):
+def parse(manifest_dict_or_path, resource_dict_or_path):
     '''Find the right filetype parser and parse it.
 
     This function will read the file extension of your resource path determine the right parser.
 
-    :param str manifest_path: an absolute path or URL to a data manifest describing a data resource
-    :param str resource_path: an absolute path or URL to a data resource of one of the supported file types (CSV/TSV/PSV/TXT, Google Sheet, JSON)
+    :param str manifest_dict_or_path: an absolute path or URL to a data manifest describing a data resource, or a dict of the resource itself
+    :param str resource_path: an absolute path or URL to a data resource of one of the supported file types (CSV/TSV/PSV/TXT, Google Sheet, JSON), or a dict of the manifest itself
     '''
+    if isinstance(manifest_dict_or_path, dict):
+        manifest = manifest_dict_or_path
+    else:
+        manifest = parse_manifest(manifest_dict_or_path)
 
-    manifest = parse_manifest(manifest_path)
-
-    if "gsheet_credentials_path" in manifest:
-        parser = gsheet_parser.Parser(manifest, resource_path)
+    if isinstance(resource_dict_or_path, dict):
+        parser = dict_parser.Parser(manifest, resource_dict_or_path)
+    elif "gsheet_credentials_path" in manifest:
+        parser = gsheet_parser.Parser(manifest, resource_dict_or_path)
     # If resource is URL, use request parser
-    elif 'http' in urlparse(resource_path).scheme:
-        parser = request_parser.Parser(manifest, resource_path)
+    elif 'http' in urlparse(resource_dict_or_path).scheme:
+        parser = request_parser.Parser(manifest, resource_dict_or_path)
     else:
         # Check if file exists and filetype is supported, then return parser
-        if not os.path.exists(resource_path):
-            raise MissingFileError(resource_path)
-        _, ext = os.path.splitext(resource_path)
+        if not os.path.exists(resource_dict_or_path):
+            raise MissingFileError(resource_dict_or_path)
+        _, ext = os.path.splitext(resource_dict_or_path)
         ext = ext.lower()
 
         rel_module = ext + _FN_SUFFIX
@@ -88,7 +93,7 @@ def parse(manifest_path, resource_path):
             )
         except ImportError:
             raise UnsupportedFiletypeError(ext)
-        parser = filetype_module.Parser(manifest, resource_path)
+        parser = filetype_module.Parser(manifest, resource_dict_or_path)
     return parser.parse()
         
 

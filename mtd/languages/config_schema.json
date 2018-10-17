@@ -32,10 +32,17 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "manifest_path": {"type": "string"},
-                    "resource_path": {"type": "string"}
+                    "manifest": {
+                        "oneOf": [
+                        {"type": "string"},
+                        {"type": "object"}]
+                    },
+                    "resource": {
+                        "oneOf": [
+                            {"type": "string"},
+                            {"type": "object"}]}
                 },
-                "required": ["manifest_path", "resource_path"]
+                "required": ["manifest", "resource"]
             }
         },
         "adhoc_vars": {

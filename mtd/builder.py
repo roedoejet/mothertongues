@@ -13,7 +13,7 @@ class Builder():
         self.config = config_object
         self.parsed_data = []
         for d in config_object['data']:
-            self.parsed_data.append(parse(d['manifest_path'], d['resource_path']))
+            self.parsed_data.append(parse(d['manifest'], d['resource']))
         self.transduced_data = []
         for d in self.parsed_data:
             self.transduced_data.append(self.transduce(d))
