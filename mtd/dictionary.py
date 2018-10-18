@@ -7,10 +7,12 @@ from mtd.exceptions import DfValidationError, DuplicateDataNameError, Transducer
 import os
 import json
 import pandas as pd
+from slugify import slugify
 
 class Dictionary():
     def __init__(self, config_object):
         self.config = config_object['config']
+        self.name = slugify(self.config['L1'])
         self.data_objs = config_object['data']
         # parse
         self.data_objs = [parse(d['manifest'], d['resource']) for d in self.data_objs]
