@@ -1,5 +1,5 @@
 from mtd.languages.suites import ALL_CONFIGS_SUITE, LanguageSuite
-from mtd.builder import Builder
+from mtd.dictionary import Dictionary
 import pandas as pd
 
 co = ALL_CONFIGS_SUITE.config_objects[0]
@@ -59,14 +59,6 @@ direct = {
     ]
 }
 directsuite = LanguageSuite([direct])
-builder = Builder(directsuite.config_objects[0])
-# breakpoint()
-dom = builder.return_dict_from_data_objs()
-# breakpoint()
-joined = builder.join(builder.sorted_transduced_data)
-df = builder.index_key_to_column(joined)
-dfm = builder.return_dict_from_df(df)
-# builder = Builder(co)
-# print(b.parsed_data)
+dictionary = Dictionary(directsuite.config_objects[0])
 breakpoint()
 
