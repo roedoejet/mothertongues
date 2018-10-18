@@ -1,7 +1,6 @@
 *.pyc
 *.egg-info
 /dist
-mtd/static
 mtd/build
 .DS_Store
 .vscode
