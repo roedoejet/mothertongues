@@ -34,6 +34,14 @@ class SchemaValidationError(CommandLineError):
     def __str__(self):
         return self.render(f"The {self.ftype} file at {self.path} seems to be malformed.")
 
+class DuplicateDataNameError(CommandLineError):
+    """Raise when two or more data resources share the same name"""
+    def __init__(self):
+        pass
+    
+    def __str__(self):
+        return self.render("Your data must have different names. Please change your data manifest.")
+
 class DfValidationError(CommandLineError):
     """Raise when data frame does not pass validation"""
     def __init__(self, cols, values):

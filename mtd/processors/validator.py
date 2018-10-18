@@ -19,5 +19,17 @@ class DfValidator():
             all_null_values = self.df[self.df.isnull().any(axis=1)][null_columns].head()
             e = DfValidationError(null_columns.values, all_null_values)
             logger.error(e)
-            
+
+    def check_dupes(self):
+        """Removes and logs any true duplicate entries TODO: fix if list in df
+
+           :param list notduped: list of keys (columns) to check for duplicates
+        """
+        dupes = self.df.iloc[self.df.duplicated(keep=False)]
+        for i in range(len(dupes)):
+            dupe_i = dupes.index[i]
+            dupe_v = dupes.values[i]
+            logger.warning(f"The information at index {dupe_i} with the value {dupe_v} is duplicated. Duplicates are removed by default.")
+        return self.df.drop_duplicates()
+
 

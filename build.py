@@ -60,6 +60,12 @@ direct = {
 }
 directsuite = LanguageSuite([direct])
 builder = Builder(directsuite.config_objects[0])
+# breakpoint()
+dom = builder.return_dict_from_data_objs()
+# breakpoint()
+joined = builder.join(builder.sorted_transduced_data)
+df = builder.index_key_to_column(joined)
+dfm = builder.return_dict_from_df(df)
 # builder = Builder(co)
 # print(b.parsed_data)
 breakpoint()

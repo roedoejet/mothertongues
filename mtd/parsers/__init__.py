@@ -11,7 +11,6 @@ from mtd.tests import logger
 from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
-import pandas as pd
 
 from .. import exceptions
 

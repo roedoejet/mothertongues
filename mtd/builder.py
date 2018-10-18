@@ -3,10 +3,10 @@ from string import ascii_lowercase
 from mtd.processors.sorter import ArbSorter
 from mtd.processors.transducer import Transducer
 from mtd.processors.validator import DfValidator
-from mtd.exceptions import TransducerSourceNotFoundError
+from mtd.exceptions import DuplicateDataNameError, TransducerSourceNotFoundError
 import os
 import json
-from pandas import ExcelWriter
+import pandas as pd
 
 class Builder():
     def __init__(self, config_object):
@@ -45,6 +45,21 @@ class Builder():
         df = data_obj['data']
         dfvalidator = DfValidator(df)
         return dfvalidator.check_not_null()
+
+    def join(self, data_objs):
+        keys = []
+        dfs = []
+        for d in data_objs:
+            dfs.append(d['data'])
+            keys.append(d['manifest']['name'])
+        if len(keys) != len(set(keys)):
+            raise DuplicateDataNameError
+        return pd.concat(dfs, keys=keys)
+
+    def index_key_to_column(self, df):
+        indexed = df.reset_index(level=0)
+        indexed.rename(columns={"level_0": "source"}, inplace=True)
+        return indexed
     
     def return_config_js(self, form="js"):
         config = self.config['config']
@@ -58,7 +73,7 @@ class Builder():
         elif form == 'json':
             return json.dumps(config_template_object)
     
-    def return_dict_cached(self, form="js"):
+    def return_dict_from_data_objs(self, form="js"):
         formatted_data_obj = {}
         for data_obj in self.sorted_transduced_data:
             df = data_obj['data']
@@ -67,6 +82,13 @@ class Builder():
             else:
                 print('Should raise error, and figure out merging')
         formatted_json = json.dumps(formatted_data_obj)
+        if form == 'json':
+            return formatted_json
+        elif form == 'js':
+            return f"var dataDict = {formatted_json}"
+
+    def return_dict_from_df(self, df, form="js"):
+        formatted_json = json.dumps(df.to_dict(orient='records'))
         if form == 'json':
             return formatted_json
         elif form == 'js':
@@ -81,7 +103,7 @@ class Builder():
         if not export_path.endswith(export_type):
             raise TypeError(f"Export type of {export_type} does not match file at {export_path}")
         if export_type == "xlsx":
-            writer = ExcelWriter(export_path)
+            writer = pd.ExcelWriter(export_path)
             df.to_excel(writer, 'sheet1', index=False, merge_cells=False)
             writer.save()
         else:
