@@ -4,7 +4,7 @@ from mtd import static
 import os
 import jinja2
 
-def write_to_static(dictionaries):
+def write_static(dictionaries):
     latexJinjaEnv = jinja2.Environment(
         block_start_string='\jblock{',
         block_end_string='}',

@@ -15,6 +15,6 @@
     "transducers": [
         {"source": "word",
          "target": "word",
-         "functions": ["/Users/pinea/Desktop/test_composite.json"]}
+         "functions": ["lambda x: x.upper()"]}
     ]
 }
