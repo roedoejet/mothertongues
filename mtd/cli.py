@@ -1,12 +1,16 @@
 import click
 import os
 import glob
+import mtd as parent_dir
 from mtd.app import app
 from mtd.dictionary import Dictionary
 from mtd.exceptions import UnfoundConfigErrror
 from mtd.languages.suites import LanguageSuite
-from mtd.buildtools.write_static import write_static
+from mtd.buildtools.write_static import set_active_dictionaries, write_static
 from flask.cli import FlaskGroup
+from flask_frozen import Freezer
+from mtd.static import ACTIVE
+from distutils.dir_util import copy_tree
 
 def create_app():
     return app
@@ -37,7 +41,9 @@ def prepare(language):
     configs = return_configs_from_path(language)
     ls = LanguageSuite(configs)
     names = [l['config']['L1'] for l in ls.config_objects]
-    write_static([Dictionary(l) for l in ls.config_objects])
+    dictionaries = [Dictionary(l) for l in ls.config_objects]
+    write_static(dictionaries)
+    set_active_dictionaries(dictionaries)
     click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
 
 @app.cli.command()
@@ -51,7 +57,7 @@ def export(language, export_type, output):
     :param str export_type: choose type of export: ["raw-json", "raw-xlsx", "raw-csv", "raw-psv", "raw-tsv", "raw-html", "js", "json", "web", "mobile", "github"]
     :param str output: choose where output is exported to
     """
-    if export_type in ["web", "mobile", "github"]:
+    if export_type in ["mobile", "github"]:
         click.echo(f"this feature is coming soon")
     else:
         language = os.path.abspath(language)
@@ -72,6 +78,14 @@ def export(language, export_type, output):
                     f.write(d.return_formatted_config(form=export_type))
                 with open(data_output_name, 'w') as f:
                     f.write(d.return_formatted_data(form=export_type))
+        elif export_type == "web":
+            freezer = Freezer(create_app())
+            @freezer.register_generator
+            def show_dictionary():
+                return [f"/dictionaries/{l}/" for l in ACTIVE]
+            freezer.freeze()
+            build_dir = os.path.join(os.path.dirname(parent_dir.__file__), "build")
+            copy_tree(build_dir, os.path.join(output, "mtd-output"))
 
 @app.cli.command()
 @click.argument('path', type=click.Path(exists=True))

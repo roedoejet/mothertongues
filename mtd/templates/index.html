@@ -1,60 +1,86 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
-  <script data-ionic="inject">
-    (function(w){var i=w.Ionic=w.Ionic||{};i.version='3.9.2';i.angular='5.0.3';i.staticDir='build/';})(window);
-  </script>
-  <meta charset="UTF-8">
-  <title>Ionic App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
 
-  <!-- <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico"> -->
-  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-  <meta name="theme-color" content="#4e8ef7">
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Mother Tongues</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-  <!-- cordova.js required for cordova apps -->
-  <!-- <script src="cordova.js"></script> -->
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- MTD JS dependencies -->
-  <script src="{{ url_for('static', filename='assets/js/jquery-1.11.2.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/waldayu.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/config-ayajuthem.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/levenshtein.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/editDistance.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/utility.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/deadSearch.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/dict_cached-ayajuthem.js') }}"></script>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
 
-  <!-- un-comment this code to enable service worker
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('service worker installed'))
-        .catch(err => console.log('Error', err));
-    }
-  </script>-->
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 
-  <link href="{{ url_for('static', filename='build/main.css') }}" rel="stylesheet">
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="../../dist/images/favicon.png">
 
 </head>
 
 <body>
 
-  <!-- Ionic's root component and where the app will load -->
-  <ion-app [entries]="allEntries"></ion-app>
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <!-- The polyfills js is generated during the build process -->
-  <script src="{{ url_for('static', filename='build/polyfills.js') }}"></script>
+  <div class="section hero">
+    <div class="container">
+      <div class="row">
+        <div class="one-half column">
+          <h4 class="hero-heading">Hey, you've just made some sweet Mother Tongues Dictionaries. Congrats! Check them out below.</h4>
+          <a class="button button-primary" href="https://mothertongues.org">Learn about Mother Tongues</a>
+        </div>
+        <div class="one-half column phones">
+          <!-- <img class="phone" src="images/iphone.png">
+          <img class="phone" src="images/iphone.png"> -->
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- all code from node_modules directory is here -->
-  <script src="{{ url_for('static', filename='build/vendor.js') }}"></script>
+  <div class="section get-help">
+    <div class="container">
+      <h3 class="section-heading">Need help getting started?</h3>
+      <p class="section-description">Check out the Documentation below</p>
+      <a class="button button-primary" href="http://getskeleton.com">View Skeleton Docs</a>
+    </div>
+  </div>
 
-  <!-- The bundle js is generated during the build process -->
-  <script src="{{ url_for('static', filename='build/main.js') }}"></script>
+  <div class="section">
+    <div class="container">
+      <h3 class="section-heading">Your Dictionaries</h3>
+      <p class="section-description">Click on the links below to preview the dictionaries you've created.</p>
+      <div class="row">
+        <div class="one-half column category">
+          {% for name in data %} <a class="button button-primary" href="/dictionaries/{{ name }}">{{name}}</a> {% endfor %}
+        </div>
+        <div class="one-half column category">
+        </div>
+      </div>
+    </div>
+  </div>
 
+
+
+
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 
 </html>

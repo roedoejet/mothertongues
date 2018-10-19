@@ -6,7 +6,7 @@
     (function(w){var i=w.Ionic=w.Ionic||{};i.version='3.9.2';i.angular='5.0.3';i.staticDir='build/';})(window);
   </script>
   <meta charset="UTF-8">
-  <title>\jvar{ name }App</title>
+  <title>{{ name }} App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
@@ -21,12 +21,12 @@
   <!-- MTD JS dependencies -->
   <script src="{{ url_for('static', filename='assets/js/jquery-1.11.2.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/waldayu.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/config-\jvar{ name }.js') }}"></script>
+  <script src="{{ url_for('static', filename=config) }}"></script>
   <script src="{{ url_for('static', filename='assets/js/levenshtein.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/editDistance.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/utility.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/js/deadSearch.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/dict_cached-\jvar{ name }.js') }}"></script>
+  <script src="{{ url_for('static', filename=data) }}"></script>
 
   <!-- un-comment this code to enable service worker
   <script>
