@@ -1,0 +1,5 @@
+include mtd/languages/*.json
+include MANIFEST.in
+recursive-exclude * *.py[co]
+recursive-exclude * *~ 
+recursive-exclude * *.orig
