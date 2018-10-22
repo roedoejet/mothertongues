@@ -10,6 +10,10 @@ app.register_blueprint(languages_api, url_prefix='/api/v1')
 def home():
     return render_template('index.html', data=ACTIVE)
 
+@app.route('/api/docs')
+def apidocs():
+    return render_template('apidocs.html')
+
 @app.route('/dictionaries/<language>/')
 def show_dictionary(language):
     config = f"assets/js/config-{language}.js"

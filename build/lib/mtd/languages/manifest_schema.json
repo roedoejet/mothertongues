@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {
+        "audio": {
+                "type": "object",
+                "properties": {
+                    "speaker": {"type": "string"},
+                    "filename": {"type": "string"}
+                },
+                "required": ["filename"]
+            }
+    },
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "display": {"type": "string"},
+        "location": {"type": "string"},
+        "skipheader": {"type": "boolean"},
+        "compare": {"type": "string"},
+        "sorting": {"type": "string"},
+        "transducers": {"type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "source": {"type": "string"},
+                                "target": {"type": "string"},
+                                "functions": {"type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              }}
+                            },
+                            "required": ["source", "target", "functions"]
+                            }
+                        },
+        "targets": {
+            "type": "object",
+            "properties": {
+                "word": {"type": "string"},
+                "definition": {"type": "string"},
+                "entryID": {"type": "string"},
+                "optional": {"type": "array",
+                             "items": {
+                                 "type": "object"
+                             }},
+                "theme": {"type": "string"},
+                "secondary_theme": {"type": "string"},
+                "audio": {"type": "array",
+                          "items": {
+                              "$ref": "#/definitions/audio"
+                          }},
+                "definition_audio": {"type": "array",
+                          "items": {
+                                "$ref": "#/definitions/audio"
+                          }},
+                "example_sentence": {"type": "array",
+                            "items": {
+                                "type": "string"
+                            }},
+                "example_sentence_definition": {"type": "array",
+                            "items": {
+                                "type": "string"
+                            }},
+                "example_sentence_audio": {"type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/audio"
+                                }
+                            }}, 
+                "example_sentence_definition_audio": {"type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/audio"
+                                }
+                            }},
+                "img": {"type": "string"},
+                "gsheet_credentials_path": {"type": "string"}
+            },
+            "required": ["word", "definition"]
+        }},
+    "required": ["name", "sorting", "targets"]
+}
