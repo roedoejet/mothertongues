@@ -34,9 +34,6 @@ class LanguageSuite():
         except ValidationError as e:
             raise ValidationError(f"Attempted to validate the {c} configuration file, but got {e}. Please refer to the Mother Tongues data manifest schema.")
 
-
-UBC_SUITE = LanguageSuite(["ayajuthem/config.json"])
-
 ALL_CONFIGS = glob.glob(os.path.join(os.path.dirname(ldir.__file__), '**', 'config.json'), recursive=True)
 
 ALL_CONFIGS_SUITE = LanguageSuite(ALL_CONFIGS)
