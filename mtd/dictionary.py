@@ -26,6 +26,12 @@ class Dictionary():
         self.index_key_to_column()
         # validate
         self.validate(self._df)
+
+    def __len__(self):
+        return len(self._df.index)
+    
+    def __getitem__(self, position):
+        return self._df.iloc[[position]]
         
     @property
     def df(self):
@@ -35,7 +41,6 @@ class Dictionary():
     def df(self, value):
         if not self.validate(value):
             raise DfValidationError
-        print('validated')
         self._df = value
 
     def validate(self, df):
