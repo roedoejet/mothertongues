@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Installation &#8212; Mother Tongues  documentation</title>
+    <title>Getting Started &#8212; Mother Tongues  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -16,8 +16,8 @@
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Getting Started" href="start.html" />
-    <link rel="prev" title="Welcome to Mother Tongues’s documentation!" href="index.html" />
+    <link rel="next" title="Python Package" href="mtd.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,18 +34,27 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>You can either install <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> with pip from PyPi (recommended):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install mothertongues
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>To make a dictionary, you need to do the following three things:</p>
+<ol class="arabic simple">
+<li>Write a valid Mother Tongues Language configuration file. This is a JSON file that is documented <strong>here</strong></li>
+<li>Write valid Mother Tongues data configuration files. This is also a JSON file that is documented <strong>here</strong></li>
+<li>Install mothertongues</li>
+<li>Build your dictionary.</li>
+</ol>
+<p>Build either with the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mothertongues prepare PATH_TO_LANGUAGE_CONFIGURATION
+mothertongues run
 </pre></div>
 </div>
-<p>Or by cloning and installing from source (advanced):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/roedoejet/mothertongues.git
+<p>Then open your browser at <code class="docutils literal notranslate"><span class="pre">localhost:5000</span></code></p>
+<p>or build with Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mtd</span> <span class="kn">import</span> <span class="n">create_dictionary</span>
+<span class="kn">from</span> <span class="nn">mtd.app</span> <span class="kn">import</span> <span class="n">app</span>
 
-<span class="nb">cd</span> mothertongues
-
-pip install -e .
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">create_dictionary</span><span class="p">({</span><span class="n">PATH_TO_LANGUAGE_CONFIGURATION</span><span class="p">})</span>
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -69,8 +78,8 @@ pip install -e .
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
@@ -83,8 +92,8 @@ pip install -e .
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Mother Tongues’s documentation!</a></li>
-      <li>Next: <a href="start.html" title="next chapter">Getting Started</a></li>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="mtd.html" title="next chapter">Python Package</a></li>
   </ul></li>
 </ul>
 </div>
@@ -112,7 +121,7 @@ pip install -e .
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
-      <a href="_sources/installation.rst.txt"
+      <a href="_sources/start.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

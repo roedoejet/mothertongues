@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="REST API" href="api.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="prev" title="Getting Started" href="start.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -36,6 +36,51 @@
             
   <div class="section" id="python-package">
 <h1>Python Package<a class="headerlink" href="#python-package" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="mtd.create_dictionary">
+<code class="descclassname">mtd.</code><code class="descname">create_dictionary</code><span class="sig-paren">(</span><em>language_config</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.create_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a LanguageConfig (or a path to one), create a Dictionary</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mtd.create_suite">
+<code class="descclassname">mtd.</code><code class="descname">create_suite</code><span class="sig-paren">(</span><em>language_configs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.create_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a LanguageSuite from a list of LanguageConfigs or paths to language configs</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mtd.dictionary.Dictionary">
+<em class="property">class </em><code class="descclassname">mtd.dictionary.</code><code class="descname">Dictionary</code><span class="sig-paren">(</span><em>language_config</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.dictionary.Dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Mother Tongues Dictionary object</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Properties:</dt>
+<dd>df (pandas.DataFrame): A parsed, transduced, sorted, joined and indexed DataFrame of the data provided by the language_config that initialized the class instance</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Attributes:</dt>
+<dd>config (dict): dict from LanguageConfig
+name (str): Name of Dictionary
+data_objs (list): List of dicts containing ResourceManifest and parsed data</dd>
+</dl>
+</li>
+</ul>
+<p>Calling len on a Dictionary gives the length of the dataframe ie. how many entries
+Dictionary is a subscriptable class which access the row in the dataframe at the given index</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mtd.dictionary.Dictionary.export_raw_data">
+<code class="descclassname">mtd.dictionary.Dictionary.</code><code class="descname">export_raw_data</code><span class="sig-paren">(</span><em>self</em>, <em>export_path</em>, <em>export_type='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.dictionary.Dictionary.export_raw_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use pandas export functions with some sensible defaults
+to export raw data to xlsx/json/csv/psv/tsv/html</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Dictionary.export_raw_data exports <strong>raw</strong> data, not formatted data which is required</p>
+</div>
+</dd></dl>
+
 </div>
 
 
@@ -58,6 +103,7 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
@@ -70,7 +116,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Previous: <a href="start.html" title="previous chapter">Getting Started</a></li>
       <li>Next: <a href="api.html" title="next chapter">REST API</a></li>
   </ul></li>
 </ul>

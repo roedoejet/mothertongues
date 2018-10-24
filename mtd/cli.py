@@ -33,7 +33,7 @@ def cli():
 @app.cli.command()
 @click.argument('language', type=click.Path(exists=True))
 def prepare(language):
-    """Runs Mother Tongues dictionary web app and API
+    """Prepares all necessary files for Mother Tongues dictionary web app and API
 
     :param str language: path to either a txt file with paths to one or more MTD language configuration files **or** a directory containing MTD language configuration files
     """

@@ -36,15 +36,50 @@
             
   <div class="section" id="command-line-interface">
 <h1>Command line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h1>
+<p>Once <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> is installed, you can run the following commands with either <code class="docutils literal notranslate"><span class="pre">mtd</span></code> or <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code>
+In addition, you may run the <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> Flask API/Web application with the <code class="docutils literal notranslate"><span class="pre">run</span></code> command</p>
 <dl class="function">
-<dt id="mtd.cli.return_configs">
-<code class="descclassname">mtd.cli.</code><code class="descname">return_configs</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.return_configs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return all language configs at specified path</p>
+<dt id="mtd.cli.available">
+<code class="descclassname">mtd.cli.</code><code class="descname">available</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return names of all language configs at specified path</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) – an absolute path to either a txt file with paths to one or more MTD language configuration files <strong>or</strong> a directory containing MTD language configuration files</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) – path to either a txt file with paths to one or more MTD language configuration files <strong>or</strong> a directory containing MTD language configuration files</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mtd.cli.prepare">
+<code class="descclassname">mtd.cli.</code><code class="descname">prepare</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepares all necessary files for Mother Tongues dictionary web app and API</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>language</strong> (<em>str</em>) – path to either a txt file with paths to one or more MTD language configuration files <strong>or</strong> a directory containing MTD language configuration files</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mtd.cli.export">
+<code class="descclassname">mtd.cli.</code><code class="descname">export</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports Mother Tongues</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>language</strong> (<em>str</em>) – path to either a txt file with paths to one or more MTD language configuration files <strong>or</strong> a directory containing MTD language configuration files</li>
+<li><strong>export_type</strong> (<em>str</em>) – choose type of export: [“raw-json”, “raw-xlsx”, “raw-csv”, “raw-psv”, “raw-tsv”, “raw-html”, “js”, “json”, “web”, “mobile”, “github”]</li>
+<li><strong>output</strong> (<em>str</em>) – choose where output is exported to</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -72,6 +107,7 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command line interface</a></li>

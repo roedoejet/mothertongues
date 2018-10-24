@@ -14,6 +14,7 @@ customizeable.
    :caption: Contents:
 
    installation
+   start
    mtd
    api
    cli

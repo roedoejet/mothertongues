@@ -6,11 +6,15 @@
 Welcome to Mother Tongues's documentation!
 ==========================================
 
+Mother Tongues Dictionaries is a project that aims to make creating dictionaries quick, easy and 
+customizeable.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    installation
+   start
    mtd
    api
    cli

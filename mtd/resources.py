@@ -5,6 +5,9 @@ from mtd.static import ACTIVE
 from mtd.dictionary import Dictionary
 
 class Languages(Resource):
+    """Exposes available dictionaries, including formatted data and configuration files.
+        Interactive documentation for the API is automatically generated and available at the route /api/docs
+    """
     def __init__(self):
         self.available = [l['config']['L1'] for l in ACTIVE]
         self.dictionaries = [Dictionary(d) for d in ACTIVE]
@@ -31,6 +34,8 @@ class Languages(Resource):
         )
         
     def get(self):
+        """Get available dictionary names, data and configurations
+        """
         args = self.parser.parse_args()
         if "available" in args and args["available"]:
             return jsonify(self.available)
