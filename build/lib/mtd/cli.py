@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import click
 import os
 import glob
@@ -8,7 +6,7 @@ from mtd.app import app
 from mtd.dictionary import Dictionary
 from mtd.exceptions import UnfoundConfigErrror
 from mtd.languages.suites import LanguageSuite
-from mtd.buildtools.write_static import set_active_dictionaries, write_static
+from mtd.buildtools.write_static import set_active_dictionaries, write_static, write_swagger
 from flask.cli import FlaskGroup
 from flask_frozen import Freezer
 from mtd.static import ACTIVE
@@ -20,7 +18,7 @@ def create_app():
 def return_configs_from_path(path):
     path = os.path.abspath(path)
     if os.path.isdir(path):
-        configs = glob.glob(os.path.join(os.path.dirname(path), '**', '**', 'config.json'))
+        configs = glob.glob(os.path.join(path, '**', 'config.json')) + glob.glob(os.path.join(path, 'config.json'))
     elif os.path.isfile(path):
         with open(path, 'r') as f:
             configs = f.read().splitlines()
@@ -35,7 +33,7 @@ def cli():
 @app.cli.command()
 @click.argument('language', type=click.Path(exists=True))
 def prepare(language):
-    """Runs Mother Tongues dictionary web app and API
+    """Prepares all necessary files for Mother Tongues dictionary web app and API
 
     :param str language: path to either a txt file with paths to one or more MTD language configuration files **or** a directory containing MTD language configuration files
     """
@@ -45,7 +43,8 @@ def prepare(language):
     names = [l['config']['L1'] for l in ls.config_objects]
     dictionaries = [Dictionary(l) for l in ls.config_objects]
     write_static(dictionaries)
-    set_active_dictionaries(dictionaries)
+    write_swagger(dictionaries)
+    set_active_dictionaries(ls.config_objects)
     click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
 
 @app.cli.command()
@@ -84,7 +83,7 @@ def export(language, export_type, output):
             freezer = Freezer(create_app())
             @freezer.register_generator
             def show_dictionary():
-                return [f"/dictionaries/{l}/" for l in ACTIVE]
+                return [f"/dictionaries/{l['config']['L1']}/" for l in ACTIVE]
             freezer.freeze()
             build_dir = os.path.join(os.path.dirname(parent_dir.__file__), "build")
             copy_tree(build_dir, os.path.join(output, "mtd-output"))

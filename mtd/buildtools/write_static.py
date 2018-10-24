@@ -1,6 +1,7 @@
 from mtd import templates as output_temp_dir
 from mtd import static
 from mtd import buildtools as swagger_dir
+from mtd.languages import LanguageConfig
 from jsonpointer import set_pointer
 import os
 import jinja2
@@ -8,7 +9,7 @@ import json
 
 def set_active_dictionaries(configs):
     static_dir = os.path.dirname(static.__file__)
-    # names = [d.name for d in dictionaries]
+    configs = [c.config if isinstance(c, LanguageConfig) else c for c in configs]
     with open(os.path.join(static_dir, 'active.sites.json'), 'w') as f:
         f.write(json.dumps(configs))
 

@@ -10,10 +10,23 @@ import pandas as pd
 from slugify import slugify
 
 class Dictionary():
-    def __init__(self, config_object):
-        self.config = config_object['config']
+    """A Mother Tongues Dictionary object
+
+    - Properties:
+        df (pandas.DataFrame): A parsed, transduced, sorted, joined and indexed DataFrame of the data provided by the language_config that initialized the class instance
+
+    - Attributes:
+        config (dict): dict from LanguageConfig
+        name (str): Name of Dictionary
+        data_objs (list): List of dicts containing ResourceManifest and parsed data
+     
+    Calling len on a Dictionary gives the length of the dataframe ie. how many entries
+    Dictionary is a subscriptable class which access the row in the dataframe at the given index
+    """
+    def __init__(self, language_config):
+        self.config = language_config['config']
         self.name = slugify(self.config['L1'])
-        self.data_objs = config_object['data']
+        self.data_objs = language_config['data']
         # parse
         self.data_objs = [parse(d['manifest'], d['resource']) for d in self.data_objs]
         # transduce
@@ -26,6 +39,12 @@ class Dictionary():
         self.index_key_to_column()
         # validate
         self.validate(self._df)
+
+    def __len__(self):
+        return len(self._df.index)
+    
+    def __getitem__(self, position):
+        return self._df.iloc[[position]]
         
     @property
     def df(self):
@@ -35,7 +54,6 @@ class Dictionary():
     def df(self, value):
         if not self.validate(value):
             raise DfValidationError
-        print('validated')
         self._df = value
 
     def validate(self, df):
@@ -82,6 +100,26 @@ class Dictionary():
             transducer = Transducer(transducers)
             data_obj['data'] = transducer.apply_to_data_frame(df)
         return transduced_data_objs
+
+    def flatten_entry(self, y):
+        """not yet working. creates unnecessary optional_0, optional_1"""
+        out = {}
+        def flatten(x, name=''):
+            if type(x) is dict:
+                for a in x:
+                    flatten(x[a], name + a + '_')
+            elif type(x) is list:
+                i = 0
+                for a in x:
+                    flatten(a, name + str(i) + '_')
+                    i += 1
+            else:
+                out[name[:-1]] = x
+        flatten(y)
+        return out
+    
+    def return_flattened_data(self):
+        return [self.flatten_entry(e) for e in self._df.to_dict(orient='records')]
     
     def return_formatted_config(self, form="js"):
         config_template_object = {"L1": {"name": self.config['L1'],
@@ -104,6 +142,8 @@ class Dictionary():
     def export_raw_data(self, export_path, export_type="json"):
         """Use pandas export functions with some sensible defaults
         to export raw data to xlsx/json/csv/psv/tsv/html
+        
+        .. note:: Dictionary.export_raw_data exports **raw** data, not formatted data which is required
         """
         if os.path.isdir(export_path):
             export_path = os.path.join(export_path, f"output.{export_type}")

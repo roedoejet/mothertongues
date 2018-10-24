@@ -1,11 +1,8 @@
 {
   "openapi" : "3.0.0",
   "servers" : [ {
-    "description" : "SwaggerHub API Auto Mocking",
-    "url" : "https://virtserver.swaggerhub.com/roedoejet/mtd/1.0.0"
-  }, {
     "description" : "Development",
-    "url" : "//localhost:5000"
+    "url" : "http://localhost:5000/api/v1"
   } ],
   "info" : {
     "description" : "Basic read-only API for Mother Tongues dictionaries",
@@ -52,7 +49,7 @@
             "type" : "boolean"
           }
         }, {
-          "name" : "languages",
+          "name" : "name",
           "in" : "query",
           "description" : "slug ID (tag) of specified languages",
           "required" : false,

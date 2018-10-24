@@ -5,6 +5,8 @@ import json
 from mtd import static
 
 static_dir = os.path.dirname(static.__file__)
-
-with open(os.path.join(static_dir, 'active.sites.json'), 'r') as f:
-    ACTIVE = json.load(f)
+active_path = os.path.join(static_dir, 'active.sites.json')
+ACTIVE = []
+if os.stat(active_path).st_size:
+    with open(active_path, 'r') as f:
+        ACTIVE = json.load(f)

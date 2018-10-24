@@ -16,7 +16,10 @@ class BaseParser():
                     new_v.append(self.fill_entry_template(x, entry, convert_function))
                 new_lemma[k] = new_v
             else:
-                new_lemma[k] = convert_function(entry, v)
+                try:
+                    new_lemma[k] = convert_function(entry, v)
+                except:
+                    breakpoint()
         return new_lemma
 
     def return_list(self, d):

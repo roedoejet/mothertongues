@@ -5,7 +5,9 @@ import mtd as parent_dir
 from mtd.app import app
 from mtd.dictionary import Dictionary
 from mtd.exceptions import UnfoundConfigErrror
+from mtd.languages import LanguageConfig
 from mtd.languages.suites import LanguageSuite
+from jsonschema.exceptions import ValidationError
 from mtd.buildtools.write_static import set_active_dictionaries, write_static, write_swagger
 from flask.cli import FlaskGroup
 from flask_frozen import Freezer
@@ -20,8 +22,11 @@ def return_configs_from_path(path):
     if os.path.isdir(path):
         configs = glob.glob(os.path.join(path, '**', 'config.json')) + glob.glob(os.path.join(path, 'config.json'))
     elif os.path.isfile(path):
-        with open(path, 'r') as f:
-            configs = f.read().splitlines()
+        try:
+            configs = [LanguageConfig(path)]
+        except ValidationError:
+            with open(path, 'r') as f:
+                configs = f.read().splitlines()
     else:
         raise UnfoundConfigErrror(path)
     return configs
