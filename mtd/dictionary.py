@@ -139,32 +139,38 @@ class Dictionary():
         elif form == 'js':
             return f"var dataDict = {formatted_json}"
 
-    def export_raw_data(self, export_path, export_type="json"):
+    def export_raw_data(self, export_path, export_type="json", flatten=True):
         """Use pandas export functions with some sensible defaults
         to export raw data to xlsx/json/csv/psv/tsv/html
         
-        .. note:: Dictionary.export_raw_data exports **raw** data, not formatted data which is required
+        .. note:: Dictionary.export_raw_data exports **raw** data, not formatted data which is required for Mother Tongues apps
         """
+        export_path = os.path.abspath(export_path)
+        flattened = self.return_flattened_data()
+        if flatten:
+            df = pd.DataFrame(flattened)
+        else:
+            df = self._df
         if os.path.isdir(export_path):
             export_path = os.path.join(export_path, f"output.{export_type}")
         if not export_path.endswith(export_type):
             raise TypeError(f"Export type of {export_type} does not match file at {export_path}")
         if export_type == "xlsx":
             writer = pd.ExcelWriter(export_path)
-            self._df.to_excel(writer, 'sheet1', index=False, merge_cells=False)
+            df.to_excel(writer, 'sheet1', index=False, merge_cells=False)
             writer.save()
         else:
             with open(export_path, 'w', encoding='utf8') as f:
                 if export_type == "json":
-                    self._df.to_json(f, orient='records', force_ascii=False)
+                    df.to_json(f, orient='records', force_ascii=False)
                 elif export_type == "csv":
-                    self._df.to_csv(f, encoding='utf-8', index=False)
+                    df.to_csv(f, encoding='utf-8', index=False)
                 elif export_type == "psv":
-                    self._df.to_csv(f, sep='|', encoding='utf-8', index=False)
+                    df.to_csv(f, sep='|', encoding='utf-8', index=False)
                 elif export_type == "tsv":
-                    self._df.to_csv(f, sep='\t', encoding='utf-8', index=False)
+                    df.to_csv(f, sep='\t', encoding='utf-8', index=False)
                 elif export_type == "html":
                     utf8 = "<head><meta charset=\"UTF-8\"></head>"
                     f.write(utf8)
-                    self._df.to_html(f)
+                    df.to_html(f)
             
