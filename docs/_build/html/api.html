@@ -9,6 +9,7 @@
     <title>REST API &#8212; Mother Tongues  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -36,12 +37,13 @@
             
   <div class="section" id="rest-api">
 <h1>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h1>
-<p>Using the command line, you can create a basic REST API from your specified dictionaries.</p>
+<p>Using the command line, you can create a basic REST API from your specified dictionaries.
+This allows you to expose your dictionary data and configuration files with a RESTful API.</p>
 <dl class="class">
 <dt id="mtd.resources.Languages">
 <em class="property">class </em><code class="descclassname">mtd.resources.</code><code class="descname">Languages</code><a class="headerlink" href="#mtd.resources.Languages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exposes available dictionaries, including formatted data and configuration files.
-Interactive documentation for the API is automatically generated and available at the route /api/docs</p>
+<dd><p>REST API resource that exposes available dictionaries, including formatted data and configuration files.
+Interactive documentation for the API is automatically generated and available at the route /api/docs after running <cite>mtd run</cite></p>
 </dd></dl>
 
 <dl class="function">
@@ -59,6 +61,9 @@ Interactive documentation for the API is automatically generated and available a
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_no_text.png" alt="Logo"/>
+            </a></p>
 <h1 class="logo"><a href="index.html">Mother Tongues</a></h1>
 
 
@@ -72,6 +77,7 @@ Interactive documentation for the API is automatically generated and available a
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>

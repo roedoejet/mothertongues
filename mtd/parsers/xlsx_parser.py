@@ -2,15 +2,16 @@ from openpyxl import load_workbook
 import pandas as pd
 from mtd.parsers.utils import BaseParser
 from mtd.exceptions import UnsupportedFiletypeError
+from mtd.parsers.utils import ResourceManifest
 
 class Parser(BaseParser):
     '''
-    Parse data for MTD **TODO: test worksheet location
+    Parse data for MTD **TODO: test worksheet location. Skipheader in manifest skips first row. Location in manifest decides worksheet.
 
-    manifest param: skipheader skips first row
-    manifest param: location decides worksheet
+    :param ResourceManifest manifest: Manifest for parser
+    :param str resource_path: path to file 
     '''
-    def __init__(self, manifest, resource_path):
+    def __init__(self, manifest: ResourceManifest, resource_path: str):
         self.manifest = manifest
         try:
             work_book = load_workbook(resource_path)

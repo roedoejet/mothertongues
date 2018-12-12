@@ -1,12 +1,19 @@
 from numpy import nan
 from mtd.exceptions import DfValidationError
 from mtd.tests import logger
+from pandas import DataFrame
+from typing import List
 
 class DfValidator():
-    def __init__(self, df):
+    '''Validate DataFrame to check for null values or duplicates etc...
+
+    Args:
+        :param DataFrame df: DataFrame to check
+    '''
+    def __init__(self, df: DataFrame):
         self.df = df.replace('', nan)
 
-    def check_not_null(self, notnull=['word', 'definition', 'entryID']):
+    def check_not_null(self, notnull: List[str]=['word', 'definition', 'entryID']):
         """Returns false if any of the keys in notnull are empty
 
         :param list notnull: list of keys to guarantee non-null values for
@@ -20,7 +27,7 @@ class DfValidator():
             e = DfValidationError(null_columns.values, all_null_values)
             logger.error(e)
 
-    def check_dupes(self):
+    def check_dupes(self) -> DataFrame:
         """Removes and logs any true duplicate entries TODO: fix if list in df
 
            :param list notduped: list of keys (columns) to check for duplicates

@@ -17,7 +17,8 @@
                 "role": "funding",
                 "name": "UBC"
             }
-        ]
+        ],
+        "github_credentials_path": "/Users/pinea/Desktop/github.json"
     },
     "data": [
         {

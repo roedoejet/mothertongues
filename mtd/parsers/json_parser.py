@@ -5,14 +5,18 @@ from mtd.exceptions import SchemaValidationError
 from mtd.parsers.utils import BaseParser
 from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
+from mtd.parsers.utils import ResourceManifest
+from typing import Union
+
 
 class Parser(BaseParser):
     '''
-    Parse data for MTD
+    Parse data for MTD. location (jsonpath) specifies location of data
 
-    manifest param: location (jsonpath) specifies location of data
+    :param ResourceManifest manifest: Manifest for parser
+    :param (str or json) resource_path: JSON or path to JSON
     '''
-    def __init__(self, manifest, resource_path):
+    def __init__(self, manifest: ResourceManifest, resource_path: Union[str, dict, list]):
         self.manifest = manifest
         try:
             if isinstance(resource_path, str):

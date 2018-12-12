@@ -12,3 +12,4 @@ python-slugify
 oauth2client
 flask_restful
 flask_cors
+requests

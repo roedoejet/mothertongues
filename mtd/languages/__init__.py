@@ -4,6 +4,7 @@ from mtd import languages as ldir
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from urllib.parse import urlparse
+from typing import Union
 
 ldir = os.path.dirname(ldir.__file__)
 
@@ -14,7 +15,13 @@ with open(os.path.join(ldir, 'manifest_schema.json')) as f:
     MANIFEST_SCHEMA = json.load(f)
 
 class LanguageConfig():
-    def __init__(self, config_object):
+    '''The configuration information necessary for making a Dictionary from a language.
+
+    Args:
+        :param (str or dict): Path to a valid language config file according to MTD config schema
+
+    '''
+    def __init__(self, config_object: Union[str, dict]):
         self.config_schema = CONFIG_SCHEMA
         self.language_default_dir = os.path.dirname(ldir)
         if isinstance(config_object, dict):
@@ -34,6 +41,8 @@ class LanguageConfig():
 
     @property
     def config(self):
+        '''Get the validated config object
+        '''
         return self._config
 
     @config.setter

@@ -4,14 +4,16 @@ from mtd.exceptions import SchemaValidationError
 from mtd.parsers.utils import BaseParser
 from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
+from mtd.parsers.utils import ResourceManifest
 
 class Parser(BaseParser):
     '''
-    Parse data for MTD
+    Parse data for MTD. skipheader in manifest skips first row
 
-    manifest param: skipheader skips first row
+    :param ResourceManifest manifest: Manifest for parser
+    :param str resource_path: path to file 
     '''
-    def __init__(self, manifest, resource_path):
+    def __init__(self, manifest: ResourceManifest, resource_path: str):
         self.resource = []
         self.manifest = manifest
         try:

@@ -16,8 +16,8 @@
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Python Package" href="mtd.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to Mother Tongues’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -36,15 +36,26 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Mother Tongues Dictionaries (MTD) is a tool developed by Aidan Pine to quickly develop dictionaries, with a particular focus on language revitalization of Indigenous languages. For a primer in understanding
+some of the motivations behind language revitalization, see <a class="reference external" href="http://oxfordre.com/linguistics/view/10.1093/acrefore/9780199384655.001.0001/acrefore-9780199384655-e-8">this chapter</a> of the Oxford Research Encyclopedia of Linguistics.</p>
+<p>MTD is unique in a number of ways:</p>
+<ol class="arabic simple">
+<li>Approximate search comes out of the box. Approximate search isn’t just a <em>nice</em> feature for dictionaries of endangered languages - it’s a requirement. Often, it’s learners of languages that want to use dictionaries the most, and if your dictionary doesn’t allow approximate search, beginners might have a hard time accessing entries in the dictionary. See <a class="reference external" href="http://roedoejet.github.io/cv/static/cv/pdfs/computel.pdf">this paper</a> for further discussion.</li>
+<li>Free &amp; open source. MTD is licensed by AGPL 3.0.</li>
+<li>Multiple platforms. MTD has a number of front ends that it is compatible with, including for the Web, iOS and Android</li>
+</ol>
+<p>You can think of MTD as two distinct parts. The <strong>first part</strong> is this tool documented here, which is essentially a text processing tool. It is able to take data for one or more languages from multiple different
+sources (spreadsheets, websites, plain text files etc…) and combine the data, sort it, index it, find duplicates, and then export it to a number of different formats. The <strong>second part</strong> is a front-end component. Each
+front end tool must accept two files, a “config.js” file which has information about the dictionary including an alphabet to sort by and the name of the language etc… and a ‘data_cached.js” file which contains all the lexical (word related)
+data for the dictionary.</p>
 <p>To make a dictionary, you need to do the following three things:</p>
 <ol class="arabic simple">
-<li>Write a valid Mother Tongues Language configuration file. This is a JSON file that is documented <strong>here</strong></li>
-<li>Write valid Mother Tongues data configuration files. This is also a JSON file that is documented <strong>here</strong></li>
-<li>Install mothertongues</li>
-<li>Build your dictionary.</li>
+<li>Install mothertongues, see <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installation</span></a>.</li>
+<li>Write a valid Mother Tongues Language configuration file. See <a class="reference internal" href="validation.html#validation"><span class="std std-ref">Schema validation</span></a></li>
+<li>Write valid Mother Tongues data resource configuration files. See, <a class="reference internal" href="validation.html#validation"><span class="std std-ref">Schema validation</span></a></li>
 </ol>
-<p>Build either with the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mothertongues prepare PATH_TO_LANGUAGE_CONFIGURATION
+<p>Then, build either with the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mothertongues prepare &lt;path_to_language_configuration&gt;
 mothertongues run
 </pre></div>
 </div>
@@ -53,7 +64,7 @@ mothertongues run
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mtd</span> <span class="kn">import</span> <span class="n">create_dictionary</span>
 <span class="kn">from</span> <span class="nn">mtd.app</span> <span class="kn">import</span> <span class="n">app</span>
 
-<span class="n">dictionary</span> <span class="o">=</span> <span class="n">create_dictionary</span><span class="p">({</span><span class="n">PATH_TO_LANGUAGE_CONFIGURATION</span><span class="p">})</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">create_dictionary</span><span class="p">(</span><span class="o">&lt;</span><span class="n">path_to_language_configuration</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -66,6 +77,9 @@ mothertongues run
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_no_text.png" alt="Logo"/>
+            </a></p>
 <h1 class="logo"><a href="index.html">Mother Tongues</a></h1>
 
 
@@ -78,8 +92,8 @@ mothertongues run
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
@@ -92,8 +106,8 @@ mothertongues run
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
-      <li>Next: <a href="mtd.html" title="next chapter">Python Package</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Mother Tongues’s documentation!</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>
