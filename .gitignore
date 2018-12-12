@@ -2,6 +2,7 @@
 *.egg-info
 /dist
 mtd/build
+/build
 .DS_Store
 .vscode
 __pycache__
