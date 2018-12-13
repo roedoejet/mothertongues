@@ -6,6 +6,7 @@ from mtd.processors.validator import DfValidator
 from mtd.exceptions import DfValidationError, DuplicateDataNameError, TransducerSourceNotFoundError
 from mtd.languages import LanguageConfig
 from mtd.parsers.utils import ResourceManifest
+from mtd.tests import logger
 import os
 import json
 import pandas as pd
@@ -42,6 +43,11 @@ class Dictionary():
         self.index_key_to_column()
         # validate
         self.validate(self._df)
+        # validate ID
+        self.validate_id(self._df)
+        # log dupes
+        self.log_dupes(self._df)
+        
         
     def __len__(self):
         return len(self._df.index)
@@ -62,6 +68,19 @@ class Dictionary():
     def validate(self, df: pd.DataFrame) -> bool:
         dfvalidator = DfValidator(df)
         return dfvalidator.check_not_null()
+
+    def validate_id(self, df) -> bool:
+        if not "entryID" in df:
+            logger.warn("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
+            df['entryID'] = df.index
+            return True
+        else:
+            dfvalidator = DfValidator(df)
+            return dfvalidator.check_not_null(notnull=['entryID'])
+
+    def log_dupes(self, df: pd.DataFrame) -> pd.DataFrame:
+        dfvalidator = DfValidator(df)
+        return dfvalidator.log_dupes()
 
     def joined(self) -> pd.DataFrame:
         keys = []

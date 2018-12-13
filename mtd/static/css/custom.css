@@ -135,7 +135,7 @@
       padding: 20rem 0 19rem;
     }
     .hero {
-      padding: 22rem 0;
+      padding: 15rem 0;
     }
     .hero-heading {
       font-size: 3.0rem;
@@ -148,4 +148,41 @@
       top: -14rem;
       max-height: 570px;
     }
+  }
+
+  .hero-heading {
+    margin-top: 5rem
+  }
+
+  .header-intro {
+    margin-top: 7rem;
+  }
+
+  ul.alph {
+    display: inline-flex;
+    list-style-type: none;
+  }
+
+  ul.alph li {
+    margin: .5vw
+  }
+
+  .section.description {
+    padding-bottom: 0
+  }
+
+  .text-desc {
+    margin-top: 5rem
+  }
+
+  td.Info {
+    color: #50c878;
+  }
+
+  td.Error {
+    color: crimson;
+  }
+
+  td.Warning {
+    color: #cd5c5c;
   }

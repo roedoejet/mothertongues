@@ -5,7 +5,7 @@ import os
 FIELD_STYLES = dict(
     levelname=dict(color='green', bold=coloredlogs.CAN_USE_BOLD_FONT),
 )
-
+      
 def setup_logger(name):
     logging.basicConfig(
         level=logging.INFO

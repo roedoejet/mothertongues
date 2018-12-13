@@ -111,7 +111,10 @@ def prepare(language):
     write_static(dictionaries)
     write_swagger(dictionaries)
     set_active_dictionaries(ls.config_objects)
-    click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
+    if 40 in logger._cache and logger._cache[40]:
+        click.echo("Sorry, your build finished with some errors. Please look at your logs/messages above and try again.")
+    else:
+        click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
 
 @app.cli.command()
 @click.argument('language', type=click.Path(exists=True))

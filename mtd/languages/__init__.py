@@ -49,7 +49,7 @@ class LanguageConfig():
     def config(self, value):
         self._config = self.validate_config_object(value)
 
-    def validate_config_object(self, co):
+    def validate_config_object(self, co: Union[str, dict]) -> dict:
         """Validate manifest json against manifest json schema
         """
         try:
