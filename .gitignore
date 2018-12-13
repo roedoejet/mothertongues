@@ -7,3 +7,4 @@ mtd/build
 .vscode
 __pycache__
 mtd/languages/*/gsheet/*.json
+.mypy_cache
