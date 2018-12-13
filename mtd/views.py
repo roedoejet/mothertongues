@@ -69,3 +69,7 @@ def show_stats(language):
         stats['source'] = return_unique_len(df, 'source')
         problems = sorted(problems, key=lambda k: k['levelno'], reverse=True)
         return render_template('stats.html', name=language, stats=stats, alphabet=dictionary.config['alphabet'], problems=problems)
+
+@app.route('/validator')
+def validate():
+    return render_template('validator.html')

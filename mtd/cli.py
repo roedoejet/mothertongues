@@ -17,6 +17,7 @@ from mtd.static import ACTIVE
 from distutils.dir_util import copy_tree
 from base64 import b64encode
 from urllib.parse import urljoin
+from slugify import slugify
 import requests
 from mtd.version import __version__
 
@@ -156,10 +157,20 @@ def export(language, export_type, output):
             freezer = Freezer(create_app())
             @freezer.register_generator
             def show_dictionary():
-                return [f"/dictionaries/{l['config']['L1']}/" for l in ACTIVE]
+                for l in ACTIVE:
+                    language = slugify(l['config']['L1'])
+                    yield {'path': f"/dictionaries/{language}/", 'language': language}
+
+            @freezer.register_generator
+            def show_stats():
+                for l in ACTIVE:
+                    language = slugify(l['config']['L1'])
+                    yield {'path': f"/statistics/{language}/", 'language': language }
+
             freezer.freeze()
             build_dir = os.path.join(os.path.dirname(parent_dir.__file__), "build")
             copy_tree(build_dir, os.path.join(output, "mtd-output"))
+
 
 @app.cli.command()
 @click.argument('path', type=click.Path(exists=True))
