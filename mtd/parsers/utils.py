@@ -98,13 +98,15 @@ class BaseParser():
             :param function convert_function: A function that takes an entry and a path and returns the "filled in" object
         '''
         new_lemma = {}
+        
         for k, v in entry_template.items():
+            
             if isinstance(v, dict):
                 new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):
                 new_v = list()
                 for x in v:
-                    new_v.append(self.fill_entry_template(x, entry, convert_function))
+                    new_v += list(self.fill_entry_template({k: x}, entry, convert_function).values())
                 new_lemma[k] = new_v
             else:
                 try:
