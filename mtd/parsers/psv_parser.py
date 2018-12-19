@@ -5,6 +5,7 @@ from mtd.parsers.utils import BaseParser
 from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
 from mtd.parsers.utils import ResourceManifest
+from typing import Dict, List, Union
 
 class Parser(BaseParser):
     '''
@@ -27,16 +28,15 @@ class Parser(BaseParser):
             raise SchemaValidationError('psv', resource_path)
         self.entry_template = self.manifest['targets']
 
-    def resolve_targets(self):
+    def resolve_targets(self) -> List[dict]:
         word_list = []
         for entry in self.resource:
             word_list.append(self.fill_entry_template(self.entry_template, entry, lambda x, y: x[int(y)]))
         return word_list
     
-    def parse(self):
+    def parse(self) -> Dict[str, Union[dict, pd.DataFrame]]:
         try:
             data = self.resolve_targets()
             return {"manifest": self.manifest, "data": pd.DataFrame(data)}
         except Exception as e:
             print(e)
-            print('no targets')

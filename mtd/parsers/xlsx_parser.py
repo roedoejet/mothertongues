@@ -4,7 +4,7 @@ from mtd.parsers.utils import BaseParser
 from mtd.exceptions import UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
 from openpyxl.cell.cell import Cell
-from typing import Tuple
+from typing import Dict, List, Tuple, Union
 
 class Parser(BaseParser):
     '''
@@ -39,15 +39,15 @@ class Parser(BaseParser):
                 return c.value
         return ''
 
-    def resolve_targets(self):
+    def resolve_targets(self) -> List[dict]:
         word_list = []
         for entry in self.resource:
             word_list.append(self.fill_entry_template(self.entry_template, entry, self.getCellValue))
         return word_list
 
-    def parse(self):
+    def parse(self) -> Dict[str, Union[dict, pd.DataFrame]]:
         try:
             data = self.resolve_targets()
             return {"manifest": self.manifest, "data": pd.DataFrame(data)}
-        except:
-            print('no targets')
+        except Exception as e:
+            print(e)

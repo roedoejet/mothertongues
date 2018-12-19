@@ -6,6 +6,8 @@ from mtd.exceptions import RequestException, UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
 from json.decoder import JSONDecodeError
 from lxml import etree
+from typing import Dict, List, Union
+from pandas import DataFrame
 
 class Parser(BaseParser):
     '''
@@ -30,7 +32,7 @@ class Parser(BaseParser):
         else:
             raise RequestException(resource_path, res.status_code)
     
-    def parse(self):
+    def parse(self) -> Dict[str, Union[dict, DataFrame]]:
         if self.type == "json":
             parser = json_parser.Parser(self.manifest, self.resource)
         elif self.type == "xml":

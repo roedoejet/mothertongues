@@ -1,10 +1,10 @@
-from typing import Union
 from mtd.languages import MANIFEST_SCHEMA
 from urllib.parse import urlparse
 import json
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from mtd.tests import logger
+from typing import Dict, List, Union
 
 class ResourceManifest():
     '''A manifest file for a given resource.
