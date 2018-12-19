@@ -3,6 +3,8 @@ import pandas as pd
 from mtd.parsers.utils import BaseParser
 from mtd.exceptions import UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
+from openpyxl.cell.cell import Cell
+from typing import Tuple
 
 class Parser(BaseParser):
     '''
@@ -19,7 +21,7 @@ class Parser(BaseParser):
                 work_sheet = work_book["location"]
             else:
                 work_sheet = work_book.active
-            if self.manifest['skipheader']:
+            if "skipheader" in self.manifest and self.manifest['skipheader']:
                 min_row = 2
             else:
                 min_row = 1
@@ -29,7 +31,9 @@ class Parser(BaseParser):
         
         self.entry_template = self.manifest['targets']
 
-    def getCellValue(self, entry, col):
+    def getCellValue(self, entry: Tuple[Cell, ...], col: str) -> str:
+        ''' Given a tuple of OpenPyxl cells, return the value of the cell matching the column value for col
+        '''
         for c in entry:
             if c.column == col:
                 return c.value

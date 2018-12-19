@@ -3,7 +3,7 @@
     "display": "word",
     "compare": "word",
     "sorting": "word",
-    "skipheader": true,
+    "skipfirst": true,
     "targets": {
         "word": "4",
         "definition": "0",
