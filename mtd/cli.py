@@ -32,7 +32,7 @@ def return_configs_from_path(path):
         try:
             configs = [LanguageConfig(path)]
         except ValidationError:
-            with open(path, 'r') as f:
+            with open(path, 'r', encoding='utf8') as f:
                 configs = f.read().splitlines()
     else:
         raise UnfoundConfigErrror(path)
@@ -46,7 +46,7 @@ def push_to_github(dictionary: Dictionary):
     else:
         base_url = "https://api.github.com/repos/"
 
-        with open(dictionary.config['github_credentials_path'], 'r') as f:
+        with open(dictionary.config['github_credentials_path'], 'r', encoding='utf8') as f:
             creds = json.load(f)
        
         config_path = os.path.join(base_url, creds['user'], creds['repo'], 'contents', creds['path'], 'config.js')
@@ -146,9 +146,9 @@ def export(language, export_type, output):
             for d in dictionaries:
                 config_output_name = os.path.join(output, f"config-{d.name}.{export_type}")
                 data_output_name = os.path.join(output, f"dict_cached-{d.name}.{export_type}")
-                with open(config_output_name, 'w') as f:
+                with open(config_output_name, 'w', encoding='utf8') as f:
                     f.write(d.return_formatted_config(form=export_type))
-                with open(data_output_name, 'w') as f:
+                with open(data_output_name, 'w', encoding='utf8') as f:
                     f.write(d.return_formatted_data(form=export_type))
         elif export_type == 'github':
             for d in dictionaries:

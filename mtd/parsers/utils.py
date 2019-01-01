@@ -66,7 +66,7 @@ class ResourceManifest():
             manifest = r.json()
         else:
             try:
-                with open(manifest_path, 'r') as f:
+                with open(manifest_path, 'r', encoding='utf8') as f:
                     manifest = json.load(f)
             except ValueError:
                 raise ValidationError(f"The manifest JSON file at {manifest_path} seems to be malformed. Please run it through a JSON validator")

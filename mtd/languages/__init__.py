@@ -8,10 +8,10 @@ from typing import Union
 
 ldir = os.path.dirname(ldir.__file__)
 
-with open(os.path.join(ldir, 'config_schema.json')) as f:
+with open(os.path.join(ldir, 'config_schema.json'), encoding='utf8') as f:
     CONFIG_SCHEMA = json.load(f)
 
-with open(os.path.join(ldir, 'manifest_schema.json')) as f:
+with open(os.path.join(ldir, 'manifest_schema.json'), encoding='utf8') as f:
     MANIFEST_SCHEMA = json.load(f)
 
 class LanguageConfig():
@@ -32,7 +32,7 @@ class LanguageConfig():
         else:
             if not os.path.isabs(config_object):
                 config_object = os.path.join(self.language_default_dir, config_object)
-            with open(config_object, 'r') as f:
+            with open(config_object, 'r', encoding='utf8') as f:
                 self._config = json.load(f)
         self._config = self.validate_config_object(self._config)
 

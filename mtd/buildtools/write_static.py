@@ -14,7 +14,7 @@ def set_active_dictionaries(configs: List[LanguageConfig]):
     '''
     static_dir = os.path.dirname(static.__file__)
     configs = [c.config if isinstance(c, LanguageConfig) else c for c in configs]
-    with open(os.path.join(static_dir, 'active.sites.json'), 'w') as f:
+    with open(os.path.join(static_dir, 'active.sites.json'), 'w', encoding='utf8') as f:
         f.write(json.dumps(configs))
 
 def write_static(dictionaries: List[Dictionary]):
@@ -26,10 +26,10 @@ def write_static(dictionaries: List[Dictionary]):
         config_fn = f"config-{dictionary.name}.js"
         data_fn = f"dict_cached-{dictionary.name}.js"
 
-        with open(os.path.join(static_dir, "assets", "js", config_fn), 'w') as f:
+        with open(os.path.join(static_dir, "assets", "js", config_fn), 'w', encoding='utf8') as f:
             f.write(dictionary.return_formatted_config())
 
-        with open(os.path.join(static_dir, "assets", "js", data_fn), 'w') as f:
+        with open(os.path.join(static_dir, "assets", "js", data_fn), 'w', encoding='utf8') as f:
             f.write(dictionary.return_formatted_data())
 
 def write_swagger(dictionaries: List[Dictionary]):
@@ -41,5 +41,5 @@ def write_swagger(dictionaries: List[Dictionary]):
     languages_pointer = '/components/schemas/LanguageTags/enum'
     language_tags = sorted(list(set([d.name for d in dictionaries])))
     new_data = set_pointer(data, languages_pointer, language_tags)
-    with open(post_path, 'w') as f:
+    with open(post_path, 'w', encoding='utf8') as f:
             json.dump(new_data, f)
