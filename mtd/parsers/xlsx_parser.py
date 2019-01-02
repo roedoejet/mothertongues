@@ -18,7 +18,7 @@ class Parser(BaseParser):
         try:
             work_book = load_workbook(resource_path)
             if "location" in self.manifest:
-                work_sheet = work_book["location"]
+                work_sheet = work_book[self.manifest["location"]]
             else:
                 work_sheet = work_book.active
             if "skipheader" in self.manifest and self.manifest['skipheader']:

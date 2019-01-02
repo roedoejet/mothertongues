@@ -33,6 +33,9 @@ class Dictionary():
         self.data_objs = language_config['data']
         # parse
         self.data_objs = [parse(d['manifest'], d['resource']) for d in self.data_objs]
+        # validate
+        for do in self.data_objs:
+            self.validate(do['data'])
         # transduce
         self.transduce()
         # sort

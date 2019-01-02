@@ -1,7 +1,7 @@
 from numpy import nan
 from mtd.exceptions import DfMissingKeysValidationError, DfNullValuesValidationError
 from mtd.tests import logger
-from pandas import DataFrame
+from pandas import concat, DataFrame
 from typing import List, Union
 
 class DfValidator():
@@ -23,8 +23,10 @@ class DfValidator():
             if is_not_null:
                 return is_not_null
             else:
-                null_columns = self.df.columns[self.df.isnull().any()]
-                all_null_values = self.df[self.df.isnull().any(axis=1)][null_columns].head()
+                all_null_values = []
+                for col in notnull:
+                    all_null_values.append(self.df[self.df[col].isnull()])
+                all_null_values = concat(all_null_values)
                 e = DfNullValuesValidationError(null_columns.values, all_null_values)
                 logger.error(e)
                 return False
