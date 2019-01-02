@@ -25,6 +25,14 @@ class UnsupportedFiletypeError(CommandLineError):
     def __str__(self):
         return self.render(f"Filetype at {self.path} is unsupported.")
 
+class CredentialsMissingError(CommandLineError):
+    """Raise when credentials are not found in config"""
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return self.render(f"Credentials for '{self.name}' were not found. Please update your language configuration file.")
+
 class SchemaValidationError(CommandLineError):
     """Raise when file does not pass validation"""
     def __init__(self, ftype, path):
@@ -43,6 +51,14 @@ class DuplicateDataNameError(CommandLineError):
         return self.render("Your data must have different names. Please change your data manifest.")
 
 class DfValidationError(CommandLineError):
+    '''Raise when data not valid'''
+    def __init__(self):
+        pass
+    
+    def __str__(self):
+        return self.render("Your data is not valid. Please check that there are values for 'word' and 'definition' for each entry.")
+
+class DfNullValuesValidationError(CommandLineError):
     """Raise when data frame does not pass validation"""
     def __init__(self, cols, values):
         self.cols = cols
@@ -52,6 +68,16 @@ class DfValidationError(CommandLineError):
         return self.render(
         f"Your data has null values in the following columns: {self.cols}. " +
                                   f"See below for specific locations \n {self.values}"
+        )
+
+class DfMissingKeysValidationError(CommandLineError):
+    """Raise when data frame does not pass validation"""
+    def __init__(self, keys):
+        self.keys = keys
+    
+    def __str__(self):
+        return self.render(
+        f"Your data does not have values for: {self.keys}. These are necessary for Mother Tongues Dictionaries."
         )
 
 class UnfoundConfigErrror(CommandLineError):

@@ -5,8 +5,8 @@ from mtd.static import ACTIVE
 from mtd.dictionary import Dictionary
 
 class Languages(Resource):
-    """Exposes available dictionaries, including formatted data and configuration files.
-        Interactive documentation for the API is automatically generated and available at the route /api/docs
+    """REST API resource that exposes available dictionaries, including formatted data and configuration files.
+       Interactive documentation for the API is automatically generated and available at the route /api/docs after running `mtd run`
     """
     def __init__(self):
         self.available = [l['config']['L1'] for l in ACTIVE]
@@ -36,6 +36,7 @@ class Languages(Resource):
     def get(self):
         """Get available dictionary names, data and configurations
         """
+        # breakpoint()
         args = self.parser.parse_args()
         if "available" in args and args["available"]:
             return jsonify(self.available)
@@ -52,7 +53,7 @@ class Languages(Resource):
                     else:
                         abort(404)
             else:
-                abort(400)
+                return jsonify(self.available)
 
 
 languages_api = Blueprint('resources.languages', __name__)

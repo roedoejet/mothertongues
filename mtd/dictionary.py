@@ -4,9 +4,13 @@ from mtd.processors.sorter import ArbSorter
 from mtd.processors.transducer import Transducer
 from mtd.processors.validator import DfValidator
 from mtd.exceptions import DfValidationError, DuplicateDataNameError, TransducerSourceNotFoundError
+from mtd.languages import LanguageConfig
+from mtd.parsers.utils import ResourceManifest
+from mtd.tests import logger
 import os
 import json
 import pandas as pd
+from typing import Dict, List, Union
 from slugify import slugify
 
 class Dictionary():
@@ -16,14 +20,14 @@ class Dictionary():
         df (pandas.DataFrame): A parsed, transduced, sorted, joined and indexed DataFrame of the data provided by the language_config that initialized the class instance
 
     - Attributes:
-        config (dict): dict from LanguageConfig
+        config (dict): LanguageConfig
         name (str): Name of Dictionary
         data_objs (list): List of dicts containing ResourceManifest and parsed data
      
     Calling len on a Dictionary gives the length of the dataframe ie. how many entries
     Dictionary is a subscriptable class which access the row in the dataframe at the given index
     """
-    def __init__(self, language_config):
+    def __init__(self, language_config: LanguageConfig):
         self.config = language_config['config']
         self.name = slugify(self.config['L1'])
         self.data_objs = language_config['data']
@@ -39,7 +43,12 @@ class Dictionary():
         self.index_key_to_column()
         # validate
         self.validate(self._df)
-
+        # validate ID
+        self.validate_id(self._df)
+        # log dupes
+        self.log_dupes(self._df)
+        
+        
     def __len__(self):
         return len(self._df.index)
     
@@ -51,16 +60,29 @@ class Dictionary():
         return self._df
     
     @df.setter
-    def df(self, value):
+    def df(self, value: pd.DataFrame):
         if not self.validate(value):
             raise DfValidationError
         self._df = value
 
-    def validate(self, df):
+    def validate(self, df: pd.DataFrame) -> bool:
         dfvalidator = DfValidator(df)
         return dfvalidator.check_not_null()
 
-    def joined(self):
+    def validate_id(self, df) -> bool:
+        if not "entryID" in df:
+            logger.warn("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
+            df['entryID'] = df.index
+            return True
+        else:
+            dfvalidator = DfValidator(df)
+            return dfvalidator.check_not_null(notnull=['entryID'])
+
+    def log_dupes(self, df: pd.DataFrame) -> pd.DataFrame:
+        dfvalidator = DfValidator(df)
+        return dfvalidator.log_dupes()
+
+    def joined(self) -> pd.DataFrame:
         keys = []
         dfs = []
         for d in self.data_objs:
@@ -70,13 +92,13 @@ class Dictionary():
             raise DuplicateDataNameError
         return pd.concat(dfs, keys=keys)
 
-    def index_key_to_column(self):
+    def index_key_to_column(self) -> None:
         indexed = self._df.reset_index(level=0)
         indexed.rename(columns={"level_0": "source"}, inplace=True)
         self._df = indexed
     
-    def sort(self, order=list(ascii_lowercase)):
-        """Return sorted data
+    def sort(self, order=list(ascii_lowercase)) -> List[Dict[str, Union[ResourceManifest, pd.DataFrame]]]:
+        """Return sorted data. Also sorts self.data_objs
 
         :param list order: an order to sort by, default is ascii_lowercase
         """
@@ -90,7 +112,9 @@ class Dictionary():
             sorted_data_objs.append(data_obj)
         return sorted_data_objs
 
-    def transduce(self):
+    def transduce(self) -> List[Dict[str, Union[ResourceManifest, pd.DataFrame]]]:
+        '''Return transduced data objs. Also transduces self.data_objs
+        '''
         transduced_data_objs = []
         for data_obj in self.data_objs:
             df = data_obj['data']
@@ -121,7 +145,9 @@ class Dictionary():
     def return_flattened_data(self):
         return [self.flatten_entry(e) for e in self._df.to_dict(orient='records')]
     
-    def return_formatted_config(self, form="js"):
+    def return_formatted_config(self, form: str="js") -> Union[str, dict]:
+        '''Return config for Dictionary as either obj, js, or json.
+        '''
         config_template_object = {"L1": {"name": self.config['L1'],
                                               "lettersInLanguage": self.config['alphabet']},
                                        "L2": {"name": self.config['L2']}}
@@ -132,17 +158,21 @@ class Dictionary():
         elif form == 'json':
             return json.dumps(config_template_object)
 
-    def return_formatted_data(self, form="js"):
+    def return_formatted_data(self, form: str="js") -> Union[str, dict]:
+        '''Return data for Dictionary as either obj, js or json.
+        '''
         formatted_json = json.dumps(self._df.to_dict(orient='records'))
-        if form == 'json':
+        if form == 'obj':
+            return self._df.to_dict(orient='records')
+        elif form == 'json':
             return formatted_json
         elif form == 'js':
             return f"var dataDict = {formatted_json}"
 
-    def export_raw_data(self, export_path, export_type="json", flatten=True):
+    def export_raw_data(self, export_path: str, export_type: str="json", flatten: bool=True) -> None:
         """Use pandas export functions with some sensible defaults
         to export raw data to xlsx/json/csv/psv/tsv/html
-        
+        Writes file to path.
         .. note:: Dictionary.export_raw_data exports **raw** data, not formatted data which is required for Mother Tongues apps
         """
         export_path = os.path.abspath(export_path)

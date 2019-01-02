@@ -78,6 +78,7 @@
                 "gsheet_credentials_path": {"type": "string"}
             },
             "required": ["word", "definition"]
-        }},
+        }
+    },
     "required": ["name", "sorting", "targets"]
 }

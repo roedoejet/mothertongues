@@ -1,4 +1,4 @@
-.. validation:
+.. _validation:
 
 Schema validation
 =================

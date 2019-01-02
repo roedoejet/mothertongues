@@ -17,16 +17,18 @@
                 "role": "funding",
                 "name": "UBC"
             }
-        ]
+        ],
+        "github_credentials_path": "/Users/pinea/Desktop/github.json"
     },
     "data": [
         {
             "manifest": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/manifest.json",
             "resource": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/csv/data.csv"
-        },
+        }
+        ,
         {
-            "manifest": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/json/manifest.json",
-            "resource": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/json/data.json"
+            "manifest": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/xlsx/manifest.json",
+            "resource": "/Users/pinea/mothertongues/mtd/languages/ayajuthem/xlsx/data.xlsx"
         }
     ],
     "adhoc_vars": [

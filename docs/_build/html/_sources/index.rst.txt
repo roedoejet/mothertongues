@@ -13,8 +13,8 @@ customizeable.
    :maxdepth: 2
    :caption: Contents:
 
-   installation
    start
+   installation
    mtd
    api
    cli

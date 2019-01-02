@@ -36,22 +36,17 @@
             
   <div class="section" id="command-line-interface">
 <h1>Command line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h1>
-<p>Once <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> is installed, you can run the following commands with either <code class="docutils literal notranslate"><span class="pre">mtd</span></code> or <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code>
-In addition, you may run the <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> Flask API/Web application with the <code class="docutils literal notranslate"><span class="pre">run</span></code> command</p>
-<dl class="function">
-<dt id="mtd.cli.available">
-<code class="descclassname">mtd.cli.</code><code class="descname">available</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.available" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return names of all language configs at specified path</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) – path to either a txt file with paths to one or more MTD language configuration files <strong>or</strong> a directory containing MTD language configuration files</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<p>Once <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> is installed, you can run the following commands by calling either <code class="docutils literal notranslate"><span class="pre">mtd</span></code> or <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code>
+In addition, you may run the <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> Flask API/Web application with the <code class="docutils literal notranslate"><span class="pre">run</span></code> command. Enter <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">--help</span></code> for help.</p>
+<div class="section" id="available">
+<h2>-available<a class="headerlink" href="#available" title="Permalink to this headline">¶</a></h2>
+<p>Use this to see what languages are available at a particular path. For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">available</span> <span class="pre">.</span></code>
+.. autofunction:: mtd.cli.available</p>
+</div>
+<div class="section" id="prepare">
+<h2>-prepare<a class="headerlink" href="#prepare" title="Permalink to this headline">¶</a></h2>
+<p>Use this to prepare files to build website or API. You can point it either to a file or diretory
+For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">prepare</span> <span class="pre">germanic_languages.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">mtd_prepare</span> <span class="pre">.</span></code></p>
 <dl class="function">
 <dt id="mtd.cli.prepare">
 <code class="descclassname">mtd.cli.</code><code class="descname">prepare</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.prepare" title="Permalink to this definition">¶</a></dt>
@@ -66,10 +61,37 @@ In addition, you may run the <code class="docutils literal notranslate"><span cl
 </table>
 </dd></dl>
 
+</div>
+<div class="section" id="export">
+<h2>-export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h2>
+<p>Use this to export dictionary or data to a particular format.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">export</span> <span class="pre">germanic_languages.txt</span> <span class="pre">raw-xlsx</span> <span class="pre">output.xlsx</span></code> would export every language in a file called germanic_languages.txt as an xlsx file called output.xlsx.</p>
+<p><code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">export</span> <span class="pre">germanic_languages.txt</span> <span class="pre">web</span> <span class="pre">output_dir</span></code> would export all files to a directory called output_dir.</p>
+<p>Export types prefixed with raw just export raw data from the language resources.
+Exporting to js/json will create both a config and dict_cached file needed for MTD front ends.
+Exporting to web will export a frozen website version</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API will not work as static site.</p>
+</div>
+<div class="section" id="exporting-to-github-pages">
+<h3>Exporting to GitHub Pages<a class="headerlink" href="#exporting-to-github-pages" title="Permalink to this headline">¶</a></h3>
+<p>You can export the files necessary for Mother Tongues Dictionaries directly to GitHub. If you are using
+<a class="reference external" href="https://pages.github.com/">GitHub pages</a> , you can host your Mother Tongues Dictionary for free!</p>
+<p>Before you begin, you will need a <a class="reference external" href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Personal Access Token</a> for GitHub. Be careful with these, treat them like passwords.</p>
+<p>Once you have your token, make a yml file with the following data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">token</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">your_token_here</span><span class="o">&gt;</span>
+<span class="n">user</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">your_github_username</span><span class="o">&gt;</span>
+<span class="n">repo</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">your_repo_name</span><span class="o">&gt;</span>
+<span class="n">path</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">path_to_write_files</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Then add the file to your language configuration file. See, <a class="reference internal" href="validation.html#validation"><span class="std std-ref">Schema validation</span></a></p>
+<p>Finally run <cite>mtd export germanic_languages.txt github</cite></p>
 <dl class="function">
 <dt id="mtd.cli.export">
 <code class="descclassname">mtd.cli.</code><code class="descname">export</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.export" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exports Mother Tongues</p>
+<dd><p>Exports Mother Tongues Dictionary</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -86,6 +108,8 @@ In addition, you may run the <code class="docutils literal notranslate"><span cl
 </dd></dl>
 
 </div>
+</div>
+</div>
 
 
           </div>
@@ -94,6 +118,9 @@ In addition, you may run the <code class="docutils literal notranslate"><span cl
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_no_text.png" alt="Logo"/>
+            </a></p>
 <h1 class="logo"><a href="index.html">Mother Tongues</a></h1>
 
 
@@ -110,7 +137,12 @@ In addition, you may run the <code class="docutils literal notranslate"><span cl
 <li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Command line interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#available">-available</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prepare">-prepare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export">-export</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="web.html">Web interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mobile.html">Mobile Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="validation.html">Schema validation</a></li>

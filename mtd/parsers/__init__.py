@@ -2,82 +2,14 @@ import os
 import importlib
 import glob
 import re
-import json
-from urllib.parse import urlparse
 import requests
+from mtd.parsers.utils import ResourceManifest
 from mtd.parsers import gsheet_parser, request_parser, dict_parser
-from mtd.languages import MANIFEST_SCHEMA
-from mtd.tests import logger
 from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
-from jsonschema import validate
-from jsonschema.exceptions import ValidationError
+from urllib.parse import urlparse
+
 
 from .. import exceptions
-
-class ResourceManifest():
-    def __init__(self, manifest_dict_or_path):
-        self.schema = MANIFEST_SCHEMA
-        if isinstance(manifest_dict_or_path, dict):
-            self._manifest = self.validate(manifest_dict_or_path)
-        else:
-            self._manifest = self.parse(manifest_dict_or_path)
-
-    def __iter__(self):
-        yield from self._manifest.keys()
-
-    def __getitem__(self, position):
-        if isinstance(position, str):
-            return self._manifest[position]
-        else:
-            keys = list(self._manifest.keys())
-            return self._manifest[keys[position]]
-
-    @property
-    def manifest(self):
-        return self._manifest
-
-    @manifest.setter
-    def manifest(self, value):
-        self._manifest = self.validate(value)
-
-    def validate(self, m):
-        '''Validate manifest json against manifest json schema.
-        '''
-        try:
-            validate(m, self.schema)
-        except ValidationError as e:
-            raise ValidationError(f"Attempted to validate the manifest file, but got {e}. Please refer to the Mother Tongues data manifest schema.")
-
-    def warn_extra_properties_in(self, props, schema_props):
-        for t in props:
-            if not t in schema_props:
-                logger.info(f"'{t}' is declared in the default schema but is not part of your manifest. You may not have full functionality in your Mother Tongues Dictionary.")
-        for t in schema_props:
-            if not t in props:
-                logger.info(f"'{t}' is declared in your manifest but is not part of the default schema. You may need to modify your Mother Tongues Dictionary to use this data.")
-
-    def parse(self, manifest_path):
-        # Allow for URL loaded manifest
-        if 'http' in urlparse(manifest_path).scheme:
-            r = requests.get(manifest_path)
-            manifest = r.json()
-        else:
-            try:
-                with open(manifest_path, 'r') as f:
-                    manifest = json.load(f)
-            except ValueError:
-                raise ValidationError(f"The manifest JSON file at {manifest_path} seems to be malformed. Please run it through a JSON validator")
-        
-        self.validate(manifest)
-
-        schema_targets = self.schema['properties']['targets']['properties'].keys()
-        manifest_targets = manifest['targets'].keys()
-        schema_properties = self.schema['properties'].keys()
-        manifest_properties = manifest.keys()
-
-        self.warn_extra_properties_in(schema_properties, manifest_properties)
-        self.warn_extra_properties_in(schema_targets, manifest_targets)
-        return manifest
 
 # filename format
 _FN_SUFFIX = "_parser"

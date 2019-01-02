@@ -7,9 +7,17 @@ import csv
 import json
 import random
 import re
+from pandas import DataFrame
+from typing import Callable, Dict, List, Union
 
 class Transducer():
-    def __init__(self, transducers_needed, transducers_available_dir=os.path.dirname(default_dir.__file__)):
+    '''Class that creates transducers in a variety of formats.
+
+    Args:
+        :param list[dict] transducers_needed: A list of dicts containing a source key (str), target key (str) and list of transducer functions (either lambda functions or transducer names or paths)
+        :param str transducers_available_dir: Path to directory containing transducers
+    '''
+    def __init__(self, transducers_needed: List[Dict[str, Union[str, List[str]]]], transducers_available_dir=os.path.dirname(default_dir.__file__)):
         self.transducers_needed = transducers_needed
         csv_files = os.path.join(transducers_available_dir, "*.csv")
         json_files = os.path.join(transducers_available_dir, "*.json")
@@ -24,7 +32,10 @@ class Transducer():
         else:
             raise TransducerNotFoundError(t_name_or_path)
         
-    def return_transducer_name(self, t_name_or_path):
+    def return_transducer_name(self, t_name_or_path: str):
+        '''Check if transducer is in self.available_transducers or if path exists, otherwise raise error.
+
+        '''
         if t_name_or_path in self.available_transducers:
             return t_name_or_path
         elif os.path.exists(t_name_or_path):
@@ -33,7 +44,7 @@ class Transducer():
         else:
             raise TransducerNotFoundError(t_name_or_path)
 
-    def getCorrespondences(self, t_name_or_path):
+    def getCorrespondences(self, t_name_or_path: str) -> List[Dict[str, str]]:
         """ Get all correspondences for transducer
 
         :param t_name_or_path: <string> path to transducer or default transducer
@@ -69,13 +80,15 @@ class Transducer():
         cors.sort(key=lambda x: len(x['from']), reverse=True)
         return cors
 
-    def createTransducerFunction(self, t_name_or_path):
+    def createTransducerFunction(self, t_name_or_path: str) -> Callable[[str], str]:
         """ Creates function based on transducer
 
         :param t_name_or_path: <string> path to transducer or default transducer
         """
         cors = self.getCorrespondences(t_name_or_path)
         def transduce(to_parse):
+            '''String to transduce
+            '''
             for cor in cors:
                 if "temp" in cor:
                     to_parse = re.sub(cor["from"], cor["temp"], to_parse)
@@ -90,14 +103,26 @@ class Transducer():
             return to_parse
         return transduce
     
-    def load_composite(self, t_name_or_path):
+    def load_composite(self, t_name_or_path: str) -> Union[list, dict]:
+        '''Load composite transducer from path or name
+        
+        Args: 
+            :param str t_name_or_path: name of transducer or path to transducer.
+        '''
         t_path = self.return_transducer_path(t_name_or_path)
         fns = []
         with open(t_path, encoding='utf8') as f:
             composite = json.load(f)
             return composite
 
-    def apply_to_data_frame(self, df):
+    def apply_to_data_frame(self, df: DataFrame) -> DataFrame:
+        '''Apply all transducers in self.transducers_needed to df.
+
+        **EVAL**
+
+        Args:
+            :param DataFrame df: DataFrame to have data transduced
+        '''
         for transducer in self.transducers_needed:
             for function in transducer['functions']:
                 source = transducer['source']
@@ -116,7 +141,12 @@ class Transducer():
                     df[transducer['target']] = df[source].apply(fn)
         return df
     
-    def return_js_template(self, t_name_or_path):
+    def return_js_template(self, t_name_or_path: str) -> str:
+        '''Given a transducer, create JavaScript string of that transducer.
+
+        Args: 
+            :param str t_name_or_path: name of transducer or path to transducer.
+        '''
         name = self.return_transducer_name(t_name_or_path)
 
         transducer_js_template = '''\n\nmtd.transducers["{name}"] = (function() {{

@@ -1,8 +1,11 @@
 import re
+from pandas import DataFrame
 
 class ArbSorter(object):
     """
         Sort entries based on alphabet
+        Args:
+            :param list[str] order: The order to sort by.
     """
     def __init__(self, order):
         split_order = sorted(order, key=len, reverse=True)
@@ -34,7 +37,13 @@ class ArbSorter(object):
             sorted_list.append(item)
         return sorted_list
     
-    def add_to_data_frame(self, df, sort_key):
+    def add_to_data_frame(self, df: DataFrame, sort_key: str) -> DataFrame:
+        '''Add "sorting_form" to DataFrame.
+
+        Args:
+            :param DataFrame df: Pandas DataFrame to add sorting form to
+            :param str sort_key: DataFrame key to sort based on
+        '''
         df['sorting_form'] = df[sort_key].apply(lambda x: self.word_as_values(x))
         return df.sort_values(by=['sorting_form'])
         

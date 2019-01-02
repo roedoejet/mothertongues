@@ -2,7 +2,9 @@
 *.egg-info
 /dist
 mtd/build
+/build
 .DS_Store
 .vscode
 __pycache__
 mtd/languages/*/gsheet/*.json
+.mypy_cache

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Mother Tongues</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+
+    <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+    <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="../../dist/images/favicon.png">
+
+</head>
+
+<body>
+
+    <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+      <div class="section description">
+        <div class="container">
+            <h3 class="section-heading">Welcome to the MTD Validator!</h3>
+            <div class="row">
+                <p>Use this tool to validate your language schema files.</p>
+                <textarea id="input">
+    
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://unpkg.com/rxjs@6.3.3/bundles/rxjs.umd.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/ajv/6.6.1/ajv.min.js'></script>
+    <script>
+    var config_schema = {
+    "type": "object",
+    "properties": {
+        "config": {
+            "type": "object",
+            "properties": {
+                "L1": {"type": "string"},
+                "L2": {"type": "string"},
+                "optional_field_name": {"type": "string"},
+                "alphabet": {
+                        "oneOf": [
+                        {"type": "string"},
+                        {"type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }]
+                },
+                "credits": {"type": "array",
+                       "items": {
+                           "type": "object",
+                           "properties": {
+                               "role": {"type": "string"},
+                               "name": {"type": "string"}
+                           }
+                       }}
+            },
+            "required": ["L1", "L2"]
+        },
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "manifest": {
+                        "oneOf": [
+                        {"type": "string"},
+                        {"type": "object"}]
+                    },
+                    "resource": {
+                        "oneOf": [
+                            {"type": "string"},
+                            {"type": "object"}]}
+                },
+                "required": ["manifest", "resource"]
+            }
+        },
+        "adhoc_vars": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "github_credentials_path": {"type": "string"}
+    },
+    "required": ["config", "data"]
+}
+    var manifest_schema = {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {
+        "audio": {
+                "type": "object",
+                "properties": {
+                    "speaker": {"type": "string"},
+                    "filename": {"type": "string"}
+                },
+                "required": ["filename"]
+            }
+    },
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "display": {"type": "string"},
+        "location": {"type": "string"},
+        "skipheader": {"type": "boolean"},
+        "compare": {"type": "string"},
+        "sorting": {"type": "string"},
+        "transducers": {"type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "source": {"type": "string"},
+                                "target": {"type": "string"},
+                                "functions": {"type": "array",
+                                              "items": {
+                                                  "type": "string"
+                                              }}
+                            },
+                            "required": ["source", "target", "functions"]
+                            }
+                        },
+        "targets": {
+            "type": "object",
+            "properties": {
+                "word": {"type": "string"},
+                "definition": {"type": "string"},
+                "entryID": {"type": "string"},
+                "optional": {"type": "array",
+                             "items": {
+                                 "type": "object"
+                             }},
+                "theme": {"type": "string"},
+                "secondary_theme": {"type": "string"},
+                "audio": {"type": "array",
+                          "items": {
+                              "$ref": "#/definitions/audio"
+                          }},
+                "definition_audio": {"type": "array",
+                          "items": {
+                                "$ref": "#/definitions/audio"
+                          }},
+                "example_sentence": {"type": "array",
+                            "items": {
+                                "type": "string"
+                            }},
+                "example_sentence_definition": {"type": "array",
+                            "items": {
+                                "type": "string"
+                            }},
+                "example_sentence_audio": {"type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/audio"
+                                }
+                            }}, 
+                "example_sentence_definition_audio": {"type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/audio"
+                                }
+                            }},
+                "img": {"type": "string"},
+                "gsheet_credentials_path": {"type": "string"}
+            },
+            "required": ["word", "definition"]
+        }
+    },
+    "required": ["name", "sorting", "targets"]
+}
+    var starter = {
+    "config": {
+        "L1": "Mohegan",
+        "L2": "english",
+        "optional_field_title": "Optional Field",
+        "alphabet": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g"
+        ],
+        "credits": [
+            {
+                "role": "funding",
+                "name": 'test'
+            }
+        ]
+    },
+    "data": [
+        {
+            "manifest": "/Users/pinea/mothertongues/mtd/languages/mohegan/manifest.json",
+            "resource": "/Users/pinea/mothertongues/mtd/languages/mohegan/data.json"
+        }
+    ],
+    "adhoc_vars": [
+        {
+            "theme_hierarchy": true
+        }
+    ]
+}
+    var data = JSON.stringify(starter, undefined, 4)
+    document.getElementById('input').innerHTML = data
+    {# var Ajv = require('ajv'); #}
+    var ajv = new Ajv();
+    var validate = ajv.compile(schema);
+    var valid = validate(starter);
+    if (!valid) console.log(validate.errors);
+    </script>
+    <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>

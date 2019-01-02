@@ -9,6 +9,7 @@
     <title>Schema validation &#8212; Mother Tongues  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
@@ -34,7 +35,7 @@
           <div class="body" role="main">
             
   <div class="section" id="schema-validation">
-<h1>Schema validation<a class="headerlink" href="#schema-validation" title="Permalink to this headline">¶</a></h1>
+<span id="validation"></span><h1>Schema validation<a class="headerlink" href="#schema-validation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="mtd-language-configuration-file">
 <h2>MTD Language Configuration file<a class="headerlink" href="#mtd-language-configuration-file" title="Permalink to this headline">¶</a></h2>
 <p>Every language must have a configuration file, and it must be validated against the following schema.</p>
@@ -144,7 +145,7 @@
 <td>type</td>
 <td colspan="2"><em>string</em></td>
 </tr>
-<tr class="row-even"><td rowspan="6"><ul class="first last simple">
+<tr class="row-even"><td rowspan="8"><ul class="first last simple">
 <li><strong>data</strong></li>
 </ul>
 </td>
@@ -153,7 +154,7 @@
 </tr>
 <tr class="row-odd"><td colspan="6">items</td>
 </tr>
-<tr class="row-even"><td rowspan="4"><ul class="first last simple">
+<tr class="row-even"><td rowspan="6"><ul class="first last simple">
 <li></li>
 </ul>
 </td>
@@ -162,19 +163,43 @@
 </tr>
 <tr class="row-odd"><td colspan="5">properties</td>
 </tr>
-<tr class="row-even"><td><ul class="first last simple">
-<li><strong>manifest_path</strong></li>
+<tr class="row-even"><td rowspan="2"><ul class="first last simple">
+<li><strong>manifest</strong></li>
+</ul>
+</td>
+<td rowspan="2">oneOf</td>
+<td><ul class="first last simple">
+<li></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>string</em></td>
+<td><em>string</em></td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
-<li><strong>resource_path</strong></li>
+<li></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>string</em></td>
+<td><em>object</em></td>
+</tr>
+<tr class="row-even"><td rowspan="2"><ul class="first last simple">
+<li><strong>resource</strong></li>
+</ul>
+</td>
+<td rowspan="2">oneOf</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td><em>object</em></td>
 </tr>
 <tr class="row-even"><td rowspan="3"><ul class="first last simple">
 <li>adhoc_vars</li>
@@ -200,80 +225,104 @@
 <p>Every data resource must have a manifest, and it must be validating against the following schema.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>type</td>
-<td colspan="4"><em>object</em></td>
+<td colspan="5"><em>object</em></td>
 </tr>
-<tr class="row-even"><td colspan="5">properties</td>
+<tr class="row-even"><td colspan="6">properties</td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li><strong>name</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>string</em></td>
+<td colspan="4"><em>string</em></td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li>display</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>string</em></td>
+<td colspan="4"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li>location</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>string</em></td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li>skipheader</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="4"><em>boolean</em></td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li>compare</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>string</em></td>
+<td colspan="4"><em>string</em></td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li><strong>sorting</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>string</em></td>
+<td colspan="4"><em>string</em></td>
 </tr>
-<tr class="row-odd"><td rowspan="7"><ul class="first last simple">
+<tr class="row-odd"><td rowspan="9"><ul class="first last simple">
 <li>transducers</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>array</em></td>
+<td colspan="4"><em>array</em></td>
 </tr>
-<tr class="row-even"><td colspan="4">items</td>
+<tr class="row-even"><td colspan="5">items</td>
 </tr>
-<tr class="row-odd"><td rowspan="5"><ul class="first last simple">
+<tr class="row-odd"><td rowspan="7"><ul class="first last simple">
 <li></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>object</em></td>
+<td colspan="3"><em>object</em></td>
 </tr>
-<tr class="row-even"><td colspan="3">properties</td>
+<tr class="row-even"><td colspan="4">properties</td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li><strong>source</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td><em>string</em></td>
+<td colspan="2"><em>string</em></td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li><strong>target</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td><em>string</em></td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li><strong>functions</strong></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="3">items</td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
-<li><strong>function</strong></li>
+<li></li>
 </ul>
 </td>
 <td>type</td>
@@ -284,81 +333,161 @@
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>object</em></td>
+<td colspan="4"><em>object</em></td>
 </tr>
-<tr class="row-odd"><td colspan="4">properties</td>
+<tr class="row-odd"><td colspan="5">properties</td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li><strong>word</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li><strong>definition</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li>entryID</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-odd"><td rowspan="3"><ul class="first last simple">
 <li>optional</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>array</em></td>
+<td colspan="3"><em>array</em></td>
 </tr>
-<tr class="row-even"><td colspan="3">items</td>
+<tr class="row-even"><td colspan="4">items</td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li></li>
 </ul>
 </td>
 <td>type</td>
-<td><em>object</em></td>
+<td colspan="2"><em>object</em></td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li>theme</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li>secondary_theme</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-even"><td rowspan="3"><ul class="first last simple">
 <li>audio</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>array</em></td>
+<td colspan="3"><em>array</em></td>
 </tr>
-<tr class="row-odd"><td colspan="3">items</td>
+<tr class="row-odd"><td colspan="4">items</td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li></li>
 </ul>
 </td>
-<td colspan="2"><span class="xref std std-ref">#/definitions/audio</span></td>
+<td colspan="3"><span class="xref std std-ref">#/definitions/audio</span></td>
 </tr>
 <tr class="row-odd"><td rowspan="3"><ul class="first last simple">
 <li>definition_audio</li>
 </ul>
 </td>
 <td>type</td>
+<td colspan="3"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="4">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td colspan="3"><span class="xref std std-ref">#/definitions/audio</span></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="first last simple">
+<li>example_sentence</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="4">items</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li>example_sentence_definition</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="4">items</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>string</em></td>
+</tr>
+<tr class="row-even"><td rowspan="5"><ul class="first last simple">
+<li>example_sentence_audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="4">items</td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="2"><em>array</em></td>
+</tr>
+<tr class="row-odd"><td colspan="3">items</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td colspan="2"><span class="xref std std-ref">#/definitions/audio</span></td>
+</tr>
+<tr class="row-odd"><td rowspan="5"><ul class="first last simple">
+<li>example_sentence_definition_audio</li>
+</ul>
+</td>
+<td>type</td>
+<td colspan="3"><em>array</em></td>
+</tr>
+<tr class="row-even"><td colspan="4">items</td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+<td>type</td>
 <td colspan="2"><em>array</em></td>
 </tr>
 <tr class="row-even"><td colspan="3">items</td>
@@ -369,124 +498,44 @@
 </td>
 <td colspan="2"><span class="xref std std-ref">#/definitions/audio</span></td>
 </tr>
-<tr class="row-even"><td rowspan="3"><ul class="first last simple">
-<li>example_sentence</li>
-</ul>
-</td>
-<td>type</td>
-<td colspan="2"><em>array</em></td>
-</tr>
-<tr class="row-odd"><td colspan="3">items</td>
-</tr>
-<tr class="row-even"><td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td>type</td>
-<td><em>string</em></td>
-</tr>
-<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
-<li>example_sentence_definition</li>
-</ul>
-</td>
-<td>type</td>
-<td colspan="2"><em>array</em></td>
-</tr>
-<tr class="row-even"><td colspan="3">items</td>
-</tr>
-<tr class="row-odd"><td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td>type</td>
-<td><em>string</em></td>
-</tr>
-<tr class="row-even"><td rowspan="5"><ul class="first last simple">
-<li>example_sentence_audio</li>
-</ul>
-</td>
-<td>type</td>
-<td colspan="2"><em>array</em></td>
-</tr>
-<tr class="row-odd"><td colspan="3">items</td>
-</tr>
-<tr class="row-even"><td rowspan="3"><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td>type</td>
-<td><em>array</em></td>
-</tr>
-<tr class="row-odd"><td colspan="2">items</td>
-</tr>
-<tr class="row-even"><td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><span class="xref std std-ref">#/definitions/audio</span></td>
-</tr>
-<tr class="row-odd"><td rowspan="5"><ul class="first last simple">
-<li>example_sentence_definition_audio</li>
-</ul>
-</td>
-<td>type</td>
-<td colspan="2"><em>array</em></td>
-</tr>
-<tr class="row-even"><td colspan="3">items</td>
-</tr>
-<tr class="row-odd"><td rowspan="3"><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td>type</td>
-<td><em>array</em></td>
-</tr>
-<tr class="row-even"><td colspan="2">items</td>
-</tr>
-<tr class="row-odd"><td><ul class="first last simple">
-<li></li>
-</ul>
-</td>
-<td><span class="xref std std-ref">#/definitions/audio</span></td>
-</tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li>img</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li>gsheet_credentials_path</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
-<tr class="row-even"><td colspan="5">definitions</td>
+<tr class="row-even"><td colspan="6">definitions</td>
 </tr>
 <tr class="row-odd"><td rowspan="4"><ul class="first last simple">
 <li>audio</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="3"><em>object</em></td>
+<td colspan="4"><em>object</em></td>
 </tr>
-<tr class="row-even"><td colspan="4">properties</td>
+<tr class="row-even"><td colspan="5">properties</td>
 </tr>
 <tr class="row-odd"><td><ul class="first last simple">
 <li>speaker</li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 <tr class="row-even"><td><ul class="first last simple">
 <li><strong>filename</strong></li>
 </ul>
 </td>
 <td>type</td>
-<td colspan="2"><em>string</em></td>
+<td colspan="3"><em>string</em></td>
 </tr>
 </tbody>
 </table>
@@ -500,6 +549,9 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_no_text.png" alt="Logo"/>
+            </a></p>
 <h1 class="logo"><a href="index.html">Mother Tongues</a></h1>
 
 
@@ -513,6 +565,7 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
