@@ -45,11 +45,11 @@ class Languages(Resource):
                 for dnry in self.dictionaries:
                     if dnry.name in args['name']:
                         if "only-data" in args and args['only-data']:
-                            return jsonify(dnry.return_formatted_data('json'))
+                            return jsonify(dnry.return_formatted_data('obj'))
                         elif "only-config" in args and args['only-config']:
-                            return jsonify(dnry.return_formatted_config('json'))
+                            return jsonify(dnry.return_formatted_config('obj'))
                         else:
-                            return jsonify({"config": dnry.return_formatted_config('json'), "data": dnry.return_formatted_data('json')})
+                            return jsonify({"config": dnry.return_formatted_config('obj'), "data": dnry.return_formatted_data('obj')})
                     else:
                         abort(404)
             else:

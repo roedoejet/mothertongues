@@ -10,13 +10,14 @@ In addition, you may run the ``mothertongues`` Flask API/Web application with th
 -------------
 
 Use this to see what languages are available at a particular path. For example, ``mtd available .``
+
 .. autofunction:: mtd.cli.available
 
 -prepare
 -----------
 
-Use this to prepare files to build website or API. You can point it either to a file or diretory
-For example, ``mtd prepare germanic_languages.txt`` or ``mtd_prepare .``
+Use this to prepare files to build website or API. You can point it either to a file or directory
+For example, ``mtd prepare your_language_config_file.json`` or ``mtd_prepare .`` 
 
 .. autofunction:: mtd.cli.prepare
 
@@ -26,13 +27,13 @@ For example, ``mtd prepare germanic_languages.txt`` or ``mtd_prepare .``
 
 Use this to export dictionary or data to a particular format.
 
-For example, ``mtd export germanic_languages.txt raw-xlsx output.xlsx`` would export every language in a file called germanic_languages.txt as an xlsx file called output.xlsx.
+For example, ``mtd export your_language_config_file.json raw-xlsx output.xlsx`` would export the dictionary defined in a file called your_language_config_file.json as an xlsx file called output.xlsx.
 
-``mtd export germanic_languages.txt web output_dir`` would export all files to a directory called output_dir.
+``mtd export your_language_config_file.json web output_dir`` would export the dictionary defined in your_language_config_file.json to a directory called output_dir.
 
-Export types prefixed with raw just export raw data from the language resources.
-Exporting to js/json will create both a config and dict_cached file needed for MTD front ends.
-Exporting to web will export a frozen website version 
+- Export types prefixed with raw just export raw data from the language resources.
+- Exporting to js/json will create both a config and dict_cached file needed for MTD front ends.
+- Exporting to web will export a frozen website version 
 
 .. note:: API will not work as static site.
 

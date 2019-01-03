@@ -43,3 +43,34 @@ or build with Python:
     app.run()
 
 
+Finally, export your dictionaries to JavaScript to be used with an MTD frontend (See :ref:`web` or :ref:`mobile`) using either the command line:
+
+.. code-block:: bash
+
+    mothertongues export <path_to_language_configuration> js <output_dir>
+
+Or Python:
+
+.. code-block:: python
+
+    config_js = dictionary.return_formatted_config(form='js')
+    
+    with open('config.js', 'w', encoding='utf8') as f:
+        f.write(config_js)
+
+    dict_cached_js = dictionary.return_formatted_data(form='js')
+    
+    with open('dict_cached.js', 'w', encoding='utf8') as f:
+        f.write(dict_cached_js)
+
+Or freeze your Dictionaries as a static site:
+
+.. code-block:: bash
+
+    mothertongues export <path_to_language_configuration> web <output_dir>
+
+.. note:: API will not work as static site.
+
+
+
+
