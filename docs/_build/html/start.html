@@ -13,7 +13,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" />
@@ -40,7 +40,7 @@
 some of the motivations behind language revitalization, see <a class="reference external" href="http://oxfordre.com/linguistics/view/10.1093/acrefore/9780199384655.001.0001/acrefore-9780199384655-e-8">this chapter</a> of the Oxford Research Encyclopedia of Linguistics.</p>
 <p>MTD is unique in a number of ways:</p>
 <ol class="arabic simple">
-<li>Approximate search comes out of the box. Approximate search isn’t just a <em>nice</em> feature for dictionaries of endangered languages - it’s a requirement. Often, it’s learners of languages that want to use dictionaries the most, and if your dictionary doesn’t allow approximate search, beginners might have a hard time accessing entries in the dictionary. See <a class="reference external" href="http://roedoejet.github.io/cv/static/cv/pdfs/computel.pdf">this paper</a> for further discussion.</li>
+<li>Approximate search comes out of the box. Approximate search isn’t just a <em>nice</em> feature for dictionaries of endangered languages - it’s usually a requirement. Often, it’s learners of languages that want to use dictionaries the most, and if your dictionary doesn’t allow approximate search, beginners might have a hard time accessing entries in the dictionary. See <a class="reference external" href="http://roedoejet.github.io/cv/static/cv/pdfs/computel.pdf">this paper</a> for further discussion.</li>
 <li>Free &amp; open source. MTD is licensed by AGPL 3.0.</li>
 <li>Multiple platforms. MTD has a number of front ends that it is compatible with, including for the Web, iOS and Android</li>
 </ol>
@@ -48,7 +48,7 @@ some of the motivations behind language revitalization, see <a class="reference 
 sources (spreadsheets, websites, plain text files etc…) and combine the data, sort it, index it, find duplicates, and then export it to a number of different formats. The <strong>second part</strong> is a front-end component. Each
 front end tool must accept two files, a “config.js” file which has information about the dictionary including an alphabet to sort by and the name of the language etc… and a ‘data_cached.js” file which contains all the lexical (word related)
 data for the dictionary.</p>
-<p>To make a dictionary, you need to do the following three things:</p>
+<p>To make a dictionary from your data, you need to do the following three things:</p>
 <ol class="arabic simple">
 <li>Install mothertongues, see <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installation</span></a>.</li>
 <li>Write a valid Mother Tongues Language configuration file. See <a class="reference internal" href="validation.html#validation"><span class="std std-ref">Schema validation</span></a></li>
@@ -67,6 +67,30 @@ mothertongues run
 <span class="n">dictionary</span> <span class="o">=</span> <span class="n">create_dictionary</span><span class="p">(</span><span class="o">&lt;</span><span class="n">path_to_language_configuration</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>Finally, export your dictionaries to JavaScript to be used with an MTD frontend (See <span class="xref std std-ref">web</span> or <span class="xref std std-ref">mobile</span>) using either the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mothertongues <span class="nb">export</span> &lt;path_to_language_configuration&gt; js &lt;output_dir&gt;
+</pre></div>
+</div>
+<p>Or Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_js</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">return_formatted_config</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;js&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;config.js&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">config_js</span><span class="p">)</span>
+
+<span class="n">dict_cached_js</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">return_formatted_data</span><span class="p">(</span><span class="n">form</span><span class="o">=</span><span class="s1">&#39;js&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;dict_cached.js&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dict_cached_js</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or freeze your Dictionaries as a static site:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mothertongues <span class="nb">export</span> &lt;path_to_language_configuration&gt; web &lt;output_dir&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">API will not work as static site.</p>
 </div>
 </div>
 
@@ -123,6 +147,14 @@ mothertongues run
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -131,8 +163,8 @@ mothertongues run
       &copy;2018, Aidan Pine.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/start.rst.txt"

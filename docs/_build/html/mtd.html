@@ -9,16 +9,15 @@
     <title>Python Package &#8212; Mother Tongues  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="REST API" href="api.html" />
-    <link rel="prev" title="Getting Started" href="start.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -37,18 +36,9 @@
             
   <div class="section" id="python-package">
 <h1>Python Package<a class="headerlink" href="#python-package" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="mtd.create_dictionary">
-<code class="descclassname">mtd.</code><code class="descname">create_dictionary</code><span class="sig-paren">(</span><em>language_config: Union[mtd.languages.LanguageConfig, str]</em><span class="sig-paren">)</span> &#x2192; mtd.dictionary.Dictionary<a class="headerlink" href="#mtd.create_dictionary" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a LanguageConfig (or a path to one), create a Dictionary</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="mtd.create_suite">
-<code class="descclassname">mtd.</code><code class="descname">create_suite</code><span class="sig-paren">(</span><em>language_configs: List[Union[str, mtd.languages.LanguageConfig]]</em><span class="sig-paren">)</span> &#x2192; mtd.languages.suites.LanguageSuite<a class="headerlink" href="#mtd.create_suite" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a LanguageSuite from a list of LanguageConfigs or paths to language configs</p>
-</dd></dl>
-
+<div class="section" id="dictionary">
+<h2>Dictionary<a class="headerlink" href="#dictionary" title="Permalink to this headline">¶</a></h2>
+<p>The Dictionary is the most important class in MTD. It is the object that contains all your dictionary data. It must be initialized by a valid MTD language configuration file. See <a class="reference internal" href="validation.html#validation"><span class="std std-ref">Schema validation</span></a></p>
 <dl class="class">
 <dt id="mtd.dictionary.Dictionary">
 <em class="property">class </em><code class="descclassname">mtd.dictionary.</code><code class="descname">Dictionary</code><span class="sig-paren">(</span><em>language_config: mtd.languages.LanguageConfig</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.dictionary.Dictionary" title="Permalink to this definition">¶</a></dt>
@@ -72,6 +62,12 @@ Dictionary is a subscriptable class which access the row in the dataframe at the
 </dd></dl>
 
 <dl class="function">
+<dt id="mtd.create_dictionary">
+<code class="descclassname">mtd.</code><code class="descname">create_dictionary</code><span class="sig-paren">(</span><em>language_config: Union[mtd.languages.LanguageConfig, str]</em><span class="sig-paren">)</span> &#x2192; mtd.dictionary.Dictionary<a class="headerlink" href="#mtd.create_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a LanguageConfig (or a path to one), create a Dictionary</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="mtd.dictionary.Dictionary.export_raw_data">
 <code class="descclassname">mtd.dictionary.Dictionary.</code><code class="descname">export_raw_data</code><span class="sig-paren">(</span><em>self</em>, <em>export_path: str</em>, <em>export_type: str = 'json'</em>, <em>flatten: bool = True</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#mtd.dictionary.Dictionary.export_raw_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use pandas export functions with some sensible defaults
@@ -80,6 +76,180 @@ Writes file to path.
 .. note:: Dictionary.export_raw_data exports <strong>raw</strong> data, not formatted data which is required for Mother Tongues apps</p>
 </dd></dl>
 
+</div>
+<div class="section" id="language-suite">
+<h2>Language Suite<a class="headerlink" href="#language-suite" title="Permalink to this headline">¶</a></h2>
+<p>A Language Suite is a useful class for creating a single website or API from multiple dictionaries. It is initialzed with one or more valid MTD language configuration files. See <a class="reference internal" href="validation.html#validation"><span class="std std-ref">Schema validation</span></a></p>
+<dl class="function">
+<dt id="mtd.create_suite">
+<code class="descclassname">mtd.</code><code class="descname">create_suite</code><span class="sig-paren">(</span><em>language_configs: List[Union[str, mtd.languages.LanguageConfig]]</em><span class="sig-paren">)</span> &#x2192; mtd.languages.suites.LanguageSuite<a class="headerlink" href="#mtd.create_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a LanguageSuite from a list of LanguageConfigs or paths to language configs</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="mtd.languages.suites.LanguageSuite">
+<em class="property">class </em><code class="descclassname">mtd.languages.suites.</code><code class="descname">LanguageSuite</code><span class="sig-paren">(</span><em>config_paths: List[Union[str, mtd.languages.LanguageConfig]]</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.languages.suites.LanguageSuite" title="Permalink to this definition">¶</a></dt>
+<dd><p>A collection of languages and their corresponding LanguageConfig and Dictionary objects</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>:param :list: str or LanguageConfig: A list of LanguageConfigs or paths to files needed to initialize LanguageConfigs</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="schemas">
+<h2>Schemas<a class="headerlink" href="#schemas" title="Permalink to this headline">¶</a></h2>
+<p>You must create two types of json files for each Dictionary. First, a Language configuration file. You only need one of these for each language. Second, one or more data configuration files. You need one for each source of data. For instance, if you are making a Dictionary from two different spreadsheets, you must write two different data configuration files and include them in your Language configuration file.</p>
+<div class="section" id="language-configuration-file">
+<h3>Language Configuration file<a class="headerlink" href="#language-configuration-file" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="mtd.languages.LanguageConfig">
+<em class="property">class </em><code class="descclassname">mtd.languages.</code><code class="descname">LanguageConfig</code><span class="sig-paren">(</span><em>config_object: Union[str, dict]</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.languages.LanguageConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>The configuration information necessary for making a Dictionary from a language.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param (str or dict):</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Path to a valid language config file according to MTD config schema</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="data-configuration-file">
+<h3>Data Configuration file<a class="headerlink" href="#data-configuration-file" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="mtd.parsers.ResourceManifest">
+<em class="property">class </em><code class="descclassname">mtd.parsers.</code><code class="descname">ResourceManifest</code><span class="sig-paren">(</span><em>manifest_dict_or_path: Union[str, dict]</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.parsers.ResourceManifest" title="Permalink to this definition">¶</a></dt>
+<dd><p>A manifest file for a given resource.</p>
+<p>Resources in this case are lexical resources. They can be in any format supported by MTD and the resources
+for a single Dictionary can be heterogeneous. They must be initialized by a manifest file that can be 
+validated against the MTD resource manifest json schema.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param (dict or str) manifest_dict_or_path:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Path to resource manifest or the dict itself</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="parser">
+<h2>Parser<a class="headerlink" href="#parser" title="Permalink to this headline">¶</a></h2>
+<p>MTD is able to parse data from a variety of different formats. Custom parsers can easily be created by inheriting the BaseParser class.</p>
+<dl class="class">
+<dt id="mtd.parsers.utils.BaseParser">
+<em class="property">class </em><code class="descclassname">mtd.parsers.utils.</code><code class="descname">BaseParser</code><a class="headerlink" href="#mtd.parsers.utils.BaseParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class contains common methods that are used
+between many of the format specific parsers</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mtd.parsers.parse">
+<code class="descclassname">mtd.parsers.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>manifest</em>, <em>resource_dict_or_path</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.parsers.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the right filetype parser and parse it.</p>
+<p>This function will read the file extension of your resource path determine the right parser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>manifest_dict_or_path</strong> (<em>str</em>) – an absolute path or URL to a data manifest describing a data resource, or a dict of the resource itself</li>
+<li><strong>resource_path</strong> (<em>str</em>) – an absolute path or URL to a data resource of one of the supported file types (CSV/TSV/PSV/TXT, Google Sheet, JSON), or a dict of the manifest itself</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="sorter">
+<h2>Sorter<a class="headerlink" href="#sorter" title="Permalink to this headline">¶</a></h2>
+<p>MTD sorts based on arbitrary alphabets defined in your Language Configuration file.</p>
+<dl class="class">
+<dt id="mtd.processors.sorter.ArbSorter">
+<em class="property">class </em><code class="descclassname">mtd.processors.sorter.</code><code class="descname">ArbSorter</code><span class="sig-paren">(</span><em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.processors.sorter.ArbSorter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort entries based on alphabet</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param list[str] order:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The order to sort by.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="transducer">
+<h2>Transducer<a class="headerlink" href="#transducer" title="Permalink to this headline">¶</a></h2>
+<p>MTD performs arbitrary transductions on data defined in each Data Configuration file.</p>
+<dl class="class">
+<dt id="mtd.processors.transducer.Transducer">
+<em class="property">class </em><code class="descclassname">mtd.processors.transducer.</code><code class="descname">Transducer</code><span class="sig-paren">(</span><em>transducers_needed: List[Dict[str, Union[str, List[str]]]], transducers_available_dir='/Users/pinea/mothertongues/mtd/transducers'</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.processors.transducer.Transducer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that creates transducers in a variety of formats.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param list[dict] transducers_needed:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A list of dicts containing a source key (str), target key (str) and list of transducer functions (either lambda functions or transducer names or paths)</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param str transducers_available_dir:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Path to directory containing transducers</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
+<p>MTD checks to make sure each data source has values for Word and Definition for every entry. Duplicates are also flagged.</p>
+<dl class="class">
+<dt id="mtd.processors.validator.DfValidator">
+<em class="property">class </em><code class="descclassname">mtd.processors.validator.</code><code class="descname">DfValidator</code><span class="sig-paren">(</span><em>df: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.processors.validator.DfValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate DataFrame to check for null values or duplicates etc…</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param DataFrame df:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">DataFrame to check</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -104,9 +274,18 @@ Writes file to path.
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dictionary">Dictionary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#language-suite">Language Suite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schemas">Schemas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parser">Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sorter">Sorter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transducer">Transducer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web.html">Web interface</a></li>
@@ -118,7 +297,7 @@ Writes file to path.
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="start.html" title="previous chapter">Getting Started</a></li>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
       <li>Next: <a href="api.html" title="next chapter">REST API</a></li>
   </ul></li>
 </ul>
@@ -135,6 +314,14 @@ Writes file to path.
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -143,8 +330,8 @@ Writes file to path.
       &copy;2018, Aidan Pine.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/mtd.rst.txt"

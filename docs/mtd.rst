@@ -66,4 +66,4 @@ __________
 
 MTD checks to make sure each data source has values for Word and Definition for every entry. Duplicates are also flagged.
 
-..autoclass:: mtd.processors.validator.DfValidator
+.. autoclass:: mtd.processors.validator.DfValidator

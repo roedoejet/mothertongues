@@ -2,11 +2,11 @@ import re
 from pandas import DataFrame
 
 class ArbSorter(object):
-    """
-        Sort entries based on alphabet
+    '''Sort entries based on alphabet
+    
         Args:
             :param list[str] order: The order to sort by.
-    """
+    '''
     def __init__(self, order):
         split_order = sorted(order, key=len, reverse=True)
         self.splitter = re.compile(u"(%s)" % "|".join(split_order), re.UNICODE)

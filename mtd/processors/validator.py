@@ -27,7 +27,7 @@ class DfValidator():
                 for col in notnull:
                     all_null_values.append(self.df[self.df[col].isnull()])
                 all_null_values = concat(all_null_values)
-                e = DfNullValuesValidationError(null_columns.values, all_null_values)
+                e = DfNullValuesValidationError(notnull, all_null_values)
                 logger.error(e)
                 return False
         else:

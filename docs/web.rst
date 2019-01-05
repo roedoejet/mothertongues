@@ -1,4 +1,4 @@
-.. web:
+.. _web:
 
 Web interface
 =============

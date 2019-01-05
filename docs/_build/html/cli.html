@@ -13,7 +13,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Web interface" href="web.html" />
@@ -40,13 +40,26 @@
 In addition, you may run the <code class="docutils literal notranslate"><span class="pre">mothertongues</span></code> Flask API/Web application with the <code class="docutils literal notranslate"><span class="pre">run</span></code> command. Enter <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">--help</span></code> for help.</p>
 <div class="section" id="available">
 <h2>-available<a class="headerlink" href="#available" title="Permalink to this headline">¶</a></h2>
-<p>Use this to see what languages are available at a particular path. For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">available</span> <span class="pre">.</span></code>
-.. autofunction:: mtd.cli.available</p>
+<p>Use this to see what languages are available at a particular path. For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">available</span> <span class="pre">.</span></code></p>
+<dl class="function">
+<dt id="mtd.cli.available">
+<code class="descclassname">mtd.cli.</code><code class="descname">available</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return names of all language configs at specified path</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) – path to either a txt file with paths to one or more MTD language configuration files <strong>or</strong> a directory containing MTD language configuration files</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="prepare">
 <h2>-prepare<a class="headerlink" href="#prepare" title="Permalink to this headline">¶</a></h2>
-<p>Use this to prepare files to build website or API. You can point it either to a file or diretory
-For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">prepare</span> <span class="pre">germanic_languages.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">mtd_prepare</span> <span class="pre">.</span></code></p>
+<p>Use this to prepare files to build website or API. You can point it either to a file or directory
+For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">prepare</span> <span class="pre">your_language_config_file.json</span></code> or <code class="docutils literal notranslate"><span class="pre">mtd_prepare</span> <span class="pre">.</span></code></p>
 <dl class="function">
 <dt id="mtd.cli.prepare">
 <code class="descclassname">mtd.cli.</code><code class="descname">prepare</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mtd.cli.prepare" title="Permalink to this definition">¶</a></dt>
@@ -65,11 +78,13 @@ For example, <code class="docutils literal notranslate"><span class="pre">mtd</s
 <div class="section" id="export">
 <h2>-export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h2>
 <p>Use this to export dictionary or data to a particular format.</p>
-<p>For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">export</span> <span class="pre">germanic_languages.txt</span> <span class="pre">raw-xlsx</span> <span class="pre">output.xlsx</span></code> would export every language in a file called germanic_languages.txt as an xlsx file called output.xlsx.</p>
-<p><code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">export</span> <span class="pre">germanic_languages.txt</span> <span class="pre">web</span> <span class="pre">output_dir</span></code> would export all files to a directory called output_dir.</p>
-<p>Export types prefixed with raw just export raw data from the language resources.
-Exporting to js/json will create both a config and dict_cached file needed for MTD front ends.
-Exporting to web will export a frozen website version</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">export</span> <span class="pre">your_language_config_file.json</span> <span class="pre">raw-xlsx</span> <span class="pre">output.xlsx</span></code> would export the dictionary defined in a file called your_language_config_file.json as an xlsx file called output.xlsx.</p>
+<p><code class="docutils literal notranslate"><span class="pre">mtd</span> <span class="pre">export</span> <span class="pre">your_language_config_file.json</span> <span class="pre">web</span> <span class="pre">output_dir</span></code> would export the dictionary defined in your_language_config_file.json to a directory called output_dir.</p>
+<ul class="simple">
+<li>Export types prefixed with raw just export raw data from the language resources.</li>
+<li>Exporting to js/json will create both a config and dict_cached file needed for MTD front ends.</li>
+<li>Exporting to web will export a frozen website version</li>
+</ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">API will not work as static site.</p>
@@ -133,8 +148,8 @@ Exporting to web will export a frozen website version</p>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mtd.html">Python Package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command line interface</a><ul>
@@ -169,6 +184,14 @@ Exporting to web will export a frozen website version</p>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -177,8 +200,8 @@ Exporting to web will export a frozen website version</p>
       &copy;2018, Aidan Pine.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/cli.rst.txt"
