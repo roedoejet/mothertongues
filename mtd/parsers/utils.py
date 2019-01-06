@@ -89,6 +89,20 @@ class BaseParser():
     def __init__(self):
         pass
 
+    def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
+        '''This recursive function "fills in" the data according to the resoruce manifest, but for data that uses xpaths or jsonpaths and not specific locations like columns or indices.
+
+        Args:
+            :param dict listof_dict: The dict containing a path to the elements to create a list from, and a path to the values
+        '''
+        listof = [convert_function(entry, path) for path in listof_dict['listof']]
+        if isinstance(listof_dict['value'], dict):
+            for el in listof:
+                el = self.fill_listof_entry_template(listof_dict['value'], entry, convert_function)
+        # if isinstance(listof_dict['value'], str):
+        else:
+            return [convert_function(el, listof_dict['value']) for el in listof]
+
     def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
         '''This recursive function "fills in" the data according to the resource manifest. It is used by all parsers.
 
@@ -100,8 +114,12 @@ class BaseParser():
         new_lemma = {}
         
         for k, v in entry_template.items():
-            
+            if "listof" == k:
+                breakpoint()
             if isinstance(v, dict):
+                if "listof" in v:
+                    #PROCESS listof
+                    breakpoint()
                 new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):
                 new_v = list()

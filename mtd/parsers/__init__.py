@@ -4,7 +4,7 @@ import glob
 import re
 import requests
 from mtd.parsers.utils import ResourceManifest
-from mtd.parsers import gsheet_parser, request_parser, dict_parser
+from mtd.parsers import request_parser, dict_parser
 from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
 from urllib.parse import urlparse
 
@@ -21,15 +21,13 @@ def parse(manifest, resource_dict_or_path):
     This function will read the file extension of your resource path determine the right parser.
 
     :param str manifest_dict_or_path: an absolute path or URL to a data manifest describing a data resource, or a dict of the resource itself
-    :param str resource_path: an absolute path or URL to a data resource of one of the supported file types (CSV/TSV/PSV/TXT, Google Sheet, JSON), or a dict of the manifest itself
+    :param str resource_path: an absolute path or URL to a data resource of one of the supported file types (CSV/TSV/PSV/TXT, JSON), or a dict of the manifest itself
     '''
     if not isinstance(manifest, ResourceManifest):
         manifest = ResourceManifest(manifest)
 
     if isinstance(resource_dict_or_path, dict):
         parser = dict_parser.Parser(manifest, resource_dict_or_path)
-    elif "gsheet_credentials_path" in manifest:
-        parser = gsheet_parser.Parser(manifest, resource_dict_or_path)
     # If resource is URL, use request parser
     elif 'http' in urlparse(resource_dict_or_path).scheme:
         parser = request_parser.Parser(manifest, resource_dict_or_path)

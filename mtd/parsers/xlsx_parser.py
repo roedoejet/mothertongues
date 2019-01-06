@@ -36,7 +36,14 @@ class Parser(BaseParser):
         '''
         for c in entry:
             if c.column == col:
-                return c.value
+                # Excel turns integers into floats, ie 1 -> 1.0 but we don't want that.
+                if isinstance(c.value, float):
+                    if c.value.is_integer():
+                        return str(int(c.value))
+                    else:
+                        return str(c.value)
+                else:
+                    return c.value
         return ''
 
     def resolve_targets(self) -> List[dict]:

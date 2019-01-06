@@ -1,0 +1,95 @@
+{
+    "name": "test_data_words",
+    "display": "word",
+    "compare": "word",
+    "sorting": "word",
+    "skipheader": true,
+    "targets": {
+        "word": "0",
+        "definition": "4",
+        "entryID": "1",
+        "optional": [
+            {
+                "Part of Speech": "2"
+            },
+            {
+                "Source": "3"
+            }
+        ],
+        "theme": "5",
+        "secondary_theme": "6",
+        "audio": [
+            {
+                "speaker": "7",
+                "filename": "8"
+            },
+            {
+                "speaker": "9",
+                "filename": "10"
+            }
+        ],
+        "definition_audio": [
+            {
+                "speaker": "11",
+                "filename": "12"
+            },
+            {
+                "speaker": "13",
+                "filename": "14"
+            }
+        ],
+        "example_sentence": [
+            "15",
+            "16"
+        ],
+        "example_sentence_definition": [
+            "17",
+            "18"
+        ],
+        "example_sentence_audio": [
+            [
+                {
+                    "speaker": "19",
+                    "filename": "20"
+                },
+                {
+                    "speaker": "21",
+                    "filename": "22"
+                }
+            ],
+            [
+                {
+                    "speaker": "23",
+                    "filename": "24"
+                },
+                {
+                    "speaker": "25",
+                    "filename": "26"
+                }
+            ]
+        ],
+        "example_sentence_definition_audio": [
+            [
+                {
+                    "speaker": "27",
+                    "filename": "28"
+                },
+                {
+                    "speaker": "29",
+                    "filename": "30"
+                }
+            ],
+            [
+                {
+                    "speaker": "31",
+                    "filename": "32"
+                },
+                {
+                    "speaker": "33",
+                    "filename": "34"
+                }
+            ]
+        ],
+        "img": "35"
+    }
+}

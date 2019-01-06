@@ -1,0 +1,66 @@
+{
+    "name": "test_data_words",
+    "display": "word",
+    "compare": "word",
+    "sorting": "word",
+    "location": ".//Lemma",
+    "skipfirstheader": true,
+    "targets": {
+        "word": "./@Value",
+        "definition": "./Sense/Definition/@Definition",
+        "entryID": "./@id",
+        "optional": [
+            {
+                "Part of Speech": "./@POS"
+            },
+            {
+                "Source": "./@Source"
+            }
+        ],
+        "theme": "./Theme/@Theme",
+        "secondary_theme": "./Theme/@Subtheme",
+        "example_sentence": {
+            "listof": "./ExampleSentence/Sentence",
+            "value": "./@value"
+        },
+        "example_sentence_definition": {
+            "listof": "./ExampleSentence/Sentence/Sense/Definition",
+            "value": "./@Definition"
+        },
+        "example_sentence_audio": {
+            "listof": "./ExampleSentence/Sentence",
+            "value": {
+                "listof": "./Audio/AudioFile",
+                "value": {
+                    "speaker": "./@speaker",
+                    "filename": ".//text()"
+                }
+            }
+        },
+        "example_sentence_definition_audio": {
+            "listof": "./ExampleSentence/Sentence",
+            "value": {
+                "listof": "./Sense/Audio/AudioFile",
+                "value": {
+                    "speaker": "./@speaker",
+                    "filename": ".//text()"
+                }
+            }
+        },
+        "audio": {
+            "listof": "./Audio/AudioFile",
+            "value": {
+                "speaker": "./@speaker",
+                "filename": ".//text()"
+            }
+        },
+        "definition_audio": {
+            "listof": "./Sense/Audio/AudioFile",
+            "value": {
+                "speaker": "./@speaker",
+                "filename": ".//text()"
+            }
+        },
+        "img": "./@IMG"
+    }
+}

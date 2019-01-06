@@ -1,27 +1,22 @@
 {
-    "name": "words",
-    "format": "csv_data",
-    "norm": "norm",
-    "display": "display_composite",
-    "underlying": "display_composite",
-    "compare": "compare_composite",
-    "message": "The command completed successfully",
-    "sorting": "sorting",
-    "transducers": [
-        {
-                "source": "forms",
-                "target": "word",
-                "function": "lambda x: x"
+    "name": "test_data_words",
+    "display": "word",
+    "compare": "word",
+    "sorting": "word",
+    "targets": {
+        "word": "/word",
+        "definition": "/definition",
+        "entryID": "/entryID",
+        "optional": [
+            {
+                "Part of Speech": "/optional/Part of Speech"
+            },
+            {
+                "Source": "/optional/Source"
             }
         ],
-    "targets": {
-        "entryID": "A",
-        "definition": "J",
-        "word": "W",
-        "audio": "AG",
-        "img": "AN",
-        "theme": "AB",
-        "secondary_theme": "Z",
-        "optional": {"Cultural Note": "F", "Part of Speech": "AC"}
+        "theme": "/theme",
+        "secondary_theme": "/secondary_theme",
+        "img": "/img"
     }
 }
