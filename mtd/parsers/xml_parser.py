@@ -25,10 +25,7 @@ class Parser(BaseParser):
         ''' Supports XPaths to elements. Location *must* be xpath to all entry elements.
             All other XPaths are relative to those entry elements.
         '''
-        if entry.xpath(f"count({xpath})") == 1.0:
-            return entry.xpath(xpath)[0]
-        else:
-            return entry.xpath(xpath)
+        return entry.xpath(xpath)
 
     def resolve_targets(self) -> List[dict]:
         word_list = []
@@ -36,42 +33,62 @@ class Parser(BaseParser):
             word_list.append(self.fill_entry_template(self.entry_template, entry, self.getValueFromXpath))
         return word_list
 
-    # def manifest_key_is_list(self, key: str, manifest: dict) -> Union[dict, list, str]:
-    #     for k, v in manifest.items():
-    #         if isinstance(v, list):
-    #             for item in v:
-    #                 if self.manifest_key_is_list(key, item):
-    #                     return True
-    #         elif isinstance(v, dict):
-    #             if self.manifest_key_is_list(key, v):
-    #                 return True
-    #         else:
-    #             if k == key:
-    #                 return isinstance(v, list) 
-    #     return False
-    
-    def return_manifest_key_type(self, key: str, manifest: dict) -> Union[dict, list, str]:
-        '''Given a key in a nested dict, return the type of the corresponding value
-        '''
-        for k, v in manifest.items():
-            if k == key:
-                return type(v)
-            elif isinstance(v, list):
-                for item in v:
-                    if self.return_manifest_key_type(key, item) is not None:
-                        return self.return_manifest_key_type(key, item)
-            elif isinstance(v, dict):
-                if type(self.manifest_key_is_list(key, v)) is not None:
-                    return self.return_manifest_key_type(key, v)
+    def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
+        '''This recursive function "fills in" the data according to the resoruce manifest, but for data that uses xpaths or jsonpaths and not specific locations like columns or indices.
 
-    # def resolve_lists(self, word_list: List) -> List[dict]:
+        Args:
+            :param dict listof_dict: The dict containing a path to the elements to create a list from, and a path to the values
+        '''
+        # return a list of elements following the path defined in listof_dict['listof']
+        listof = convert_function(entry, listof_dict['listof'])
+        # allow for nested "listof" parsing
+        if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
+            new_els = []
+            for el in listof:
+                el = self.fill_listof_entry_template(listof_dict['value'], el, convert_function)
+                new_els.append(el)
+            return new_els
+        # parse all k,v in a dict
+        elif isinstance(listof_dict['value'], dict):
+            new_els = []
+            for el in listof:
+                new_el = {}
+                for k,v in listof_dict['value'].items():
+                    new_el[k] = self.validate_type(k, convert_function(el, v))
+                new_els.append(new_el)
+            return new_els
+        # or just parse strings
+        else:
+            return [convert_function(el, listof_dict['value'])[0] for el in listof]
         
-        
-    
+    def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
+        '''This recursive function "fills in" the data according to the resource manifest. This is a slight modification from the one used by all parsers.
+
+        Args:
+            :param dict entry_template: The template for an entry. Keys are preserved, values are usually paths in the resource to data (JSONPath, XPath or Cell coordinates etc)
+            :param any entry: The actual word/entry to extract some data from. This could be a row, or json dict or any piece of nested data from the data resource.
+            :param function convert_function: A function that takes an entry and a path and returns the "filled in" object
+        '''
+        new_lemma = {}
+        for k, v in entry_template.items():
+            if isinstance(v, dict):
+                # listof syntax used for jsonpath/xpath type parsers
+                if "listof" in v:
+                    new_lemma[k] = self.fill_listof_entry_template(v, entry, convert_function)
+                else:
+                    new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
+            elif isinstance(v, list):
+                new_v = list()
+                for x in v:
+                    new_v += list(self.fill_entry_template({k: x}, entry, convert_function).values())
+                new_lemma[k] = new_v
+            else:
+                try:
+                    new_lemma[k] = self.validate_type(k, convert_function(entry, v))
+                except:
+                    breakpoint()
+        return new_lemma
+
     def parse(self) -> Dict[str, Union[dict, pd.DataFrame]]:
-        breakpoint()
         data = self.resolve_targets()
-        
-        resolved = self.resolve_lists(data)
-        # breakpoint()
         return {"manifest": self.manifest, "data": pd.DataFrame(data)}

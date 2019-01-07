@@ -19,7 +19,10 @@ loader = TestLoader()
 
 parser_tests = [
         loader.loadTestsFromTestCase(test)
-        for test in (CsvParserTest, PsvParserTest, TsvParserTest, XlsxParserTest, XmlParserTest)
+        # for test in [JsonParserTest]
+        # for test in (CsvParserTest, PsvParserTest, TsvParserTest, XlsxParserTest)
+        # for test in [XmlParserTest]
+        for test in (CsvParserTest, JsonParserTest, PsvParserTest, TsvParserTest, XlsxParserTest, XmlParserTest)
     ]
 
 processor_tests = [

@@ -5,6 +5,7 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from mtd.tests import logger
 from typing import Dict, List, Union
+from jsonpath_rw import jsonpath, parse as json_parse
 
 class ResourceManifest():
     '''A manifest file for a given resource.
@@ -89,19 +90,23 @@ class BaseParser():
     def __init__(self):
         pass
 
-    def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
-        '''This recursive function "fills in" the data according to the resoruce manifest, but for data that uses xpaths or jsonpaths and not specific locations like columns or indices.
-
-        Args:
-            :param dict listof_dict: The dict containing a path to the elements to create a list from, and a path to the values
+    def return_manifest_key_type(self, key: str, manifest: dict) -> Union[dict, list, str]:
+        '''Given a key in a nested dict, return the type of the corresponding value
         '''
-        listof = [convert_function(entry, path) for path in listof_dict['listof']]
-        if isinstance(listof_dict['value'], dict):
-            for el in listof:
-                el = self.fill_listof_entry_template(listof_dict['value'], entry, convert_function)
-        # if isinstance(listof_dict['value'], str):
-        else:
-            return [convert_function(el, listof_dict['value']) for el in listof]
+        for k, v in manifest.items():
+            if k == key:
+                if "listof" in v:
+                    return type([])
+                else:
+                    return type(v)
+            elif isinstance(v, list):
+                for item in v:
+                    if isinstance(item, dict) and self.return_manifest_key_type(key, item) is not None:
+                        return self.return_manifest_key_type(key, item)
+                return type(item)
+            elif isinstance(v, dict):
+                if type(self.return_manifest_key_type(key, v)) is not None:
+                    return self.return_manifest_key_type(key, v)
 
     def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
         '''This recursive function "fills in" the data according to the resource manifest. It is used by all parsers.
@@ -114,12 +119,7 @@ class BaseParser():
         new_lemma = {}
         
         for k, v in entry_template.items():
-            if "listof" == k:
-                breakpoint()
             if isinstance(v, dict):
-                if "listof" in v:
-                    #PROCESS listof
-                    breakpoint()
                 new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):
                 new_v = list()
@@ -128,17 +128,17 @@ class BaseParser():
                 new_lemma[k] = new_v
             else:
                 try:
-                    new_lemma[k] = convert_function(entry, v)
+                    new_lemma[k] = self.validate_type(k, convert_function(entry, v))
                 except:
                     breakpoint()
         return new_lemma
-
-    def return_list(self, d) -> list:
-        ''' if d is not list, return as list
+    
+    def validate_type(self, k, v):
+        '''Some parsers like lxml and jsonpath_rw return lists when the data manifest does not specify a list, this corrects that.
         '''
-        if isinstance(d, list):
-            return d
-        elif isinstance(d, str):
-            return [d]
+        if type(v) == list and len(v) > 0 and type(v[0]) == jsonpath.DatumInContext:
+            v = v[0].value
+        if isinstance(v, list) and len(v) == 1 and self.return_manifest_key_type(k, self.manifest.manifest) != list:
+            return v[0]
         else:
-            print("should go in log, not string or list")
+            return v

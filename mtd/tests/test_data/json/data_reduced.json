@@ -5,10 +5,6 @@
                 {
                     "speaker": "AP",
                     "filename": "ap_red.mp3"
-                },
-                {
-                    "speaker": "AR",
-                    "filename": "ar_red.mp3"
                 }
             ],
             "definition": "red",
@@ -16,58 +12,24 @@
                 {
                     "speaker": "AP",
                     "filename": "ap_red_def.mp3"
-                },
-                {
-                    "speaker": "AR",
-                    "filename": "ar_red_def.mp3"
                 }
             ],
             "entryID": "1",
             "example_sentence_1": "Har du røde øjne?",
-            "example_sentence_2": "Døde røde rødøjede rådne røgede ørreder.",
             "example_sentence_audio": [
                 [
                     {
                         "speaker": "AP",
                         "filename": "ap_sent1.mp3"
-                    },
-                    {
-                        "speaker": "AR",
-                        "filename": "ar_sent1.mp3"
-                    }
-                ],
-                [
-                    {
-                        "speaker": "AP",
-                        "filename": "ap_sent2.mp3"
-                    },
-                    {
-                        "speaker": "AR",
-                        "filename": "ar_sent2.mp3"
                     }
                 ]
             ],
             "example_sentence_definition_1": "Do you have red eyes?",
-            "example_sentence_definition_2": "Dead, red, red-eyed, rotten, smoked trout.",
             "example_sentence_definition_audio": [
                 [
                     {
                         "speaker": "AP",
                         "filename": "ap_def_sent1.mp3"
-                    },
-                    {
-                        "speaker": "AR",
-                        "filename": "ar_def_sent1.mp3"
-                    }
-                ],
-                [
-                    {
-                        "speaker": "AP",
-                        "filename": "ap_def_sent2.mp3"
-                    },
-                    {
-                        "speaker": "AR",
-                        "filename": "ar_def_sent2.mp3"
                     }
                 ]
             ],

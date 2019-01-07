@@ -31,4 +31,22 @@ SAMPLE_DATA_OBJ = [
     'word': 'rød'}
     ]
 
+SAMPLE_DATA_OBJ_REDUCED = [
+    {
+    'audio': [{'speaker': 'AP', 'filename': 'ap_red.mp3'}], 
+    'definition': 'red', 
+    'definition_audio': [{'speaker': 'AP', 'filename': 'ap_red_def.mp3'}], 
+    'entryID': '1', 
+    'example_sentence': ['Har du røde øjne?'], 
+    'example_sentence_audio': [[{'speaker': 'AP', 'filename': 'ap_sent1.mp3'}]],
+    'example_sentence_definition': ['Do you have red eyes?'], 
+    'example_sentence_definition_audio': [[{'speaker': 'AP', 'filename': 'ap_def_sent1.mp3'}]], 
+    'img': 'hund.png', 
+    'optional': [{'Part of Speech': 'adjective'}, {'Source': 'test_data'}], 
+    'secondary_theme': 'basic', 
+    'theme': 'colours', 
+    'word': 'rød'}
+    ]
+
 SAMPLE_DATA_DF = DataFrame(SAMPLE_DATA_OBJ)
+SAMPLE_DATA_DF_REDUCED = DataFrame(SAMPLE_DATA_OBJ_REDUCED)

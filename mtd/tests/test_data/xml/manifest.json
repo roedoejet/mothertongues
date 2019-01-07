@@ -4,7 +4,6 @@
     "compare": "word",
     "sorting": "word",
     "location": ".//Lemma",
-    "skipfirstheader": true,
     "targets": {
         "word": "./@Value",
         "definition": "./Sense/Definition/@Definition",
