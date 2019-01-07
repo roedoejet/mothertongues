@@ -6,6 +6,7 @@ requests
 Fabric3
 gspread
 jsonschema
+jsonpath-rw
 jsonpointer
 coloredlogs
 python-slugify
