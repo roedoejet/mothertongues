@@ -4,6 +4,7 @@
     "compare": "word",
     "sorting": "word",
     "location": "/data",
+    "file_type": "json",
     "targets": {
         "word": "word",
         "definition": "definition",

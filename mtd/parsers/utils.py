@@ -20,9 +20,19 @@ class ResourceManifest():
     def __init__(self, manifest_dict_or_path: Union[str, dict]):
         self.schema = MANIFEST_SCHEMA
         if isinstance(manifest_dict_or_path, dict):
-            self._manifest = self.validate(manifest_dict_or_path)
+            self._manifest = manifest_dict_or_path
         else:
             self._manifest = self.parse(manifest_dict_or_path)
+        self.file_type = "na"
+        if "file_type" in self._manifest:
+            self.file_type = self._manifest['file_type']
+        # List of keys not used by specific file types
+        txt_keys = ["location"]
+        json_keys = ["skipheader"]
+        xlsx_keys = []
+        xml_keys = ["skipheader"]
+        self.type_specific_keys = { "csv": txt_keys, "json": json_keys, "psv": txt_keys, "tsv": txt_keys, "xlsx": xlsx_keys, "xml": xml_keys, "na": []}
+        self.validate(self._manifest)
 
     def __iter__(self):
         yield from self._manifest.keys()
@@ -44,18 +54,25 @@ class ResourceManifest():
     def manifest(self, value):
         self._manifest = self.validate(value)
 
-    def validate(self, m):
+    def validate(self, manifest):
         '''Validate manifest json against manifest json schema.
         '''
         try:
-            validate(m, self.schema)
+            schema_targets = self.schema['properties']['targets']['properties'].keys()
+            manifest_targets = manifest['targets'].keys()
+            schema_properties = self.schema['properties'].keys()
+            manifest_properties = manifest.keys()
+            self.warn_extra_properties_in(schema_properties, manifest_properties)
+            self.warn_extra_properties_in(schema_targets, manifest_targets)
+            validate(manifest, self.schema)
         except ValidationError as e:
             raise ValidationError(f"Attempted to validate the manifest file, but got {e}. Please refer to the Mother Tongues data manifest schema.")
 
     def warn_extra_properties_in(self, props, schema_props):
         for t in props:
             if not t in schema_props:
-                logger.info(f"'{t}' is declared in the default schema but is not part of your manifest. You may not have full functionality in your Mother Tongues Dictionary.")
+                if self.file_type and self.file_type in self.type_specific_keys and not t in self.type_specific_keys[self.file_type]:
+                    logger.info(f"'{t}' is declared in the default schema but is not part of your manifest. You may not have full functionality in your Mother Tongues Dictionary.")
         for t in schema_props:
             if not t in props:
                 logger.info(f"'{t}' is declared in your manifest but is not part of the default schema. You may need to modify your Mother Tongues Dictionary to use this data.")
@@ -71,16 +88,7 @@ class ResourceManifest():
                     manifest = json.load(f)
             except ValueError:
                 raise ValidationError(f"The manifest JSON file at {manifest_path} seems to be malformed. Please run it through a JSON validator")
-        
-        self.validate(manifest)
 
-        schema_targets = self.schema['properties']['targets']['properties'].keys()
-        manifest_targets = manifest['targets'].keys()
-        schema_properties = self.schema['properties'].keys()
-        manifest_properties = manifest.keys()
-
-        self.warn_extra_properties_in(schema_properties, manifest_properties)
-        self.warn_extra_properties_in(schema_targets, manifest_targets)
         return manifest
 
 class BaseParser():

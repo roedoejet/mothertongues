@@ -4,6 +4,7 @@
     "compare": "word",
     "sorting": "word",
     "location": ".//Lemma",
+    "file_type": "xml",
     "targets": {
         "word": "./@Value",
         "definition": "./Sense/Definition/@Definition",

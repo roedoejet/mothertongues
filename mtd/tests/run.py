@@ -9,9 +9,8 @@ from mtd.tests.test_psv_parser import PsvParserTest
 from mtd.tests.test_tsv_parser import TsvParserTest
 from mtd.tests.test_xlsx_parser import XlsxParserTest
 from mtd.tests.test_xml_parser import XmlParserTest
-
 ## Processors
-
+from mtd.tests.test_sorter import SorterTest
 ## Integration
 from mtd.tests import logger, __file__ as testf
 
@@ -27,7 +26,7 @@ parser_tests = [
 
 processor_tests = [
     loader.loadTestsFromTestCase(test)
-    for test in ()
+    for test in [SorterTest]
 ]
 
 fst_dev_tests = []
@@ -44,4 +43,4 @@ def run_tests(suite):
     runner.run(suite)
 
 if __name__ == "__main__":
-    run_tests('parsers')
+    run_tests('processors')

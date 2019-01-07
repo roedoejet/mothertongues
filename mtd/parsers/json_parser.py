@@ -100,7 +100,9 @@ class Parser(BaseParser):
             elif isinstance(v, list):
                 new_v = list()
                 for x in v:
-                    new_v += list(self.fill_entry_template({k: x}, entry, convert_function).values())
+                    value = list(self.fill_entry_template({k: x}, entry, convert_function).values())
+                    if value[0]:
+                        new_v += value
                 new_lemma[k] = new_v
             else:
                 try:

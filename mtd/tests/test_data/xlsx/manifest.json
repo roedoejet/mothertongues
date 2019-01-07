@@ -4,6 +4,8 @@
     "compare": "word",
     "sorting": "word",
     "skipheader": true,
+    "location": "data",
+    "file_type": "xlsx",
     "targets": {
         "word": "A",
         "definition": "E",

@@ -36,6 +36,9 @@
     },
     "type": "object",
     "properties": {
+        "file_type": {
+            "enum": ["csv", "json", "psv", "tsv", "xlsx", "xml"]
+        },
         "name": {
             "type": "string"
         },

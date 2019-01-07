@@ -4,6 +4,7 @@
     "compare": "word",
     "sorting": "word",
     "skipheader": true,
+    "file_type": "tsv",
     "targets": {
         "word": "0",
         "definition": "4",

@@ -3,6 +3,7 @@
     "display": "word",
     "compare": "word",
     "sorting": "word",
+    "file_type": "tsv",
     "skipheader": true,
     "targets": {
         "word": "0",

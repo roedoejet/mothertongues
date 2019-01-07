@@ -33,9 +33,9 @@ class ArbSorter(object):
         """Return sorted list based on item's (word's) sorting_form"""
         sorted_list = []
         for item in item_list:
-            item["sorting_form"] = self.word_as_values(item[target][0])
+            item["sorting_form"] = self.word_as_values(item[target])
             sorted_list.append(item)
-        return sorted_list
+        return sorted(sorted_list, key=lambda x: x['sorting_form'])
     
     def add_to_data_frame(self, df: DataFrame, sort_key: str) -> DataFrame:
         '''Add "sorting_form" to DataFrame.
