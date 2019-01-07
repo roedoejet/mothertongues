@@ -1,6 +1,6 @@
 # Welcome to Mother Tongues Dictionaries
 
-This repo is under construction and will could change drastically in the coming months with breaking changes.
+This repo is under construction and could change drastically in the coming months with breaking changes.
 
 [![Coverage Status](https://coveralls.io/repos/github/roedoejet/mothertongues/badge.svg?branch=master)](https://coveralls.io/github/roedoejet/mothertongues?branch=master)
 
