@@ -36,6 +36,8 @@ def run_tests(suite):
         suite = TestSuite(parser_tests)
     elif suite == 'processors':
         suite = TestSuite(processor_tests)
+    elif suite == 'dev':
+        suite = TestSuite(parser_tests + processor_tests)
     elif suite == 'prod':
         suite = loader.discover(os.path.dirname(testf))
 
@@ -43,4 +45,4 @@ def run_tests(suite):
     runner.run(suite)
 
 if __name__ == "__main__":
-    run_tests('processors')
+    run_tests('dev')
