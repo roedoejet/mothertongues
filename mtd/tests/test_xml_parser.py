@@ -1,5 +1,5 @@
-from test_data import xml
-from . import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ, SAMPLE_DATA_OBJ_REDUCED, SAMPLE_DATA_DF_REDUCED
+from mtd.tests.test_data import xml
+from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ, SAMPLE_DATA_OBJ_REDUCED, SAMPLE_DATA_DF_REDUCED
 import os
 from unittest import TestCase
 from mtd.parsers import parse

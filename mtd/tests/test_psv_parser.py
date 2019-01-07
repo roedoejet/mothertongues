@@ -1,5 +1,5 @@
-from test_data import psv as psv_path
-from . import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ
+from mtd.tests.test_data import psv as psv_path
+from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ
 import os
 from unittest import TestCase
 from mtd.parsers import parse

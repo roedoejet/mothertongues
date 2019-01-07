@@ -1,6 +1,6 @@
-from test_data import json as json_path
+from mtd.tests.test_data import json as json_path
 import json
-from . import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ, SAMPLE_DATA_DF_REDUCED, SAMPLE_DATA_OBJ_REDUCED, SAMPLE_DATA_DF_REDUCED_EMPTY, SAMPLE_DATA_OBJ_REDUCED_EMPTY
+from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ, SAMPLE_DATA_DF_REDUCED, SAMPLE_DATA_OBJ_REDUCED, SAMPLE_DATA_DF_REDUCED_EMPTY, SAMPLE_DATA_OBJ_REDUCED_EMPTY
 import os
 from unittest import TestCase
 from mtd.parsers import parse
