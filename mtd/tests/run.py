@@ -5,6 +5,7 @@ from unittest import TestLoader, TextTestRunner, TestSuite
 from mtd.tests.test_csv_parser import CsvParserTest
 from mtd.tests.test_dict_parser import DictParserTest
 from mtd.tests.test_json_parser import JsonParserTest
+from mtd.tests.test_request_parser import RequestsParserTest
 from mtd.tests.test_psv_parser import PsvParserTest
 from mtd.tests.test_tsv_parser import TsvParserTest
 from mtd.tests.test_xlsx_parser import XlsxParserTest
@@ -21,7 +22,7 @@ parser_tests = [
         # for test in [JsonParserTest]
         # for test in (CsvParserTest, PsvParserTest, TsvParserTest, XlsxParserTest)
         # for test in [XmlParserTest]
-        for test in (CsvParserTest, DictParserTest, JsonParserTest, PsvParserTest, TsvParserTest, XlsxParserTest, XmlParserTest)
+        for test in (CsvParserTest, DictParserTest, JsonParserTest, PsvParserTest, RequestsParserTest, TsvParserTest, XlsxParserTest, XmlParserTest)
     ]
 
 processor_tests = [

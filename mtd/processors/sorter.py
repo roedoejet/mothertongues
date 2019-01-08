@@ -2,7 +2,7 @@ import re
 from pandas import DataFrame
 
 class ArbSorter(object):
-    '''Sort entries based on alphabet
+    '''Sort entries based on alphabet. Thanks to Lingweenie: https://lingweenie.org/conlang/sort.html
     
         Args:
             :param list[str] order: The order to sort by.
