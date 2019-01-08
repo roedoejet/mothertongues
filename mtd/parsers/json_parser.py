@@ -73,11 +73,13 @@ class Parser(BaseParser):
         else:
             new_els = []
             for el in listof:
-                i = listof.index(el)
-                json_expr = json_parse(f"{el.full_path}.[{i}]")
-                new_json_expr = json_parse(f"{json_expr}.{listof_dict['value']}")
-                new_el = [match.value for match in new_json_expr.find(entry)][0]
-                new_els.append(new_el)
+                json_expr = json_parse(f"{el.full_path}")
+                items = [match.value for match in json_expr.find(entry)][0]
+                for item in items:
+                    i = items.index(item)
+                    new_json_expr = json_parse(f"{json_expr}.[{i}]")
+                    new_el = [match.value for match in new_json_expr.find(entry)][0]
+                    new_els.append(new_el)
             return new_els
 
     def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
@@ -92,7 +94,6 @@ class Parser(BaseParser):
         
         for k, v in entry_template.items():
             if isinstance(v, dict):
-                # listof syntax used for jsonpath/xpath type parsers
                 if "listof" in v:
                     new_lemma[k] = self.fill_listof_entry_template(v, entry, convert_function)
                 else:
@@ -114,7 +115,6 @@ class Parser(BaseParser):
     def parse(self) -> Dict[str, Union[dict, pd.DataFrame]]:
         try:
             data = self.resolve_targets()
-            # breakpoint()
             return {"manifest": self.manifest, "data": pd.DataFrame(data)}
         except JsonPointerException as e:
             raise e

@@ -15,6 +15,7 @@ before_install:
 install:
   # Install Python dependencies
   - pip3 install -r /home/travis/build/roedoejet/mothertongues/requirements.txt
+  # Install testing requirements
   - pip3 install coverage
   - pip3 install coveralls
   # Install mtd
