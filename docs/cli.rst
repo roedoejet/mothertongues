@@ -55,7 +55,7 @@ Once you have your token, make a yml file with the following data::
 
 Then add the file to your language configuration file. See, :ref:`validation`
 
-Finally run `mtd export germanic_languages.txt github`
+Finally run ``mtd export germanic_languages.txt github``
 
 .. autofunction:: mtd.cli.export
 
