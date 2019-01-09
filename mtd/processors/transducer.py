@@ -17,7 +17,7 @@ class Transducer():
         :param list[dict] transducers_needed: A list of dicts containing a source key (str), target key (str) and list of transducer functions (either lambda functions or transducer names or paths)
         :param str transducers_available_dir: Path to directory containing transducers
     '''
-    def __init__(self, transducers_needed: List[Dict[str, Union[str, List[str]]]], transducers_available_dir=os.path.dirname(default_dir.__file__)):
+    def __init__(self, transducers_needed: List[Dict[str, Union[str, List[str]]]]=[], transducers_available_dir=os.path.dirname(default_dir.__file__)):
         self.transducers_needed = transducers_needed
         csv_files = os.path.join(transducers_available_dir, "*.csv")
         json_files = os.path.join(transducers_available_dir, "*.json")
@@ -44,7 +44,7 @@ class Transducer():
         else:
             raise TransducerNotFoundError(t_name_or_path)
 
-    def getCorrespondences(self, t_name_or_path: str) -> List[Dict[str, str]]:
+    def get_correspondences(self, t_name_or_path: str) -> List[Dict[str, str]]:
         """ Get all correspondences for transducer
 
         :param t_name_or_path: <string> path to transducer or default transducer
@@ -80,12 +80,12 @@ class Transducer():
         cors.sort(key=lambda x: len(x['from']), reverse=True)
         return cors
 
-    def createTransducerFunction(self, t_name_or_path: str) -> Callable[[str], str]:
+    def create_transducer_function(self, t_name_or_path: str) -> Callable[[str], str]:
         """ Creates function based on transducer
 
         :param t_name_or_path: <string> path to transducer or default transducer
         """
-        cors = self.getCorrespondences(t_name_or_path)
+        cors = self.get_correspondences(t_name_or_path)
         def transduce(to_parse):
             '''String to transduce
             '''
@@ -103,7 +103,7 @@ class Transducer():
             return to_parse
         return transduce
     
-    def load_composite(self, t_name_or_path: str) -> Union[list, dict]:
+    def load_composite(self, t_name_or_path: str) -> List[Callable]:
         '''Load composite transducer from path or name
         
         Args: 
@@ -113,7 +113,10 @@ class Transducer():
         fns = []
         with open(t_path, encoding='utf8') as f:
             composite = json.load(f)
-            return composite
+        for t in composite:
+            fn = self.create_transducer_function(t)
+            fns.append(fn)
+        return fns
 
     def apply_to_data_frame(self, df: DataFrame) -> DataFrame:
         '''Apply all transducers in self.transducers_needed to df.
@@ -133,11 +136,11 @@ class Transducer():
                 elif "lambda" in function:
                     df[transducer['target']] = df[source].apply(eval(function))
                 elif "composite" in function:
-                    for t in self.load_composite(function):
-                        fn = self.createTransducerFunction(t)
+                    for fn in self.load_composite(function):
+                        # fn = self.create_transducer_function(t)
                         df[transducer['target']] = df[source].apply(fn)
                 else:
-                    fn = self.createTransducerFunction(function)
+                    fn = self.create_transducer_function(function)
                     df[transducer['target']] = df[source].apply(fn)
         return df
     
@@ -172,10 +175,11 @@ class Transducer():
                                     }})();'''
 
         if "composite" in t_name_or_path:
-            composite_transducers = self.load_composite(t_name_or_path)
-            return composite_js_template.format(name=name, composite_transducers=composite_transducers)
+            with open(t_name_or_path, encoding='utf8') as f:
+                composite_transducers = json.load(f)
+                return composite_js_template.format(name=name, composite_transducers=composite_transducers)
         else:
-            cors = self.getCorrespondences(t_name_or_path)
+            cors = self.get_correspondences(t_name_or_path)
             keys = sorted([cor['from'] for cor in cors], key=len, reverse=True)
             return transducer_js_template.format(name=name, cors=cors, keys=keys)
         

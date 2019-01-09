@@ -12,6 +12,7 @@ from mtd.tests.test_xlsx_parser import XlsxParserTest
 from mtd.tests.test_xml_parser import XmlParserTest
 ## Processors
 from mtd.tests.test_sorter import SorterTest
+from mtd.tests.test_transducer import TransducerTest
 ## Integration
 from mtd.tests import logger, __file__ as testf
 
@@ -27,7 +28,7 @@ parser_tests = [
 
 processor_tests = [
     loader.loadTestsFromTestCase(test)
-    for test in [SorterTest]
+    for test in (SorterTest, TransducerTest)
 ]
 
 fst_dev_tests = []
