@@ -5,8 +5,8 @@ from pandas.util.testing import assert_frame_equal
 import os
 import mtd.tests.test_data.transducers as test_transducers_path
 import mtd.transducers as transducers_path
-from mtd.exceptions import TransducerNotFoundError
-
+from mtd.exceptions import TransducerNotFoundError, TransducerSourceNotFoundError
+from js2py import eval_js
 
 class TransducerTest(TestCase):
     def setUp(self):
@@ -24,6 +24,9 @@ class TransducerTest(TestCase):
         self.assertTrue(os.path.exists(path))
         with self.assertRaises(TransducerNotFoundError):
             transducer.return_transducer_path('foobar')
+        with self.assertRaises(TransducerNotFoundError):
+            transducer.return_transducer_name(os.path.join(self.transducers_path, 'foobar.csv'))
+        
 
     def test_normal_transducer(self):
         '''Sanity check a->b transducer.
@@ -36,6 +39,7 @@ class TransducerTest(TestCase):
 
         t_path = os.path.join(self.test_transducers_path,
                               'test_transducer.csv')
+
         transducer = Transducer([{
             'source': 'word',
             'target': 'word',
@@ -46,6 +50,26 @@ class TransducerTest(TestCase):
                          transducer_fn(data[0]['word']))
         self.assertTrue(
             transduced_data_df.equals(transducer.apply_to_data_frame(data_df)))
+
+
+    def test_incorrect_source_transducer(self):
+        '''Test incorrect source specified
+        '''
+        data = [{"word": "aaa"}]
+        transduced_data = [{"word": "bbb"}]
+        data_df = DataFrame(data)
+        t_path = os.path.join(self.test_transducers_path,
+                              'test_transducer.csv')
+
+        transducer = Transducer([{
+            'source': 'foobar',
+            'target': 'word',
+            'functions': [t_path]
+        }])
+
+        transducer_fn = transducer.create_transducer_function(t_path)
+        with self.assertRaises(TransducerSourceNotFoundError):
+            transducer.apply_to_data_frame(data_df)
 
     def test_lambda_transducer(self):
         '''Transducer should allow lambda transductions.
@@ -121,6 +145,66 @@ class TransducerTest(TestCase):
                 fn = eval(fn)
                 f_in = fn(f_in)
         self.assertEqual('TESTTEST', f_in)
+
+    def test_feeding(self):
+        '''Prevent feeding. I.e. if a rules a->b and b->c exist, aba should produce bcb, not ccc
+        '''
+        data = [{"word": "aba"}]
+        transduced_data = [{"word": "bcb"}]
+
+        t_path = os.path.join(self.test_transducers_path,
+                              'test_feeding.csv')
+
+        transducer = Transducer([{
+            'source': 'word',
+            'target': 'word',
+            'functions': [t_path]
+        }])
+        transducer_fn = transducer.create_transducer_function(t_path)
+        self.assertEqual(transduced_data[0]["word"],
+                         transducer_fn(data[0]['word']))
+
+    def test_javascript_transducer(self):
+        '''Test javascript transducer
+        '''
+        data = [{"word": "aaa"}]
+        transduced_data = [{"word": "bbb"}]
+
+        t_path = os.path.join(self.test_transducers_path,
+                              'test_transducer.csv')
+
+        transducer = Transducer([{
+            'source': 'word',
+            'target': 'word',
+            'functions': [t_path]
+        }])
+
+        js = "var mtd = {'transducers': {}};"
+        js = js + transducer.return_js_template(t_path)
+        js = js + f"mtd.transducers.test_transducer('aaa');"
+        self.assertEqual(eval_js(js), transduced_data[0]['word'])
+
+    def test_javascript_composite_transducer(self):
+        pass
+        # data = [{"word": "aaba"}]
+        # transduced_data = [{"word": "bbbb"}]
+       
+        # t_path = os.path.join(self.test_transducers_path,
+        #                       'test_composite.json')
+
+        # transducer = Transducer(
+        #     transducers_needed=[{
+        #         'source': 'word',
+        #         'target': 'word',
+        #         'functions': ['test_composite']
+        #     }],
+        #     transducers_available_dir=self.test_transducers_path)
+ 
+        # js = "var mtd = {'transducers': {}};"
+        # js = js + transducer.return_js_template(t_path)
+        # js = js + f"mtd.transducers.test_transducer('aaa');"
+        # breakpoint()
+        # self.assertEqual(eval_js(js), transduced_data[0]['word'])
 
     def test_standard_transducers(self):
         '''Test MTD-supplied transducers

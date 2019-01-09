@@ -9,6 +9,7 @@ import random
 import re
 from pandas import DataFrame
 from typing import Callable, Dict, List, Union
+from collections import ChainMap
 
 class Transducer():
     '''Class that creates transducers in a variety of formats.
@@ -151,11 +152,10 @@ class Transducer():
             :param str t_name_or_path: name of transducer or path to transducer.
         '''
         name = self.return_transducer_name(t_name_or_path)
-
         transducer_js_template = '''\n\nmtd.transducers["{name}"] = (function() {{
                                         var correspondences = {cors};
                                         var keys = {keys};
-                                        var regex = new RegExp("(" + keys.join('|') + ")", 'g');
+                                        var regex = new RegExp("(" + keys.join("|") + ")", "g");
                                         return function(str) {{
                                             return str.replace(regex, function(a,b) {{
                                                 return correspondences[a];
@@ -181,5 +181,8 @@ class Transducer():
         else:
             cors = self.get_correspondences(t_name_or_path)
             keys = sorted([cor['from'] for cor in cors], key=len, reverse=True)
-            return transducer_js_template.format(name=name, cors=cors, keys=keys)
+            # js_cors = [{k:v for k,v in cor} for cor in cors]
+            js_cors = [{cor['from']: cor['to']} for cor in cors]
+            js_cors = dict(ChainMap(*js_cors)) 
+            return transducer_js_template.format(name=name, cors=js_cors, keys=keys)
         
