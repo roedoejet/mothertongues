@@ -27,13 +27,16 @@ def create_app():
 def return_configs_from_path(path):
     path = os.path.abspath(path)
     if os.path.isdir(path):
-        configs = glob.glob(os.path.join(path, '**', 'config.json')) + glob.glob(os.path.join(path, 'config.json'))
+        configs = glob.glob(os.path.join(path, '**', 'config*.json')) + glob.glob(os.path.join(path, 'config*.json'))
     elif os.path.isfile(path):
-        try:
-            configs = [LanguageConfig(path)]
-        except ValidationError:
+        if path.endswith('txt'):
             with open(path, 'r', encoding='utf8') as f:
-                configs = f.read().splitlines()
+                paths = f.read().splitlines()
+            configs = [LanguageConfig(path) for path in paths]
+        elif path.endswith('json'):
+            configs = [LanguageConfig(path)]
+        else:
+            raise UnfoundConfigErrror(path)
     else:
         raise UnfoundConfigErrror(path)
     return configs
@@ -172,7 +175,7 @@ def export(language, export_type, output):
             copy_tree(build_dir, os.path.join(output, "mtd-output"))
 
 
-@app.cli.command()
+@app.cli.command(with_appcontext=False)
 @click.argument('path', type=click.Path(exists=True))
 def available(path):
     """ Return names of all language configs at specified path

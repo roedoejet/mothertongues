@@ -3,13 +3,14 @@ from flask import jsonify, Blueprint, abort
 from flask_cors import CORS
 from mtd.static import ACTIVE
 from mtd.dictionary import Dictionary
+from slugify import slugify
 
 class Languages(Resource):
     """REST API resource that exposes available dictionaries, including formatted data and configuration files.
        Interactive documentation for the API is automatically generated and available at the route /api/docs after running `mtd run`
     """
     def __init__(self):
-        self.available = [l['config']['L1'] for l in ACTIVE]
+        self.available = [{"plain": l['config']['L1'], "slug": slugify(l['config']['L1'])} for l in ACTIVE]
         self.dictionaries = [Dictionary(d) for d in ACTIVE]
         self.parser = reqparse.RequestParser()
         self.parser.add_argument(

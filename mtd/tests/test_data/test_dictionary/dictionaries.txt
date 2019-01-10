@@ -1,0 +1,2 @@
+/Users/pinea/mothertongues/mtd/tests/test_data/test_dictionary/config_0.json
+/Users/pinea/mothertongues/mtd/tests/test_data/test_dictionary/config_1.json

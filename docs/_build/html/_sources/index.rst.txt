@@ -6,10 +6,10 @@
 Welcome to Mother Tongues's documentation!
 ==========================================
 
+.. note:: Mother Tongues Dictionaries is UNDER CONSTRUCTION and should not be expected to be fully documented or even work as expected! Check back soon for more information.
+
 Mother Tongues Dictionaries is a project that aims to make creating dictionaries quick, easy and 
 customizeable.
-
-.. note:: Mother Tongues Dictionaries is UNDER CONSTRUCTION and should be expected to be fully documented or even work as expected! Check back soon for more information.
 
 .. toctree::
    :maxdepth: 2

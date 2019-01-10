@@ -1,0 +1,9 @@
+
+        { "config": {
+                "L1": "Danish",
+                "L2": "English",
+                "alphabet": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u00e6", "\u00f8", "\u00e5"]
+            },
+            "data": [{"manifest": "/Users/pinea/mothertongues/mtd/tests/test_data/csv/manifest.json", "resource": "/Users/pinea/mothertongues/mtd/tests/test_data/csv/data.csv"}]
+        }
+        
