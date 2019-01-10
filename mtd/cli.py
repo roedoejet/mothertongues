@@ -115,10 +115,13 @@ def prepare(language):
     write_static(dictionaries)
     write_swagger(dictionaries)
     set_active_dictionaries(ls.config_objects)
-    if _cache in logger and 40 in logger._cache and logger._cache[40]:
-        click.echo("Sorry, your build finished with some errors. Please look at your logs/messages above and try again.")
-    else:
-        click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
+    try:
+        if 40 in logger._cache and logger._cache[40]:
+            click.echo("Sorry, your build finished with some errors. Please look at your logs/messages above and try again.")
+        else:
+            click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
+    except AttributeError:
+        click.echo("Successfully built static files for the following dictionaries: {names}. You may now run the app. *Warning* Mother Tongues uses logger caching to check if your build finished with errors. Because you are using a version of Python < 3.7 this feature is disabled and running your dictionary might not work.")
 
 @app.cli.command()
 @click.argument('language', type=click.Path(exists=True))
