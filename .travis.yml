@@ -19,7 +19,7 @@ install:
   - pip3 install coverage
   - pip3 install coveralls
   - pip3 install js2py
-  - pip3 install gunicorn
+  
   # Install mtd
   - cd /home/travis/build/roedoejet/mothertongues && pip3 install -e .
 # before_script:
@@ -33,7 +33,7 @@ script:
 
 before_script:
     - mtd prepare /home/travis/build/roedoejet/mothertongues/mtd/tests/integration
-    - gunicorn mtd:app --bind 0.0.0.0:5000 --daemon
+    - mtd run
 
 # commands to run after the tests successfully complete
 after_success:
