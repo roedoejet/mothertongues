@@ -121,7 +121,7 @@ def prepare(language):
         else:
             click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
     except AttributeError:
-        click.echo("Successfully built static files for the following dictionaries: {names}. You may now run the app. *Warning* Mother Tongues uses logger caching to check if your build finished with errors. Because you are using a version of Python < 3.7 this feature is disabled and running your dictionary might not work.")
+        click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app. *Warning* Mother Tongues uses logger caching to check if your build finished with errors. Because you are using a version of Python < 3.7 this feature is disabled and running your dictionary might not work.")
 
 @app.cli.command()
 @click.argument('language', type=click.Path(exists=True))
