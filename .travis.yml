@@ -19,21 +19,18 @@ install:
   - pip3 install coverage
   - pip3 install coveralls
   - pip3 install js2py
-  
+  - pip3 install gunicorn
   # Install mtd
   - cd /home/travis/build/roedoejet/mothertongues && pip3 install -e .
-# before_script:
-#     - gunicorn mtd:app --bind 0.0.0.0:5000 --daemon
-    
-# commands to run the testing suite. if any of these fail, travic lets us know
-script: 
-    # - py.test
-    - cd /home/travis/build/roedoejet/mothertongues && python3 run_tests.py dev
-    - cd /home/travis/build/roedoejet/mothertongues && coverage run --source mtd run_tests.py dev
 
 before_script:
-    - mtd prepare /home/travis/build/roedoejet/mothertongues/mtd/tests/integration
-    - mtd run
+  - mtd prepare /home/travis/build/roedoejet/mothertongues/mtd/tests/integration
+  - gunicorn mtd:app --bind 0.0.0.0:5000 --daemon
+
+# commands to run the testing suite. if any of these fail, travic lets us know
+script: 
+  - cd /home/travis/build/roedoejet/mothertongues && python3 run_tests.py dev
+  - cd /home/travis/build/roedoejet/mothertongues && coverage run --source mtd run_tests.py dev
 
 # commands to run after the tests successfully complete
 after_success:

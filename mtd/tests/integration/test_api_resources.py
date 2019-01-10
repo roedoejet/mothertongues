@@ -14,7 +14,7 @@ class ResourceIntegrationTest(TestCase):
     """
     def setUp(self):
         # host
-        self.host = "http://localhost:5000"
+        self.host = "http://0.0.0.0:5000"
         self.prefix = "/api/v1"
         # routes
         self.routes = [str(route) for route in app.url_map.iter_rules()]
