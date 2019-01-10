@@ -30,6 +30,10 @@ script:
     - cd /home/travis/build/roedoejet/mothertongues && python3 run_tests.py dev
     - cd /home/travis/build/roedoejet/mothertongues && coverage run --source mtd run_tests.py dev
 
+before_script:
+    - mtd prepare /home/travis/build/roedoejet/mothertongues/mtd/tests/integration
+    - gunicorn mtd:app --bind 0.0.0.0:5000 --daemon
+
 # commands to run after the tests successfully complete
 after_success:
   - coveralls

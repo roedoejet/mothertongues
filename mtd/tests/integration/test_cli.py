@@ -40,6 +40,7 @@ class CliTest(TestCase):
             with open(config_path, 'w', encoding='utf8') as f:
                 f.write(self.language_config_template.format(alphabet=json.dumps(self.alphabet), data=json.dumps(self.data[i])))
             i += 1
+            
         # write txt file with all generated config paths
         all_configs_txt = '\n'.join(self.all_configs)
         with open(os.path.join(self.test_dictionary_dir, 'dictionaries.txt'), 'w') as f:
