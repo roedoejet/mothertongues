@@ -19,6 +19,7 @@ install:
   - pip3 install coverage
   - pip3 install coveralls
   - pip3 install js2py
+  - pip3 install gunicorn
   # Install mtd
   - cd /home/travis/build/roedoejet/mothertongues && pip3 install -e .
 # before_script:
