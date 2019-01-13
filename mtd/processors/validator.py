@@ -28,11 +28,11 @@ class DfValidator():
                     all_null_values.append(self.df[self.df[col].isnull()])
                 all_null_values = concat(all_null_values)
                 e = DfNullValuesValidationError(notnull, all_null_values)
-                logger.error(e)
+                logger.warn(e)
                 return False
         else:
             e = DfMissingKeysValidationError(notnull)
-            logger.error(e)
+            logger.warn(e)
             return False
 
     def remove_dupes(self) -> DataFrame:
@@ -56,8 +56,8 @@ class DfValidator():
         dcols = " and ".join(dupe_columns)
         for i in range(len(dupes)):
             dupe_i = dupes.index[i]
-            dupe_v = dupes.values[i]
-            logger.warning(f"The information at index {dupe_i} with the value {dupe_v} has duplicate values for {dcols}. Duplicates are not removed by default, so this is just a warning.")
+            dupe_v = [v for v in dupes.values[i] if isinstance(v, str)]
+            logger.warning(f"The information at index {dupe_i} with the values {dupe_v} has duplicate values for {dcols}. Duplicates are not removed by default, so this is just a warning. Note that the index may not directly correspond to the location in your data.")
         return dupes
 
 

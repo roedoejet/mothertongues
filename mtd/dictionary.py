@@ -35,7 +35,9 @@ class Dictionary():
         self.data_objs = [parse(d['manifest'], d['resource']) for d in self.data_objs]
         # validate
         for do in self.data_objs:
-            self.validate(do['data'])
+            if not self.validate(do['data']):
+                logger.warn('Removing null rows')
+                do['data'] = do['data'].dropna(subset=['word'], how='all')
         # transduce
         self.transduce()
         # sort
@@ -47,7 +49,9 @@ class Dictionary():
         # validate
         self.validate(self._df)
         # validate ID
-        self.validate_id(self._df)
+        if not self.validate_id(self._df):
+            logger.warn("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
+            self._df['entryID'] = self._df.index.astype(str)
         # log dupes
         self.log_dupes(self._df)
         
@@ -70,13 +74,13 @@ class Dictionary():
 
     def validate(self, df: pd.DataFrame) -> bool:
         dfvalidator = DfValidator(df)
-        return dfvalidator.check_not_null()
+        # if word and definition are null, remove them.
+        notnull = dfvalidator.check_not_null()
+        return notnull
 
     def validate_id(self, df) -> bool:
         if not "entryID" in df:
-            logger.warn("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
-            df['entryID'] = df.index
-            return True
+            return False
         else:
             dfvalidator = DfValidator(df)
             return dfvalidator.check_not_null(notnull=['entryID'])

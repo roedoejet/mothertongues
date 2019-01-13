@@ -87,20 +87,21 @@ class Transducer():
         :param t_name_or_path: <string> path to transducer or default transducer
         """
         cors = self.get_correspondences(t_name_or_path)
-        def transduce(to_parse):
+        def transduce(to_parse: str):
             '''String to transduce
             '''
-            for cor in cors:
-                if "temp" in cor:
-                    to_parse = re.sub(cor["from"], cor["temp"], to_parse)
-                else:
-                    to_parse = re.sub(cor["from"], cor["to"], to_parse)
-            for cor in cors:
-                try:
-                    if cor["temp"] and re.search(cor["temp"], to_parse):
-                        to_parse = re.sub(cor["temp"], cor["to"], to_parse)
-                except KeyError:
-                    pass
+            if isinstance(to_parse, str):
+                for cor in cors:
+                    reg_from = re.compile(re.escape(cor['from']))
+                    if "temp" in cor:
+                        to_parse = re.sub(reg_from, cor['temp'], to_parse)
+                    else:
+                        to_parse = re.sub(reg_from, cor['to'], to_parse)
+                for cor in cors:
+                    if "temp" in cor and cor["temp"] and re.search(cor["temp"], to_parse):
+                        reg_temp = re.compile(re.escape(cor['temp']))
+                        to_parse = re.sub(reg_temp, cor['to'], to_parse)
+                
             return to_parse
         return transduce
     
@@ -141,8 +142,11 @@ class Transducer():
                         # fn = self.create_transducer_function(t)
                         df[transducer['target']] = df[source].apply(fn)
                 else:
-                    fn = self.create_transducer_function(function)
-                    df[transducer['target']] = df[source].apply(fn)
+                    try:
+                        fn = self.create_transducer_function(function)
+                        df[transducer['target']] = df[source].apply(fn)
+                    except:
+                        breakpoint()
         return df
     
     def return_js_template(self, t_name_or_path: str) -> str:
