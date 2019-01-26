@@ -158,10 +158,29 @@ class Dictionary():
         config_template_object = {"L1": {"name": self.config['L1'],
                                               "lettersInLanguage": self.config['alphabet']},
                                        "L2": {"name": self.config['L2']}}
+        ## Add transducer name that converts search queries
+        if 'L1_compare_transducer_name' in self.config:
+            config_template_object['L1']['compare'] = self.config['L1_compare_transducer_name']
         if form == 'obj':
             return config_template_object
         elif form == 'js':
-            return f"var config = {json.dumps(config_template_object)}"
+            ## Add adhoc_vars
+            adhoc_vars = ''
+            if "adhoc_vars" in self.config:
+                adhoc_vars = []
+                for av in self.config['adhoc_vars']:
+                    for k,v in av.items():
+                        adhoc_vars.append(f"var {k} = {v};")
+                adhoc_vars = "\n".join(adhoc_vars)
+            ## Add transducers
+            # for data_obj in self.data_objs:
+            #     transducers = []
+            #     if "transducers" in data_obj['manifest']:
+            #         transducers = data_obj['manifest']['transducers']
+            #     transducer_obj = Transducer(transducers)
+            #     transducers.append(transducer_obj.return_js_template(transducers))
+            # transducers_js = "\n".join([t.return_js_template() for t in transducers])
+            return f"var config = {json.dumps(config_template_object)}" + adhoc_vars
         elif form == 'json':
             return json.dumps(config_template_object)
 

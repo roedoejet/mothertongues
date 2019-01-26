@@ -6,6 +6,7 @@
             "properties": {
                 "L1": {"type": "string"},
                 "L2": {"type": "string"},
+                "L1_compare_transducer_name": {"type": "string"},
                 "optional_field_name": {"type": "string"},
                 "alphabet": {
                         "oneOf": [
@@ -23,7 +24,13 @@
                                "role": {"type": "string"},
                                "name": {"type": "string"}
                            }
-                       }}
+                       }},
+                "adhoc_vars": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
             },
             "required": ["L1", "L2"]
         },
@@ -43,12 +50,6 @@
                             {"type": "object"}]}
                 },
                 "required": ["manifest", "resource"]
-            }
-        },
-        "adhoc_vars": {
-            "type": "array",
-            "items": {
-                "type": "object"
             }
         },
         "github_credentials_path": {"type": "string"}

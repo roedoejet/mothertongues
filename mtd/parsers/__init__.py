@@ -4,9 +4,11 @@ import glob
 import re
 import requests
 from mtd.parsers.utils import ResourceManifest
-from mtd.parsers import request_parser, dict_parser
+from mtd.parsers import request_parser, dict_parser, gsheet_parser
 from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
 from urllib.parse import urlparse
+from pandas import DataFrame
+from gspread.models import Spreadsheet
 
 
 from .. import exceptions
@@ -25,10 +27,10 @@ def parse(manifest, resource_dict_or_path):
     '''
     if not isinstance(manifest, ResourceManifest):
         manifest = ResourceManifest(manifest)
-
     if isinstance(resource_dict_or_path, dict) or isinstance(resource_dict_or_path, list):
         parser = dict_parser.Parser(manifest, resource_dict_or_path)
-
+    elif isinstance(resource_dict_or_path, Spreadsheet):
+        parser = gsheet_parser.Parser(manifest, resource_dict_or_path)
     # If resource is URL, use request parser
     elif 'http' in urlparse(resource_dict_or_path).scheme:
         parser = request_parser.Parser(manifest, resource_dict_or_path)

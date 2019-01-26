@@ -12,6 +12,15 @@ class DictParserTest(TestCase):
         self.manifest = os.path.join(self.path, 'dict_manifest.json')
         self.maxDiff = None
 
+    # def test_dict_manifest(self):
+    #     '''Check manifest loaded as dict NOT WORKING
+    #     '''
+    #     with open(self.manifest, 'r') as f:
+    #         json_manifest = json.load(f)
+    #     for data in self.data:
+    #         parsed_data = parse(json_manifest, data[0])
+    #         self.assertTrue(parsed_data['data'].equals(data[1]))
+
     def test_data_df_matches_sample(self):
         '''Check test Dict or List data is parsed and looks like ground truth data.
         '''

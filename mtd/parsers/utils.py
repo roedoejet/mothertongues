@@ -6,6 +6,7 @@ from jsonschema.exceptions import ValidationError
 from mtd.tests import logger
 from typing import Dict, List, Union
 from jsonpath_rw import jsonpath, parse as json_parse
+import requests
 
 class ResourceManifest():
     '''A manifest file for a given resource.
@@ -65,6 +66,7 @@ class ResourceManifest():
             self.warn_extra_properties_in(schema_properties, manifest_properties)
             self.warn_extra_properties_in(schema_targets, manifest_targets)
             validate(manifest, self.schema)
+            return manifest
         except ValidationError as e:
             raise ValidationError(f"Attempted to validate the manifest file, but got {e}. Please refer to the Mother Tongues data manifest schema.")
 
@@ -96,7 +98,8 @@ class BaseParser():
     between many of the format specific parsers
     """
     def __init__(self):
-        pass
+        # to be overwritten by parsers
+        self.manifest = None
 
     def return_manifest_key_type(self, key: str, manifest: dict) -> Union[dict, list, str]:
         '''Given a key in a nested dict, return the type of the corresponding value

@@ -5,6 +5,7 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from urllib.parse import urlparse
 from typing import Union
+import requests
 
 ldir = os.path.dirname(ldir.__file__)
 
@@ -27,7 +28,7 @@ class LanguageConfig():
         if isinstance(config_object, dict):
             self._config = config_object
         elif 'http' in urlparse(config_object).scheme:
-            r = requests.get(config_path)
+            r = requests.get(config_object)
             self._config = r.json()
         else:
             if not os.path.isabs(config_object):
