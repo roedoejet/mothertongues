@@ -17,6 +17,7 @@ class ResourceIntegrationTest(TestCase):
         # host
         self.host = "http://0.0.0.0:5000"
         self.prefix = "/api/v1"
+        self.client = app.test_client()
         # routes
         self.routes = [str(route) for route in app.url_map.iter_rules()]
         self.api_resources = [route for route in self.routes if route.startswith(self.prefix)]
@@ -46,8 +47,7 @@ class ResourceIntegrationTest(TestCase):
         # Test for "unprepared"
         for rt in self.api_resources:
             try:
-                print(rt)
-                r = requests.get(self.host + rt)
+                r = self.client.get(self.host + rt)
                 self.assertEqual(r.status_code, 200)
                 logger.info("Route " + self.host + rt + " returned " + str(r.status_code))
             except:
