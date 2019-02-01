@@ -80,7 +80,7 @@ class DfMissingKeysValidationError(CommandLineError):
         f"Your data does not have values for: {self.keys}. These are necessary for Mother Tongues Dictionaries."
         )
 
-class UnfoundConfigErrror(CommandLineError):
+class UnfoundConfigError(CommandLineError):
     """Raise when config files cannot be found"""
     def __init__(self, path):
         self.path = path

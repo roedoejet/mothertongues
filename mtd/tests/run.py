@@ -24,6 +24,7 @@ from mtd.tests.integration.test_basic_integration import ViewIntegrationTest
 from mtd.tests.integration.test_cli import CliTest
 
 # Other tests
+from mtd.tests.test_cli import CliTester
 from mtd.tests.test_dictionary import DictionaryTest
 
 loader = TestLoader()
@@ -48,7 +49,7 @@ integration_tests = [
 
 other_tests = [
     loader.loadTestsFromTestCase(test)
-    for test in [DictionaryTest]
+    for test in [CliTester, DictionaryTest]
 ]
 
 fst_dev_tests = []
@@ -64,6 +65,8 @@ def run_tests(suite):
         suite = loader.discover(os.path.dirname(testf))
     elif suite == 'integration':
         suite = TestSuite(integration_tests)
+    elif suite == 'other':
+        suite = TestSuite(other_tests)
 
     runner = TextTestRunner(verbosity=3)
     runner.run(suite)

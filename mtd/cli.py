@@ -6,7 +6,7 @@ import json
 from mtd.app import app
 from mtd.tests import logger
 from mtd.dictionary import Dictionary
-from mtd.exceptions import CredentialsMissingError, UnfoundConfigErrror
+from mtd.exceptions import CredentialsMissingError, UnfoundConfigError
 from mtd.languages import LanguageConfig
 from mtd.languages.suites import LanguageSuite
 from jsonschema.exceptions import ValidationError
@@ -36,9 +36,9 @@ def return_configs_from_path(path):
         elif path.endswith('json'):
             configs = [LanguageConfig(path)]
         else:
-            raise UnfoundConfigErrror(path)
+            raise UnfoundConfigError(path)
     else:
-        raise UnfoundConfigErrror(path)
+        raise UnfoundConfigError(path)
     return configs
 
 def push_to_github(dictionary: Dictionary):
@@ -185,10 +185,15 @@ def available(path):
 
     :param str path: path to either a txt file with paths to one or more MTD language configuration files **or** a directory containing MTD language configuration files
     """
-    configs = return_configs_from_path(path)
-    ls = LanguageSuite(configs)
-    names = [l['config']['L1'] for l in ls.config_objects]
-    if names:
-        click.echo(f"The following languages are available at {path}: {names}")
-    else:
-        click.echo(UnfoundConfigErrror(path))
+    try:
+        configs = return_configs_from_path(path)
+        ls = LanguageSuite(configs)
+        names = [l['config']['L1'] for l in ls.config_objects]
+        if names:
+            click.echo(f"The following languages are available at {path}: {names}")
+        else:
+            click.echo(UnfoundConfigError(path))
+    except UnfoundConfigError:
+        click.echo(UnfoundConfigError(path))
+    
+
