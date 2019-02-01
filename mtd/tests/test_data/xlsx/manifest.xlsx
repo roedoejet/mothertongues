@@ -1,0 +1,97 @@
+{
+    "name": "test_data_words",
+    "display": "word",
+    "compare": "word",
+    "sorting": "word",
+    "skipheader": true,
+    "location": "data",
+    "file_type": "xlsx",
+    "targets": {
+        "word": "A",
+        "definition": "E",
+        "entryID": "B",
+        "optional": [
+            {
+                "Part of Speech": "C"
+            },
+            {
+                "Source": "D"
+            }
+        ],
+        "theme": "F",
+        "secondary_theme": "G",
+        "audio": [
+            {
+                "speaker": "H",
+                "filename": "I"
+            },
+            {
+                "speaker": "J",
+                "filename": "K"
+            }
+        ],
+        "definition_audio": [
+            {
+                "speaker": "L",
+                "filename": "M"
+            },
+            {
+                "speaker": "N",
+                "filename": "O"
+            }
+        ],
+        "example_sentence": [
+            "P",
+            "Q"
+        ],
+        "example_sentence_definition": [
+            "R",
+            "S"
+        ],
+        "example_sentence_audio": [
+            [
+                {
+                    "speaker": "T",
+                    "filename": "U"
+                },
+                {
+                    "speaker": "V",
+                    "filename": "W"
+                }
+            ],
+            [
+                {
+                    "speaker": "X",
+                    "filename": "Y"
+                },
+                {
+                    "speaker": "Z",
+                    "filename": "AA"
+                }
+            ]
+        ],
+        "example_sentence_definition_audio": [
+            [
+                {
+                    "speaker": "AB",
+                    "filename": "AC"
+                },
+                {
+                    "speaker": "AD",
+                    "filename": "AE"
+                }
+            ],
+            [
+                {
+                    "speaker": "AF",
+                    "filename": "AG"
+                },
+                {
+                    "speaker": "AH",
+                    "filename": "AI"
+                }
+            ]
+        ],
+        "img": "AJ"
+    }
+}

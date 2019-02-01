@@ -9,13 +9,13 @@ class CommandLineError(Exception):
     def render(self, msg):
         return msg % vars(self)
 
-class MissingFileError(CommandLineError):
-    """Raise when file is not found"""
+class MissingResourceError(CommandLineError):
+    """Raise when resource is not found"""
     def __init__(self, path):
         self.path = path
     
     def __str__(self):
-        return self.render(f"File at {self.path} does not exist")
+        return self.render(f"Resource at {self.path} does not exist")
 
 class UnsupportedFiletypeError(CommandLineError):
     """Raise when unable to import parser for filetype"""

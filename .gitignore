@@ -9,3 +9,4 @@ __pycache__
 mtd/languages/*/gsheet/*.json
 .mypy_cache
 .coverage
+htmlcov

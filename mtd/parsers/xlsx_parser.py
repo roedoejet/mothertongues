@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 import pandas as pd
 from mtd.parsers.utils import BaseParser
-from mtd.exceptions import UnsupportedFiletypeError
+from mtd.exceptions import MissingResourceError, UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
 from openpyxl.cell.cell import Cell
 from typing import Dict, List, Tuple, Union
@@ -17,17 +17,20 @@ class Parser(BaseParser):
         self.manifest = manifest
         try:
             work_book = load_workbook(resource_path)
-            if "location" in self.manifest:
-                work_sheet = work_book[self.manifest["location"]]
-            else:
-                work_sheet = work_book.active
-            if "skipheader" in self.manifest and self.manifest['skipheader']:
-                min_row = 2
-            else:
-                min_row = 1
-            self.resource = work_sheet.iter_rows(min_row=min_row)
         except:
             raise UnsupportedFiletypeError(resource_path)
+        if "location" in self.manifest:
+            try:
+                work_sheet = work_book[self.manifest["location"]]
+            except KeyError:
+                raise MissingResourceError(f"{self.manifest['location']} in {resource_path}")
+        else:
+            work_sheet = work_book.active
+        if "skipheader" in self.manifest and self.manifest['skipheader']:
+            min_row = 2
+        else:
+            min_row = 1
+        self.resource = work_sheet.iter_rows(min_row=min_row)
         
         self.entry_template = self.manifest['targets']
 
@@ -43,8 +46,10 @@ class Parser(BaseParser):
                     else:
                         return str(c.value)
                 else:
-                    return c.value
-        return ''
+                    if c.value is not None:
+                        return c.value
+                    else:
+                        return ''
 
     def resolve_targets(self) -> List[dict]:
         word_list = []

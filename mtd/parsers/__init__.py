@@ -5,7 +5,7 @@ import re
 import requests
 from mtd.parsers.utils import ResourceManifest
 from mtd.parsers import request_parser, dict_parser, gsheet_parser
-from mtd.exceptions import MissingFileError, UnsupportedFiletypeError
+from mtd.exceptions import MissingResourceError, UnsupportedFiletypeError
 from urllib.parse import urlparse
 from pandas import DataFrame
 from gspread.models import Spreadsheet
@@ -37,7 +37,7 @@ def parse(manifest, resource_dict_or_path):
     else:
         # Check if file exists and filetype is supported, then return parser
         if not os.path.exists(resource_dict_or_path):
-            raise MissingFileError(resource_dict_or_path)
+            raise MissingResourceError(resource_dict_or_path)
         _, ext = os.path.splitext(resource_dict_or_path)
         ext = ext.lower()
 
