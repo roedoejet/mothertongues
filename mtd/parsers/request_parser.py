@@ -2,7 +2,7 @@ from mtd.parsers.utils import BaseParser
 import requests
 from jsonschema.exceptions import ValidationError
 from mtd.parsers import json_parser, xml_parser
-from mtd.exceptions import RequestException, UnsupportedFiletypeError
+from mtd.exceptions import RequestException, MissingResourceError, UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
 from json.decoder import JSONDecodeError
 from lxml import etree
@@ -19,7 +19,10 @@ class Parser(BaseParser):
     def __init__(self, manifest: ResourceManifest, resource_path: str):
         self.manifest = manifest
         self.type = "json"
-        res = requests.get(resource_path)
+        try:
+            res = requests.get(resource_path)
+        except:
+            raise MissingResourceError(f"{resource_path}")
         if res.status_code >= 200 and res.status_code < 300:
             if "xml" in res.headers['content-type']:
                 self.type = "xml"

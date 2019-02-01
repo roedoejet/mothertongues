@@ -4,6 +4,7 @@ import os
 from mtd.tests.test_data import json as json_path, xml as xml_path
 from unittest import TestCase
 from mtd.parsers import parse
+from mtd.exceptions import MissingResourceError, RequestException, UnsupportedFiletypeError
 
 class RequestsParserTest(TestCase):
     def setUp(self):
@@ -45,3 +46,21 @@ class RequestsParserTest(TestCase):
             parsed_data = parse(self.json_manifest, data[0])
             parsed_data_obj = parsed_data['data'].to_dict(orient='records')
             self.assertEqual(data[2], parsed_data_obj)
+
+    def test_no_connection(self):
+        '''Check can't connect to site
+        '''
+        with self.assertRaises(MissingResourceError):
+            parse(self.json_manifest, 'https://foo.bar')
+
+    def test_404(self):
+        '''Test returns request exception from 404
+        '''
+        with self.assertRaises(RequestException):
+            parse(self.json_manifest, 'https://www.google.com/foobar1')
+
+    def test_bad_format(self):
+        '''Check non-json/xml returns unsupported format error
+        '''
+        with self.assertRaises(UnsupportedFiletypeError):
+            parse(self.json_manifest, 'https://google.com')

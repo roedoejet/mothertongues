@@ -1,5 +1,5 @@
 from mtd.tests.test_data import xlsx
-from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ
+from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ_BLANK
 import os
 from unittest import TestCase
 from mtd.parsers import parse
@@ -25,7 +25,7 @@ class XlsxParserTest(TestCase):
         '''
         parsed_data = parse(self.manifest, self.data)
         parsed_data_obj = parsed_data['data'].to_dict(orient='records')
-        self.assertEqual(SAMPLE_DATA_OBJ, parsed_data_obj)
+        self.assertEqual(SAMPLE_DATA_OBJ_BLANK, parsed_data_obj)
 
     def test_missing_sheet(self):
         '''Check error raised for missing sheet in 'location'

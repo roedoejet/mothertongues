@@ -65,7 +65,7 @@ SAMPLE_DATA_OBJ_REDUCED_EMPTY = [
     'word': 'rød'}
     ]
 
-SAMPLE_DATA_OBJ = [
+SAMPLE_DATA_OBJ_BLANK = [
     {
     'audio': [{'speaker': 'AP', 'filename': 'ap_red.mp3'}, {'speaker': 'AR', 'filename': 'ar_red.mp3'}], 
     'definition': 'red', 
