@@ -17,10 +17,10 @@ class LanguageSuite():
         self.languages_path = os.path.dirname(ldir.__file__)
         self.config_objects = []
         for cp in config_paths:
-            if not isinstance(cp, LanguageConfig):
-                self.config_objects.append(LanguageConfig(cp))
-            else:
+            if isinstance(cp, LanguageConfig):
                 self.config_objects.append(cp)
+            else:
+                self.config_objects.append(LanguageConfig(cp))
         self.dictionaries = [Dictionary(co) for co in self.config_objects]
     
     

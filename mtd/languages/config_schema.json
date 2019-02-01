@@ -44,10 +44,7 @@
                         {"type": "string"},
                         {"type": "object"}]
                     },
-                    "resource": {
-                        "oneOf": [
-                            {"type": "string"},
-                            {"type": "object"}]}
+                    "resource": {}
                 },
                 "required": ["manifest", "resource"]
             }

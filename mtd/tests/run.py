@@ -19,9 +19,12 @@ from mtd.tests.test_transducer import TransducerTest
 
 # Integration tests
 from mtd.tests.integration.test_api_resources import ResourceIntegrationTest
-# from mtd.tests.integration.test_basic_integration import ResourceIntegrationBasicErrorTest
+from mtd.tests.integration.test_basic_integration import ViewIntegrationTest
 # from mtd.tests.integration.test_swagger_integration import SwaggerSpecIntegrationTest
 from mtd.tests.integration.test_cli import CliTest
+
+# Other tests
+from mtd.tests.test_dictionary import DictionaryTest
 
 loader = TestLoader()
 
@@ -40,7 +43,12 @@ processor_tests = [
 
 integration_tests = [
     loader.loadTestsFromTestCase(test)
-    for test in [CliTest, ResourceIntegrationTest]
+    for test in (CliTest, ResourceIntegrationTest, ViewIntegrationTest)
+]
+
+other_tests = [
+    loader.loadTestsFromTestCase(test)
+    for test in [DictionaryTest]
 ]
 
 fst_dev_tests = []
@@ -51,7 +59,7 @@ def run_tests(suite):
     elif suite == 'processors':
         suite = TestSuite(processor_tests)
     elif suite == 'dev':
-        suite = TestSuite(parser_tests + processor_tests + integration_tests)
+        suite = TestSuite(parser_tests + processor_tests + integration_tests + other_tests)
     elif suite == 'prod':
         suite = loader.discover(os.path.dirname(testf))
     elif suite == 'integration':
