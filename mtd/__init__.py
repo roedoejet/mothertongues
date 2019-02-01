@@ -18,3 +18,6 @@ def create_suite(language_configs: List[Union[LanguageConfig, str]]) -> Language
     """ Create a LanguageSuite from a list of LanguageConfigs or paths to language configs
     """
     return LanguageSuite(language_configs)
+
+# load app for gunicorn
+from mtd.app import app
