@@ -1,16 +1,22 @@
 from unittest import TestCase
 import os
+from shutil import rmtree
 from mtd.app import app
 from mtd.tests import logger
 from mtd.tests.test_data import test_dictionary as td
-from mtd.tests.test_data import csv as csv_dir
+from mtd.tests.test_data import csv as csv_dir, exports
 from mtd.exceptions import UnfoundConfigError
+from subprocess import Popen
+import requests
 
 class CliTester(TestCase):
     def setUp(self):
         self.runner = app.test_cli_runner()
         self.dictionary_dir = os.path.dirname(td.__file__)
         self.empty_dir = os.path.dirname(csv_dir.__file__)
+        self.exports_dir = os.path.dirname(exports.__file__)
+        self.valid_exports = ["raw-json", "raw-xlsx", "raw-csv", "raw-psv", "raw-tsv", "raw-html", "js", "json", "web", "github"]
+        self.staged_exports = ["mobile"]
 
     def test_available(self):
         result = self.runner.invoke(args=['available', self.dictionary_dir])
@@ -49,4 +55,31 @@ class CliTester(TestCase):
         self.assertIn('does not exist', result.output)
         self.assertGreater(result.exit_code, 0)
 
+    def test_staged_export(self):
+        for arg in self.staged_exports:
+            result = self.runner.invoke(args=["export", self.dictionary_dir, arg, self.exports_dir])
+            self.assertIn("coming soon", result.output)
+
+    def test_raw_export(self):
+        for arg in [x for x in self.valid_exports if x.startswith('raw')]:
+            arg_ext = arg[4:]
+            result = self.runner.invoke(args=["export", self.dictionary_dir, arg, self.exports_dir])
+            exported = os.path.join(self.exports_dir, f'danish.{arg_ext}')
+            self.assertTrue(os.path.exists(exported))
+            os.remove(exported)
+
+    def test_formatted_export(self):
+        for arg in ['js', 'json']:
+            result = self.runner.invoke(args=["export", self.dictionary_dir, arg, self.exports_dir])
+            exported_config = os.path.join(self.exports_dir, f'config-danish.{arg}')
+            exported_dict = os.path.join(self.exports_dir, f"dict_cached-danish.{arg}")
+            self.assertTrue(os.path.exists(exported_config))
+            self.assertTrue(os.path.exists(exported_dict))
+            os.remove(exported_config)
+            os.remove(exported_dict)
+
+    def test_web_export(self):
+        result = self.runner.invoke(args=["export", self.dictionary_dir, 'web', self.exports_dir])
+        self.assertTrue(os.path.exists(os.path.join(self.exports_dir, 'mtd-output', 'index.html')))
+        rmtree(os.path.join(self.exports_dir, 'mtd-output'))
         
