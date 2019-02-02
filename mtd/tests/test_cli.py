@@ -1,6 +1,7 @@
 from unittest import TestCase
 import os
 from mtd.app import app
+from mtd.tests import logger
 from mtd.tests.test_data import test_dictionary as td
 from mtd.tests.test_data import csv as csv_dir
 from mtd.exceptions import UnfoundConfigError
@@ -31,7 +32,15 @@ class CliTester(TestCase):
 
     def test_prepare(self):
         result = self.runner.invoke(args=['prepare', self.dictionary_dir])
-        self.assertIn('Successfully built static files', result.output)
+        try:
+            logger._cache[40] = True
+            result = self.runner.invoke(args=['prepare', self.dictionary_dir])
+            self.assertIn('Sorry, your build finished with some errors', result.output)
+            logger._cache[40] = False
+            result = self.runner.invoke(args=['prepare', self.dictionary_dir])
+            self.assertIn('Successfully built static files', result.output)
+        except AttributeError:
+            self.assertIn('*Warning*', result.output)
         self.assertEqual(result.exit_code, 0)
 
     def test_prepare_errors(self):
