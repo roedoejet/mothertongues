@@ -13,9 +13,11 @@ from mtd.tests.test_psv_parser import PsvParserTest
 from mtd.tests.test_tsv_parser import TsvParserTest
 from mtd.tests.test_xlsx_parser import XlsxParserTest
 from mtd.tests.test_xml_parser import XmlParserTest
+
 ## Processors
 from mtd.tests.test_sorter import SorterTest
 from mtd.tests.test_transducer import TransducerTest
+from mtd.tests.test_validator import ValidatorTest
 
 # Integration tests
 from mtd.tests.integration.test_api_resources import ResourceIntegrationTest
@@ -39,7 +41,7 @@ parser_tests = [
 
 processor_tests = [
     loader.loadTestsFromTestCase(test)
-    for test in (SorterTest, TransducerTest)
+    for test in (SorterTest, TransducerTest, ValidatorTest)
 ]
 
 integration_tests = [

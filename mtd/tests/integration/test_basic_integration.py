@@ -33,7 +33,6 @@ class ViewIntegrationTest(TestCase):
         # Test for "unprepared"
         for rt in self.views_no_args:
             try:
-                # r = requests.get(self.host + rt)
                 r = self.client.get(self.host + rt)
                 self.assertEqual(r.status_code, 200)
                 logger.info("Route " + self.host + rt + " returned " + str(r.status_code))

@@ -40,14 +40,8 @@ class DfValidator():
 
            :param list notduped: list of keys (columns) to check for duplicates
         """
-        # breakpoint()
-        
-        dupes = self.df.loc[self.df.duplicated(subset=["word", "definition"])]
-        for i in range(len(dupes)):
-            dupe_i = dupes.index[i]
-            dupe_v = dupes.values[i]
-            logger.warning(f"The information at index {dupe_i} with the value {dupe_v} is duplicated. Duplicates are not removed by default.")
-        return self.df
+        dupes_removed = self.df.drop_duplicates(subset=["word", "definition"])
+        return dupes_removed
 
     def log_dupes(self, dupe_columns: List[str] = ['word', 'definition']) -> DataFrame:
         '''Log all word/definition duplicates.

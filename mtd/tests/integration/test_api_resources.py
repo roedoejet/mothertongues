@@ -62,21 +62,25 @@ class ResourceIntegrationTest(TestCase):
                 rt = re.sub(self.arg_match, x, ep)
                 for arg in self.optional_args:
                     # bool is True
-                    params = {arg.name: True}
-                    r_true = requests.get(self.host + rt, params=params)
+                    params = {'name': 'danish', arg.name: True}
+                    r_true = self.client.get(self.host + rt, query_string=params)
                     self.assertEqual(r_true.status_code, 200)
                     logger.info("Route " + self.host + rt + f" with params: {params} returned " + str(r_true.status_code))
                     # bool is False
-                    params = {arg.name: False}
-                    r_false = requests.get(self.host + rt, params={arg.name: False})
+                    params = {'name': 'danish', arg.name: False}
+                    r_false = self.client.get(self.host + rt, query_string={arg.name: False})
                     self.assertEqual(r_false.status_code, 200)
                     logger.info("Route " + self.host + rt + f" with params: {params} returned " + str(r_true.status_code))
+                # no args besides language
+                params = {'name': 'danish'}
+                r_true = self.client.get(self.host + rt, query_string=params)
+                self.assertEqual(r_true.status_code, 200)
+                logger.info("Route " + self.host + rt + f" with params: {params} returned " + str(r_true.status_code))
                 
-
     def test_wrong_name(self):
         '''
         Ensure 404 is given for wrong name 
         '''
-        res = requests.get(self.host + self.prefix + "/languages", params={'name': 'foobar'})
+        res = self.client.get("/languages", query_string={'name': 'foobar'})
         self.assertEqual(res.status_code, 404)
         
