@@ -1,4 +1,0 @@
-.. cli:
-
-Command line interface
-======================

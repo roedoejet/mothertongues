@@ -10,3 +10,4 @@ mtd/languages/*/gsheet/*.json
 .mypy_cache
 .coverage
 htmlcov
+docs/_build/
