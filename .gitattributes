@@ -1,4 +1,5 @@
 docs/* linguist-documentation
 mtd/static/css/* linguist-vendored
 mtd/static/swagger-ui/* linguist-vendored
+mtd/templates/* linguist-detectable=false
 
