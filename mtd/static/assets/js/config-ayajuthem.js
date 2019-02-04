@@ -1,1 +1,0 @@
-var config = {"L1": {"name": "ayajuthem", "lettersInLanguage": ["a", "b", "c", "d", "e", "f", "g"]}, "L2": {"name": "english"}}

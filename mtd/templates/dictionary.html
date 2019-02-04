@@ -18,14 +18,10 @@
   <!-- cordova.js required for cordova apps -->
   <!-- <script src="cordova.js"></script> -->
 
-  <!-- MTD JS dependencies -->
-  <script src="{{ url_for('static', filename='assets/js/jquery-1.11.2.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/waldayu.js') }}"></script>
+  <!-- MTD-UI JS dependencies -->
+  <script src="https://roedoejet.github.io/mothertongues-UI/src/assets/js/mtd-ui.min.js"></script>
+  
   <script src="{{ url_for('static', filename=config) }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/levenshtein.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/editDistance.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/utility.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/js/deadSearch.js') }}"></script>
   <script src="{{ url_for('static', filename=data) }}"></script>
 
   <!-- un-comment this code to enable service worker
@@ -37,7 +33,7 @@
     }
   </script>-->
 
-  <link href="{{ url_for('static', filename='build/main.css') }}" rel="stylesheet">
+  <link href="https://roedoejet.github.io/mothertongues-UI/www/build/main.css" rel="stylesheet">
 
 </head>
 
@@ -47,13 +43,13 @@
   <ion-app [entries]="allEntries"></ion-app>
 
   <!-- The polyfills js is generated during the build process -->
-  <script src="{{ url_for('static', filename='build/polyfills.js') }}"></script>
+  <script src="https://roedoejet.github.io/mothertongues-UI/www/build/polyfills.js"></script>
 
   <!-- all code from node_modules directory is here -->
-  <script src="{{ url_for('static', filename='build/vendor.js') }}"></script>
+  <script src="https://roedoejet.github.io/mothertongues-UI/www/build/vendor.js"></script>
 
   <!-- The bundle js is generated during the build process -->
-  <script src="{{ url_for('static', filename='build/main.js') }}"></script>
+  <script src="https://roedoejet.github.io/mothertongues-UI/www/build/main.js"></script>
 
 </body>
 
