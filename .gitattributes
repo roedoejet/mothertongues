@@ -1,0 +1,4 @@
+docs/* linguist-documentation
+mtd/static/css/* linguist-vendored
+mtd/static/swagger-ui/* linguist-vendored
+
