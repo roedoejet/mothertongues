@@ -29,7 +29,7 @@ Use this to export dictionary or data to a particular format.
 
 For example, ``mtd export your_language_config_file.json raw-xlsx output.xlsx`` would export the dictionary defined in a file called your_language_config_file.json as an xlsx file called output.xlsx.
 
-``mtd export your_language_config_file.json web output_dir`` would export the dictionary defined in your_language_config_file.json to a directory called output_dir.
+``mtd export your_language_config_file web output_dir`` would export the dictionary defined in your_language_config_file.json to a directory called output_dir.
 
 - Export types prefixed with raw just export raw data from the language resources.
 - Exporting to js/json will create both a config and dict_cached file needed for MTD front ends.
@@ -55,7 +55,7 @@ Once you have your token, make a yml file with the following data::
 
 Then add the file to your language configuration file. See, :ref:`validation`
 
-Finally run ``mtd export germanic_languages.txt github``
+Finally run ``mtd export <your_language_config_file> github``
 
 .. autofunction:: mtd.cli.export
 

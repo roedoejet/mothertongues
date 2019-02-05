@@ -20,8 +20,7 @@ customizeable.
    mtd
    api
    cli
-   web
-   mobile
+   mtd-UI
    validation
 
 

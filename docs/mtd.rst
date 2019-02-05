@@ -26,7 +26,7 @@ A Language Suite is a useful class for creating a single website or API from mul
 Schemas
 _______
 
-You must create two types of json files for each Dictionary. First, a Language configuration file. You only need one of these for each language. Second, one or more data configuration files. You need one for each source of data. For instance, if you are making a Dictionary from two different spreadsheets, you must write two different data configuration files and include them in your Language configuration file.
+You must create two types of json files for each Dictionary. First, a Language Configuration file. You only need one of these for each language. Second, one or more Data Configuration files. You need one for each source of data. For instance, if you are making a Dictionary from two different spreadsheets, you must write two different Data Configuration files and include them in your Language Configuration file.
 
 Language Configuration file
 ----------------------------
