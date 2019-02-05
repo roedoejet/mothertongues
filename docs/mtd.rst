@@ -1,12 +1,12 @@
 .. mtd:
 
-Python Package
-===============
+Mother Tongues
+==============
 
 Dictionary
 __________
 
-The Dictionary is the most important class in MTD. It is the object that contains all your dictionary data. It must be initialized by a valid MTD language configuration file. See :ref:`validation`
+The Dictionary is the most important class in MTD. It is the object that contains all your dictionary data. It must be initialized by a valid MTD language configuration file. See :ref:`guides`
 
 .. autoclass:: mtd.dictionary.Dictionary
 
@@ -17,7 +17,7 @@ The Dictionary is the most important class in MTD. It is the object that contain
 Language Suite
 ______________
 
-A Language Suite is a useful class for creating a single website or API from multiple dictionaries. It is initialzed with one or more valid MTD language configuration files. See :ref:`validation`
+A Language Suite is a useful class for creating a single website or API from multiple dictionaries. It is initialzed with one or more valid MTD language configuration files. See :ref:`guides`
 
 .. autofunction:: mtd.create_suite
 

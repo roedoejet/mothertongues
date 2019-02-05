@@ -18,10 +18,9 @@ customizeable.
    start
    installation
    mtd
-   api
    cli
    mtd-UI
-   validation
+   guides
 
 
 Indices and tables

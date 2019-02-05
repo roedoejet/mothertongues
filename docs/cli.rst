@@ -1,4 +1,4 @@
-.. cli:
+.. _cli:
 
 Command line interface
 ======================
@@ -53,7 +53,7 @@ Once you have your token, make a yml file with the following data::
   repo: <your_repo_name>
   path: <path_to_write_files>
 
-Then add the file to your language configuration file. See, :ref:`validation`
+Then add the file to your language configuration file. See, :ref:`guides`
 
 Finally run ``mtd export <your_language_config_file> github``
 
