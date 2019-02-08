@@ -43,7 +43,6 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx-jsonschema',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
