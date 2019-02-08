@@ -1,4 +1,4 @@
-from mtd.tests.test_data import xlsx
+from mtd.tests.test_data import xlsx as xlsx_dir
 from mtd.tests import SAMPLE_DATA_DF_BLANK, SAMPLE_DATA_OBJ_BLANK
 import os
 from unittest import TestCase
@@ -7,7 +7,7 @@ from mtd.exceptions import MissingResourceError, UnsupportedFiletypeError
 
 class XlsxParserTest(TestCase):
     def setUp(self):
-        self.path = os.path.dirname(xlsx.__file__)
+        self.path = os.path.dirname(xlsx_dir.__file__)
         self.data = os.path.join(self.path, 'data.xlsx')
         self.missing_sheet_data = os.path.join(self.path, 'missing_sheet_data.xlsx')
         self.manifest = os.path.join(self.path, 'manifest.json')

@@ -40,16 +40,31 @@ class TransducerTest(TestCase):
         t_path = os.path.join(self.test_transducers_path,
                               'test_transducer.csv')
 
+        t_path_json = os.path.join(self.test_transducers_path,
+                              'test_transducer.csv')
+
+
         transducer = Transducer([{
             'source': 'word',
             'target': 'word',
             'functions': [t_path]
         }])
+
+        transducer_json = Transducer([{
+            'source': 'word',
+            'target': 'word',
+            'functions': [t_path_json]
+        }])
+        
+
         transducer_fn = transducer.create_transducer_function(t_path)
+
         self.assertEqual(transduced_data[0]["word"],
                          transducer_fn(data[0]['word']))
         self.assertTrue(
             transduced_data_df.equals(transducer.apply_to_data_frame(data_df)))
+        self.assertTrue(
+            transduced_data_df.equals(transducer_json.apply_to_data_frame(data_df)))
 
 
     def test_incorrect_source_transducer(self):
@@ -97,6 +112,15 @@ class TransducerTest(TestCase):
         transducer = Transducer()
         transducer_fn = transducer.create_transducer_function(t_path)
         self.assertEqual('cbb', transducer_fn('aaba'))
+
+    def test_intermediate(self):
+        '''Transductions should not feed. a -> b & b -> c should turn a -> b, not a -> (b) -> c
+        '''
+        t_path = os.path.join(self.test_transducers_path,
+                              'test_intermediate_transducer.csv')
+        transducer = Transducer()
+        transducer_fn = transducer.create_transducer_function(t_path)
+        self.assertEqual('bcb', transducer_fn('aba'))
 
     def test_composite_transducer(self):
         '''Transducer should allow composite transducer. A composite transducer is a list of transducers that are applied
