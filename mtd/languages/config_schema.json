@@ -4,27 +4,38 @@
         "config": {
             "type": "object",
             "properties": {
-                "L1": {"type": "string"},
-                "L2": {"type": "string"},
-                "L1_compare_transducer_name": {"type": "string"},
-                "optional_field_name": {"type": "string"},
+                "L1": {
+                    "type": "string"
+                },
+                "L2": {
+                    "type": "string"
+                },
+                "L1_compare_transducer_name": {
+                    "type": "string"
+                },
+                "optional_field_name": {
+                    "type": "string"
+                },
                 "alphabet": {
-                        "oneOf": [
-                        {"type": "string"},
-                        {"type": "array",
-                            "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "credits": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "role": {
+                                "type": "string"
+                            },
+                            "name": {
                                 "type": "string"
                             }
-                        }]
+                        }
+                    }
                 },
-                "credits": {"type": "array",
-                       "items": {
-                           "type": "object",
-                           "properties": {
-                               "role": {"type": "string"},
-                               "name": {"type": "string"}
-                           }
-                       }},
                 "adhoc_vars": {
                     "type": "array",
                     "items": {
@@ -32,7 +43,10 @@
                     }
                 }
             },
-            "required": ["L1", "L2"]
+            "required": [
+                "L1",
+                "L2"
+            ]
         },
         "data": {
             "type": "array",
@@ -41,15 +55,28 @@
                 "properties": {
                     "manifest": {
                         "oneOf": [
-                        {"type": "string"},
-                        {"type": "object"}]
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
                     },
                     "resource": {}
                 },
-                "required": ["manifest", "resource"]
+                "required": [
+                    "manifest",
+                    "resource"
+                ]
             }
         },
-        "github_credentials_path": {"type": "string"}
+        "github_credentials_path": {
+            "type": "string"
+        }
     },
-    "required": ["config", "data"]
+    "required": [
+        "config",
+        "data"
+    ]
 }
