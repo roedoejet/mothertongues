@@ -24,9 +24,7 @@ Please visit the [website](https://www.mothertongues.org) or [docs](https://moth
 
 ## Background
 
-This project started for just building a digital dictionary for Gitxsan - a language spoken in Northern British Columbia, but it became quickly apparent that many communities also had the same problem. That is, they had some dictionary data but all of the options for sharing that data online were expensive both in terms of hours of development and dollars.
-
-MTD aims to make it easier to create online digital dictionary resources.
+This project started as just a single dictionary for Gitxsan - a language spoken in Northern British Columbia, but it became quickly apparent that many communities also had the same problem. That is, they had some dictionary data but all of the options for sharing that data online were prohibitively expensive. MTD aims to make it easier to create online digital dictionary resources.
 
 **Note** - Just because you _can_ make an online dictionary does _not_ mean you _should_. Before making a dictionary, you must have clear consent from the language community in order to publish a dictionary. For some background on why this is important, please read sections 1 and 2.1 [here](http://oxfordre.com/linguistics/view/10.1093/acrefore/9780199384655.001.0001/acrefore-9780199384655-e-8)
 
@@ -95,7 +93,7 @@ PRs accepted. Help writing and clarifying documentation is also very welcome.
 
 ## Acknowledgements
 
-MTD has had a significant of help from a huge number of people including but not limited to Patrick Littell, Mark Turin, & Lisa Matthewson.
+MTD has had a significant of help from a huge number of people including but not limited to Patrick Littell & Mark Turin.
 
 As well as institutional support from the [First Peoples' Cultural Council](http://www.fpcc.ca/) and SSHRC Insight Grant 435-2016-1694, ‘Enhancing Lexical Resources for BC First Nations Languages’.
 
