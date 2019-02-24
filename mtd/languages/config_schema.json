@@ -36,6 +36,12 @@
                         }
                     }
                 },
+                "audio_path": {
+                    "type": "string"
+                },
+                "img_path": {
+                    "type": "string"
+                },
                 "adhoc_vars": {
                     "type": "array",
                     "items": {
