@@ -93,9 +93,7 @@ PRs accepted. Help writing and clarifying documentation is also very welcome.
 
 ## Acknowledgements
 
-MTD has had a significant of help from a huge number of people including but not limited to Patrick Littell & Mark Turin.
-
-As well as institutional support from the [First Peoples' Cultural Council](http://www.fpcc.ca/) and SSHRC Insight Grant 435-2016-1694, ‘Enhancing Lexical Resources for BC First Nations Languages’.
+Thank you to both Patrick Littell & Mark Turin for their contributions, guidance and support as well as institutional support from the [First Peoples' Cultural Council](http://www.fpcc.ca/) and SSHRC Insight Grant 435-2016-1694, ‘Enhancing Lexical Resources for BC First Nations Languages’.
 
 ## License
 
