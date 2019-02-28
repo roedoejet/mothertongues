@@ -38,6 +38,23 @@ Adding your custom alphabet allows your entries to be sorted based on that alpha
         "alphabet": ["a", "b", "c"]
     }
 
+Optional Information
+~~~~~~~~~~~~~~~~~~~~
+
+To add information that can be optionally displayed in the UI, you must point to it in your Data Resource configuration file. For example, if you wanted to add "Part of Speech" information that could be displayed optionally and that was present in column "F" of an Excel spreadsheet and etymological information that was present in columng "G", you would add the following to your Data Resource configuration file:
+
+.. code-block:: json
+
+    {
+        "targets":{
+            "optional": [
+                    { 
+                        "Part of Speech": "F"
+                    }
+                ]
+        }
+    }
+
 
 Images & Audio
 ~~~~~~~~~~~~~~
