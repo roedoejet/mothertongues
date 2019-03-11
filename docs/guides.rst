@@ -15,10 +15,39 @@ and one Resource Configuraiton file for *each* source of data.
 
 1. MTD Language Configuration file
     Every language must have a configuration file, and it must be validated against the following schema `here <https://roedoejet.github.io/mothertongues/mtd/languages/config_schema.json>`_
+    Below is a minimal Language Configuration file labelled danish_config.json. Note that it must point to each piece of data and where that data is located.
+
+.. code-block:: json
+
+    {
+        "config":{
+            "L1": "Danish",
+            "L2": "English"
+        },
+        "data": [
+            {
+                "manifest": "/Users/pinea/danish_csv_manifest.json",
+                "resource": "/Users/pinea/danish.csv"
+            }
+        ]
+    }
 
 
 2. MTD Data Resource Configuration file
     Every data resource must have a configuration, and it must be validating against the following schema `here <https://roedoejet.github.io/mothertongues/mtd/languages/manifest_schema.json>`_
+    Below is a minimal Data Configuration file found at, for example, `/Users/pinea/danish_csv_manifest.json` on my machine. This must be referenced in the language configuration above.
+    This configuration file describes a CSV dictionary resource that only has two columns where the first column includes the word in the target language and the second column includes the 'definition' of that word or 'gloss' in the L2 language.
+
+.. code-block:: json
+
+    {
+        "name": "2017 Spreadsheet",
+        "sorting": "word",
+        "targets": {
+            "word": "0",
+            "definition": "1"
+        }
+    }
 
 In the future, I would like to have an online schema validation tool in the vein of `SwaggerHub <https://swagger.io/tools/swaggerhub/faster-api-design/>`_
 
@@ -35,7 +64,11 @@ Adding your custom alphabet allows your entries to be sorted based on that alpha
 .. code-block:: json
 
     { 
-        "alphabet": ["a", "b", "c"]
+        "config": {
+            "L1": ...,
+            "L2": ...,   
+            "alphabet": ["a", "b", "c"]
+        }
     }
 
 Optional Information
@@ -46,7 +79,7 @@ To add information that can be optionally displayed in the UI, you must point to
 .. code-block:: json
 
     {
-        "targets":{
+        "targets": {
             "optional": [
                     { 
                         "Part of Speech": "F"
