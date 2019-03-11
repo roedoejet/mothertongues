@@ -28,6 +28,7 @@ from mtd.tests.integration.test_cli import CliTest
 # Other tests
 from mtd.tests.test_cli import CliTester
 from mtd.tests.test_dictionary import DictionaryTest
+from mtd.tests.test_data_configuration_parser import DataConfigurationTest
 
 loader = TestLoader()
 
@@ -51,7 +52,8 @@ integration_tests = [
 
 other_tests = [
     loader.loadTestsFromTestCase(test)
-    for test in [CliTester, DictionaryTest]
+    # for test in [DataConfigurationTest]
+    for test in [CliTester, DataConfigurationTest, DictionaryTest]
 ]
 
 fst_dev_tests = []

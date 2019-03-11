@@ -139,7 +139,7 @@ class BaseParser():
                 new_lemma[k] = new_v
             else:
                 try:
-                    new_lemma[k] = self.validate_type(k, convert_function(entry, v))
+                    new_lemma[k] = self.validate_type(k, convert_function(entry, v.strip()))
                 except:
                     breakpoint()
         return new_lemma

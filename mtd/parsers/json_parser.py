@@ -66,7 +66,7 @@ class Parser(BaseParser):
                 i = items.index(el)
                 new_el = {}
                 for k,v in listof_dict['value'].items():
-                    new_json_expr = json_parse(f"{json_expr}.[{i}].[{v}]")
+                    new_json_expr = json_parse(f"{json_expr}.[{i}].[{v.strip()}]")
                     new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(entry)])
                 new_els.append(new_el)
             return new_els
@@ -107,7 +107,7 @@ class Parser(BaseParser):
                 new_lemma[k] = new_v
             else:
                 try:
-                    new_lemma[k] = self.validate_type(k, convert_function(entry, v))
+                    new_lemma[k] = self.validate_type(k, convert_function(entry, v.strip()))
                 except:
                     breakpoint()
         return new_lemma
