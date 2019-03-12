@@ -1,0 +1,20 @@
+{
+    "config": {
+        "L1": "Test",
+        "L2": "Test"
+    },
+    "data": [{
+        "manifest": {
+            "name": "test_words",
+            "sorting": "word",
+            "targets": {
+                "word": "word",
+                "definition": "definition"
+            }
+        },
+        "resource": [{
+            "word": "test",
+            "definition": "test"
+        }]
+    }]
+}

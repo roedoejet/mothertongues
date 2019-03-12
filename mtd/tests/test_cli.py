@@ -49,6 +49,19 @@ class CliTester(TestCase):
             self.assertIn('*Warning*', result.output)
         self.assertEqual(result.exit_code, 0)
 
+    def test_prepare_minimal(self):
+        result = self.runner.invoke(args=['prepare', self.dictionary_dir])
+        try:
+            logger._cache[40] = True
+            result = self.runner.invoke(args=['prepare', self.dictionary_dir])
+            self.assertIn('Sorry, your build finished with some errors', result.output)
+            logger._cache[40] = False
+            result = self.runner.invoke(args=['prepare', self.dictionary_dir])
+            self.assertIn('Successfully built static files', result.output)
+        except AttributeError:
+            self.assertIn('*Warning*', result.output)
+        self.assertEqual(result.exit_code, 0)
+
     def test_prepare_errors(self):
         # Point to non-existant file
         result = self.runner.invoke(args=['prepare', '/foobar'])

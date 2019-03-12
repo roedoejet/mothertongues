@@ -6,6 +6,7 @@ from jsonschema.exceptions import ValidationError
 from urllib.parse import urlparse
 from typing import Union
 import requests
+from string import ascii_uppercase, ascii_lowercase
 
 ldir = os.path.dirname(ldir.__file__)
 
@@ -55,6 +56,8 @@ class LanguageConfig():
         """
         try:
             validate(co, self.config_schema)
+            if "alphabet" not in co['config']:
+                co['config']['alphabet'] = list(ascii_uppercase) + list(ascii_lowercase)
             return co
         except ValidationError as e:
             raise ValidationError(f"Attempted to validate the {self._config} configuration file, but got {e}. Please refer to the Mother Tongues data manifest schema.")
