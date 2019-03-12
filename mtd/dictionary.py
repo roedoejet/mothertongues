@@ -36,7 +36,7 @@ class Dictionary():
         # validate
         for do in self.data_objs:
             if not self.validate(do['data']):
-                logger.warn('Removing null rows')
+                logger.warning('Removing null rows')
                 do['data'] = do['data'].dropna(subset=['word'], how='all')
         # transduce
         self.transduce()
@@ -50,7 +50,7 @@ class Dictionary():
         self.validate(self._df)
         # validate ID
         if not self.validate_id(self._df):
-            logger.warn("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
+            logger.warning("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
             self._df['entryID'] = self._df.index.astype(str)
         # log dupes
         self.log_dupes(self._df)

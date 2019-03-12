@@ -44,8 +44,26 @@ class DictionaryTest(TestCase):
             }]
         }
 
+        self.minimal_config =  {
+            "config": {
+                "L1": "Test",
+                "L2": "Test"
+            },
+            "data": [{
+                "manifest":
+                self.manifest,
+                "resource": [{
+                    "word": "test",
+                    "definition": "test",
+                }]
+            }]
+        }
+
         self.suite = [self.config]
 
     def test_main_methods(self):
         self.assertTrue(isinstance(create_dictionary(self.config), Dictionary))
         self.assertTrue(isinstance(create_suite(self.suite), LanguageSuite))
+
+    def test_minimal(self):
+        self.assertTrue(isinstance(create_dictionary(self.minimal_config), Dictionary))
