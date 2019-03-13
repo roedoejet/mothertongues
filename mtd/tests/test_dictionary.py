@@ -3,6 +3,8 @@ from string import ascii_lowercase
 from mtd.dictionary import Dictionary
 from mtd.languages.suites import LanguageSuite
 from mtd import create_dictionary, create_suite
+from mtd import static as static_dir
+import os
 
 
 class DictionaryTest(TestCase):
@@ -60,6 +62,12 @@ class DictionaryTest(TestCase):
         }
 
         self.suite = [self.config]
+
+    def test_active_sites(self):
+        try:
+            self.assertTrue(os.path.exists(os.path.join(os.path.dirname(static_dir.__file__), 'active.sites.json')))
+        except FileNotFoundError:
+            self.fail(f"file 'active.sites.json' does not exist")
 
     def test_main_methods(self):
         self.assertTrue(isinstance(create_dictionary(self.config), Dictionary))
