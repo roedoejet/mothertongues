@@ -152,7 +152,7 @@ class Dictionary():
     
     def return_flattened_data(self):
         return [self.flatten_entry(e) for e in self._df.to_dict(orient='records')]
-    
+
     def return_formatted_config(self, form: str="js") -> Union[str, dict]:
         '''Return config for Dictionary as either obj, js, or json.
         '''
@@ -163,6 +163,10 @@ class Dictionary():
         ## Add transducer name that converts search queries
         if 'L1_compare_transducer_name' in self.config:
             config_template_object['L1']['compare'] = self.config['L1_compare_transducer_name']
+        if "audio_path" in self.config:
+            config_template_object['audio_path'] = self.config['audio_path']
+        if "img_path" in self.config:
+            config_template_object['img_path'] = self.config['img_path']
         if form == 'obj':
             return config_template_object
         elif form == 'js':
