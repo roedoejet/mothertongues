@@ -12,6 +12,7 @@ import json
 import pandas as pd
 from typing import Dict, List, Union
 from slugify import slugify
+import datetime
 
 class Dictionary():
     """A Mother Tongues Dictionary object
@@ -157,7 +158,8 @@ class Dictionary():
         '''
         config_template_object = {"L1": {"name": self.config['L1'],
                                               "lettersInLanguage": self.config['alphabet']},
-                                       "L2": {"name": self.config['L2']}}
+                                       "L2": {"name": self.config['L2']},
+                                    "build": datetime.datetime.today().strftime('%Y%m%d%H%M')}
         ## Add transducer name that converts search queries
         if 'L1_compare_transducer_name' in self.config:
             config_template_object['L1']['compare'] = self.config['L1_compare_transducer_name']
