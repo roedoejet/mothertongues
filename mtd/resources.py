@@ -51,8 +51,7 @@ class Languages(Resource):
                             return jsonify(dnry.return_formatted_config('obj'))
                         else:
                             return jsonify({"config": dnry.return_formatted_config('obj'), "data": dnry.return_formatted_data('obj')})
-                    else:
-                        abort(404)
+                abort(404)
             else:
                 return jsonify(self.available)
 
