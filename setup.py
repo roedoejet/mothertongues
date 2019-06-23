@@ -21,7 +21,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=REQS,
-    python_requires='>=3.3',
+    python_requires='>=3.6.2',
     entry_points='''
         [console_scripts]
         mtd=mtd.cli:cli
