@@ -165,7 +165,44 @@ Often, it's learners of languages that want to use dictionaries the most, and if
 Building a Dictionary
 ~~~~~~~~~~~~~~~~~~~~~
 
-When the 
+Once you have prepared a Language Configuration and Resource Configuraiton files for each source of data, you need to build the dictionary files, which contain the data for your dictionary in machine readable form. You can add these files to your instance of MothertonguesUI to create a working dictionary.
+
+First, run the mtd prepare command. You will want to point this command at the directory with your configuration files, either by declaring the directory path as an argument, as in
+
+mtd prepare [directory path]
+
+or you can run the following command from within the directory:
+
+mtd prepare .
+
+If successful, you will see the message:
+
+Successfully built static files for the following dictionaries: [dictionary]. You may now run the app.
+
+Next, build the dictionary using the export command to create .js files. For example, given a dictionary named 'abc', a Language configuration file named 'abc_config.json', and a desired output folder 'output', run the following:
+
+mtd export abc_config.json js output
+
+You will see various messages displayed, potentially including errors, warnings, and info, which are ordered in terms of severity. If there are only info messages, the command executed successfully, and the info might advise you on how to improve your coniguration inputs. If there are warnings (which may be in addition to info messages), the command executed but there might be serious issues with the output files. If there are errors (which may be in addition to info messages and warnings), the command did not finish successfully.
+
+Checking your output folder, you should see two files: config-abc.js and dict_cached-abc.js. These files contain the data for your dictionary.
+
+
+Adding Dictionary Data to a User Interface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have built your dictionary files, you can add them to a dictionary UI such us MothertonguesUI. As a simple example, you can make a functioning dictionary website by downloading Mothertongues-UI repository and extracting the files on your computer. Once complete, copy the two files outputed by the mtd export function to the following location in your Mothertongues-UI:
+
+mothertongues-UI-master/www/assets/js
+
+These files need to be renamed as config.js and dict_cached.js, respectively. Note that these files already exist, and contain a set of sample entries. You should overwrite these files with your dictionary data files.
+
+Once done, open the file
+
+mothertongues-UI-master/www/index.html
+
+and your dictionary will load in your default browser.
+
 
 
 *More info soon*
