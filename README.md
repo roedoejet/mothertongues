@@ -97,6 +97,10 @@ This repo follows the [Contributor Covenant](http://contributor-covenant.org/ver
 
 Thank you to both Patrick Littell & Mark Turin for their contributions, guidance and support as well as institutional support from the [First Peoples' Cultural Council](http://www.fpcc.ca/) and SSHRC Insight Grant 435-2016-1694, ‘Enhancing Lexical Resources for BC First Nations Languages’.
 
+Thank you to all other contributors for support with improving MotherTongues, finding bugs and writing documentation.
+
+[@kavonjon](https://github.com/kavonjon).
+
 ## License
 
 [AGPL-3 © Aidan Pine.](LICENSE)
