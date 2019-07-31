@@ -191,11 +191,7 @@ Checking your output folder, you should see two files: config-abc.js and dict_ca
 Adding Dictionary Data to a User Interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-the [website](https://www.mothertongues.org) or
-
-MTU UI
-
-Once you have built your dictionary files, you can add them to a dictionary UI such as an [MTD UI](https://github.com/roedoejet/mothertongues-ui). As a simple example, you can make a functioning dictionary website by downloading the mothertongues-UI repository and extracting the files to your computer. Once complete, copy the two files outputed by the ``mtd export`` function to the following location in your Mothertongues-UI:
+Once you have built your dictionary files, you can add them to a dictionary UI such as an `MTD UI <https://github.com/roedoejet/mothertongues-ui>`_. As a simple example, you can make a functioning dictionary website by downloading the mothertongues-UI repository and extracting the files to your computer. Once complete, copy the two files outputed by the ``mtd export`` function to the following location in your Mothertongues-UI:
 
 ``mothertongues-UI-master/www/assets/js``
 
