@@ -35,7 +35,7 @@ and one Resource Configuraiton file for *each* source of data.
 
 2. MTD Data Resource Configuration file
     Every data resource must have a configuration, and it must be validating against the following schema `here <https://roedoejet.github.io/mothertongues/mtd/languages/manifest_schema.json>`_
-    Below is a minimal Data Configuration file found at, for example, `/Users/pinea/danish_csv_manifest.json` on my machine. This must be referenced in the language configuration above.
+    Below is a minimal Data Configuration file found at, for example, ``/Users/pinea/danish_csv_manifest.json`` on my machine. This must be referenced in the language configuration above.
     This configuration file describes a CSV dictionary resource that only has two columns where the first column includes the word in the target language and the second column includes the 'definition' of that word or 'gloss' in the L2 language.
 
 .. code-block:: json
