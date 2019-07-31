@@ -16,7 +16,7 @@ class Parser(BaseParser):
     def __init__(self, manifest: ResourceManifest, resource_path: str):
         self.manifest = manifest
         try:
-            work_book = load_workbook(resource_path)
+            work_book = load_workbook(resource_path, data_only=True)
         except:
             raise UnsupportedFiletypeError(resource_path)
         if "location" in self.manifest:
