@@ -99,6 +99,11 @@ Thank you to both Patrick Littell & Mark Turin for their contributions, guidance
 
 Thank you to all other contributors for support with improving MotherTongues, finding bugs and writing documentation.
 
+### Contributors
+
+This project exists thanks to all the people who contribute. 
+
+[@littell](https://github.com/littell).
 [@kavonjon](https://github.com/kavonjon).
 
 ## License
