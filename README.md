@@ -104,6 +104,8 @@ Thank you to all other contributors for support with improving MotherTongues, fi
 This project exists thanks to all the people who contribute. 
 
 [@littell](https://github.com/littell).
+[@markturin](https://github.com/markturin)
+[@eddieantonio](https://github.com/eddieantonio).
 [@kavonjon](https://github.com/kavonjon).
 
 ## License
