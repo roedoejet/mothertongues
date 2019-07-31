@@ -165,7 +165,7 @@ Often, it's learners of languages that want to use dictionaries the most, and if
 Building a Dictionary
 ~~~~~~~~~~~~~~~~~~~~~
 
-Once you have prepared a Language Configuration and Resource Configuraiton files for each source of data, you need to build the dictionary files, which contain the data for your dictionary in machine readable form. You can add these files to your instance of MothertonguesUI to create a working dictionary.
+Once you have prepared a Language Configuration and Resource Configuraiton files for each source of data, you need to build the dictionary files, which contain the data for your dictionary in machine readable form.
 
 First, run the ``mtd prepare`` command. You will want to point this command at the directory with your configuration files, either by declaring the directory path as an argument, as in
 
@@ -183,7 +183,7 @@ Next, build the dictionary using the ``mtd export`` command to create .js files.
 
 ``mtd export abc_config.json js output``
 
-You will see various messages displayed, potentially including errors, warnings, and info, which are ordered in terms of severity. If there are only info messages, the command executed successfully, and the info might advise you on how to improve your coniguration inputs. If there are warnings (which may be in addition to info messages), the command executed but there might be serious issues with the output files. If there are errors (which may be in addition to info messages and warnings), the command did not finish successfully.
+You will see various messages displayed, potentially including info, warnings, and errors, which are ordered in terms of severity. If there are only info messages, the command executed successfully, and the info might advise you on how to improve your configuration inputs. If there are warnings (which may be in addition to info messages), the command executed but there might be serious issues with the output files. If there are errors (which may be in addition to info messages and warnings), the command did not execute successfully.
 
 Checking your output folder, you should see two files: config-abc.js and dict_cached-abc.js. These files contain the data for your dictionary.
 
