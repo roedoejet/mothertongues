@@ -130,6 +130,7 @@ class BaseParser():
         new_lemma = {}
         
         for k, v in entry_template.items():
+            
             if isinstance(v, dict):
                 new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):
@@ -138,10 +139,14 @@ class BaseParser():
                     new_v += list(self.fill_entry_template({k: x}, entry, convert_function).values())
                 new_lemma[k] = new_v
             else:
-                try:
-                    new_lemma[k] = self.validate_type(k, convert_function(entry, v.strip()))
-                except:
-                    breakpoint()
+                # If is string literal
+                if v.startswith("'") and v.endswith("'"):
+                    new_lemma[k] = v[1:-1]
+                else:
+                    try:
+                        new_lemma[k] = self.validate_type(k, convert_function(entry, v.strip()))
+                    except:
+                        new_lemma[k] = v.strip()
         return new_lemma
     
     def validate_type(self, k, v):
