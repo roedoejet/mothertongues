@@ -11,3 +11,5 @@ mtd/languages/*/gsheet/*.json
 .coverage
 htmlcov
 docs/_build/
+*.cprof
+*.prof

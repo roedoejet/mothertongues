@@ -8,6 +8,7 @@ from jsonschema.exceptions import ValidationError
 from mtd.parsers.utils import ResourceManifest
 from typing import Dict, List, Union
 from jsonpath_rw import parse as json_parse
+from tqdm import tqdm
 
 class Parser(BaseParser):
     '''
@@ -36,7 +37,7 @@ class Parser(BaseParser):
 
     def resolve_targets(self) -> List[dict]:
         word_list = []
-        for entry in self.resource:
+        for entry in tqdm(self.resource):
             word_list.append(self.fill_entry_template(self.entry_template, entry, self.getValueFromJsonPath))
         return word_list
 
@@ -82,6 +83,7 @@ class Parser(BaseParser):
                     new_els.append(new_el)
             return new_els
 
+    
     def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
         '''This recursive function "fills in" the data according to the resource manifest. This is a slight modification from the one used by all parsers.
 
@@ -91,7 +93,6 @@ class Parser(BaseParser):
             :param function convert_function: A function that takes an entry and a path and returns the "filled in" object
         '''
         new_lemma = {}
-        
         for k, v in entry_template.items():
             if isinstance(v, dict):
                 if "listof" in v:

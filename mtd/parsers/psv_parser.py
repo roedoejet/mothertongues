@@ -6,6 +6,7 @@ from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
 from mtd.parsers.utils import ResourceManifest
 from typing import Dict, List, Union
+from tqdm import tqdm
 
 class Parser(BaseParser):
     '''
@@ -30,7 +31,7 @@ class Parser(BaseParser):
 
     def resolve_targets(self) -> List[dict]:
         word_list = []
-        for entry in self.resource:
+        for entry in tqdm(self.resource):
             word_list.append(self.fill_entry_template(self.entry_template, entry, lambda x, y: x[int(y)]))
         return word_list
     

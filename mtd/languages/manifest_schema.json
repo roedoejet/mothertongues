@@ -38,7 +38,7 @@
     "properties": {
         "file_type": {
             "type": "string",
-            "enum": ["csv", "json", "psv", "tsv", "xlsx", "xml"]
+            "enum": ["csv", "json", "psv", "pkl", "tsv", "xlsx", "xml"]
         },
         "name": {
             "type": "string"

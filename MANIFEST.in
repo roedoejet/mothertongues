@@ -10,3 +10,4 @@ recursive-include mtd/static/ *
 recursive-exclude * *.py[co]
 recursive-exclude * *~ 
 recursive-exclude * *.orig
+recursive-exclude mtd/tests/test_data/exports/ *

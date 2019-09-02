@@ -5,6 +5,7 @@ from mtd.exceptions import MissingResourceError, UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
 from openpyxl.cell.cell import Cell
 from typing import Dict, List, Tuple, Union
+from tqdm import tqdm
 
 class Parser(BaseParser):
     '''
@@ -53,7 +54,7 @@ class Parser(BaseParser):
 
     def resolve_targets(self) -> List[dict]:
         word_list = []
-        for entry in self.resource:
+        for entry in tqdm(self.resource):
             word_list.append(self.fill_entry_template(self.entry_template, entry, self.getCellValue))
         return word_list
 

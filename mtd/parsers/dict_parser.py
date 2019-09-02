@@ -21,10 +21,3 @@ class Parser(JsonParser):
         if "location" in self.manifest:
             self.resource = resolve_pointer(self.resource, self.manifest['location'])
         self.entry_template = self.manifest['targets']
-    
-    def parse(self) -> Dict[str, Union[dict, pd.DataFrame]]:
-        try:
-            data = self.resolve_targets()
-            return {"manifest": self.manifest, "data": pd.DataFrame(data)}
-        except JsonPointerException as e:
-            raise e
