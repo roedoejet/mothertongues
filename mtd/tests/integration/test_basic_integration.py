@@ -47,6 +47,8 @@ class ViewIntegrationTest(TestCase):
             for x in self.args:
                 rt = re.sub(self.arg_match, x, ep)
                 r = self.client.get(self.host + rt)
+                if r.status_code != 200:
+                    logger.error("Route " + self.host + rt + " returned " + str(r.status_code))
                 self.assertEqual(r.status_code, 200)
                 logger.info("Route " + self.host + rt + " returned " + str(r.status_code))
 
