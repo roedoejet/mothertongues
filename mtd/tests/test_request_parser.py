@@ -5,6 +5,7 @@ from mtd.tests.test_data import json as json_path, xml as xml_path
 from unittest import TestCase
 from mtd.parsers import parse
 from mtd.exceptions import MissingResourceError, RequestException, UnsupportedFiletypeError
+from simplejson.errors import JSONDecodeError
 
 class RequestsParserTest(TestCase):
     def setUp(self):
@@ -62,5 +63,6 @@ class RequestsParserTest(TestCase):
     def test_bad_format(self):
         '''Check non-json/xml returns unsupported format error
         '''
-        with self.assertRaises(UnsupportedFiletypeError):
-            parse(self.json_manifest, 'https://google.com')
+        with self.assertRaises(JSONDecodeError):
+            with self.assertRaises(UnsupportedFiletypeError):
+                parse(self.json_manifest, 'https://google.com')

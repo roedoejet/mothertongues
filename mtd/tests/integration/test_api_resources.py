@@ -3,7 +3,7 @@ import re
 from mtd.app import app
 import requests
 import logging
-from .. import logger
+from mtd.tests import logger
 from slugify import slugify
 from mtd.resources import Languages
 

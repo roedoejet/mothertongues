@@ -2,7 +2,7 @@ from unittest import TestCase
 import requests
 import re
 from mtd.app import app 
-from .. import logger
+from mtd.tests import logger
 
 class ViewIntegrationTest(TestCase):
     """

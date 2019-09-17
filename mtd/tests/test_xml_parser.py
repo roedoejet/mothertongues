@@ -1,7 +1,7 @@
 from mtd.tests.test_data import xml
 from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ, SAMPLE_DATA_OBJ_REDUCED, SAMPLE_DATA_DF_REDUCED
 import os
-from unittest import TestCase
+from unittest import main, TestCase
 from mtd.parsers import parse
 
 class XmlParserTest(TestCase):
@@ -26,3 +26,5 @@ class XmlParserTest(TestCase):
             parsed_data_obj = parsed_data['data'].to_dict(orient='records')
             self.assertEqual(data[2], parsed_data_obj)
         
+if __name__ == '__main__':
+    main()

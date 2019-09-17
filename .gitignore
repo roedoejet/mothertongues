@@ -7,6 +7,7 @@ mtd/build
 .vscode
 __pycache__
 mtd/languages/*/gsheet/*.json
+mtd/tests/test_data/exports/*[^py]
 .mypy_cache
 .coverage
 htmlcov

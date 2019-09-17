@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import main, TestCase
 import os
 from shutil import rmtree
 from mtd.app import app
@@ -96,3 +96,5 @@ class CliTester(TestCase):
         self.assertTrue(os.path.exists(os.path.join(self.exports_dir, 'mtd-output', 'index.html')))
         rmtree(os.path.join(self.exports_dir, 'mtd-output'))
         
+if __name__ == '__main__':
+    main()

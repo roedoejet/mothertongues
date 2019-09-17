@@ -66,13 +66,13 @@ def run_tests(suite):
         suite = TestSuite(processor_tests)
     elif suite == 'dev':
         suite = TestSuite(parser_tests + processor_tests + integration_tests + other_tests)
-    elif suite == 'prod':
+    elif suite == 'prod' or suite == 'all':
         suite = loader.discover(os.path.dirname(testf))
     elif suite == 'integration':
         suite = TestSuite(integration_tests)
     elif suite == 'other':
         suite = TestSuite(other_tests)
-
+        
     runner = TextTestRunner(verbosity=3)
     runner.run(suite)
 
