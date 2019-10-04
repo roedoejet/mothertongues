@@ -9,6 +9,7 @@ from mtd.parsers.utils import ResourceManifest
 from typing import Dict, List, Union
 from jsonpath_rw import parse as json_parse
 from tqdm import tqdm
+import multiprocessing as mp
 
 class Parser(BaseParser):
     '''
@@ -33,12 +34,33 @@ class Parser(BaseParser):
 
     def getValueFromJsonPath(self, entry: dict, path: str):
         jsonpath_expr = json_parse(path)
-        return jsonpath_expr.find(entry)
+        result = jsonpath_expr.find(entry)
+        if not result:
+            result = ''
+        return result
 
-    def resolve_targets(self) -> List[dict]:
+    def chunks(self, l, n):
+        """Yield successive n-sized chunks from l."""
+        if not n:
+            n = 1
+        for i in range(0, len(l), n):
+            yield l[i:i + n]
+        
+    def resolve_targets(self):
+        ''' This function chunks the resource into equal chunks for each available core.
+            A 5000 entry corpus ran in 34 seconds compared with 103. TODO: This should still be faster...
+        '''
+        pool = mp.Pool(mp.cpu_count())
+        chunked = self.chunks(self.resource, int(len(self.resource) / mp.cpu_count()))
+        chunk_list = pool.map(self.resolve_targets_m, chunked)
+        pool.close()
+        word_list = [item for sublist in chunk_list for item in sublist]
+        return word_list
+
+    def resolve_targets_m(self, resource) -> List[dict]:
         word_list = []
-        for entry in tqdm(self.resource):
-            word_list.append(self.fill_entry_template(self.entry_template, entry, self.getValueFromJsonPath))
+        for entry in tqdm(resource):
+            word_list.append(self.fill_entry_template(self.entry_template, entry, self.getValueFromJsonPath)) 
         return word_list
 
     def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:

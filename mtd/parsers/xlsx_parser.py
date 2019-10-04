@@ -5,6 +5,7 @@ from mtd.exceptions import MissingResourceError, UnsupportedFiletypeError
 from mtd.parsers.utils import ResourceManifest
 from openpyxl.cell.cell import Cell
 from typing import Dict, List, Tuple, Union
+from string import ascii_letters
 from tqdm import tqdm
 
 class Parser(BaseParser):
@@ -35,11 +36,21 @@ class Parser(BaseParser):
         
         self.entry_template = self.manifest['targets']
 
+    def col2num(self, col):
+        ''' Turns letters into columns, A -> 1, B -> 2 etc...
+            Some operating systems require this.
+        '''
+        num = 0
+        for c in col:
+            if c in ascii_letters:
+                num = num * 26 + (ord(c.upper()) - ord('A')) + 1
+        return num
+
     def getCellValue(self, entry: Tuple[Cell, ...], col: str) -> str:
         ''' Given a tuple of OpenPyxl cells, return the value of the cell matching the column value for col
         '''
         for c in entry:
-            if c.column == col:
+            if c.column == col or c.column == self.col2num(col):
                 # Excel turns integers into floats, ie 1 -> 1.0 but we don't want that.
                 if isinstance(c.value, float):
                     if c.value.is_integer():

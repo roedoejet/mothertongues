@@ -43,8 +43,8 @@ class DfValidator():
         dupes_removed = self.df.drop_duplicates(subset=["word", "definition"])
         return dupes_removed
 
-    def log_dupes(self, dupe_columns: List[str] = ['word', 'definition']) -> DataFrame:
-        '''Log all word/definition duplicates.
+    def log_dupes(self, dupe_columns: List[str] = ['word']) -> DataFrame:
+        '''Log all word/definition duplicates. TODO: why does ['word', 'definition'] not work for dupe_columns?
         '''
         dupes = self.df.loc[self.df.duplicated(subset=dupe_columns, keep=False)]
         dcols = " and ".join(dupe_columns)
