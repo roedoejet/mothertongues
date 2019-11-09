@@ -1,10 +1,11 @@
 import json
+import csv
 import os
 from mtd import languages as ldir
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from urllib.parse import urlparse
-from typing import Union
+from typing import List, Union
 import requests
 from string import ascii_uppercase, ascii_lowercase
 
@@ -36,10 +37,31 @@ class LanguageConfig():
                 config_object = os.path.join(self.language_default_dir, config_object)
             with open(config_object, 'r', encoding='utf8') as f:
                 self._config = json.load(f)
+        if 'alphabet' in self._config['config']:
+            if isinstance(self._config['config']['alphabet'], str):
+                self._config['config']['alphabet'] = self.parse_alphabet(self._config['config']['alphabet'])
+        else:
+            self._config['config']['alphabet'] = list(ascii_uppercase) + list(ascii_lowercase)
         self._config = self.validate_config_object(self._config)
-
+        
     def __getitem__(self, position):
-        return self._config[position] 
+        return self._config[position]
+
+    def parse_alphabet(self, path: str) -> List[str]:
+        if os.path.isfile(path):
+            if path.endswith('csv'):
+                with open(path) as f:
+                    data = csv.reader(f)
+                    data = [x[0] for x in data]
+            elif path.endswith('json'):
+                with open(path) as f:
+                    data = json.load(f)
+            if isinstance(data, list):
+                return data
+            else:
+                return list(ascii_uppercase) + list(ascii_lowercase)
+        else:
+            return list(ascii_uppercase) + list(ascii_lowercase)
 
     @property
     def config(self):
@@ -56,8 +78,6 @@ class LanguageConfig():
         """
         try:
             validate(co, self.config_schema)
-            if "alphabet" not in co['config']:
-                co['config']['alphabet'] = list(ascii_uppercase) + list(ascii_lowercase)
             return co
         except ValidationError as e:
             raise ValidationError(f"Attempted to validate the {self._config} configuration file, but got {e}. Please refer to the Mother Tongues data manifest schema.")

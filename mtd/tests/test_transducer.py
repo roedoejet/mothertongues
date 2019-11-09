@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import main, TestCase
 from mtd.processors.transducer import Transducer
 from pandas import DataFrame
 from pandas.util.testing import assert_frame_equal
@@ -234,3 +234,7 @@ class TransducerTest(TestCase):
         '''Test MTD-supplied transducers
         '''
         pass
+
+
+if __name__ == "__main__":
+    main()

@@ -65,6 +65,8 @@ class Parser(BaseParser):
 
     def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
         listof = [match for match in convert_function(entry, listof_dict['listof'])]
+        if not listof:
+            return listof
         if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
             new_els = []
             listof_dict['listof'] = listof_dict['value']['listof']
