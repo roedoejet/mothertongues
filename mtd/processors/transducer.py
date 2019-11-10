@@ -26,6 +26,7 @@ class Transducer():
         self.available_transducers = {os.path.splitext(os.path.basename(p))[0]: p for p in self.paths_to_available_transducers}
         
     def return_transducer_path(self, t_name_or_path):
+        t_name_or_path = os.path.expanduser(t_name_or_path)
         if t_name_or_path in self.available_transducers:
             return self.available_transducers[t_name_or_path]
         elif os.path.exists(t_name_or_path):
@@ -35,8 +36,8 @@ class Transducer():
         
     def return_transducer_name(self, t_name_or_path: str):
         '''Check if transducer is in self.available_transducers or if path exists, otherwise raise error.
-
         '''
+        t_name_or_path = os.path.expanduser(t_name_or_path)
         if t_name_or_path in self.available_transducers:
             return t_name_or_path
         elif os.path.exists(t_name_or_path):
