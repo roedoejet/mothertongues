@@ -5,6 +5,8 @@ import os
 FIELD_STYLES = dict(
     levelname=dict(color='green', bold=coloredlogs.CAN_USE_BOLD_FONT),
 )
+
+FORMATTER = logging.Formatter('%(levelname)s - %(message)s')
       
 def setup_logger(name):
     logging.basicConfig(

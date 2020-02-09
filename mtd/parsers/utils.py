@@ -74,10 +74,10 @@ class ResourceManifest():
         for t in props:
             if not t in schema_props:
                 if self.file_type and self.file_type in self.type_specific_keys and not t in self.type_specific_keys[self.file_type]:
-                    logger.info(f"'{t}' is declared in the default schema but is not part of your manifest. You may not have full functionality in your Mother Tongues Dictionary.")
+                    logger.warning(f"'{t}' is declared in the default schema but is not part of your manifest. You may not have full functionality in your Mother Tongues Dictionary.")
         for t in schema_props:
             if not t in props:
-                logger.info(f"'{t}' is declared in your manifest but is not part of the default schema. You may need to modify your Mother Tongues Dictionary to use this data.")
+                logger.warning(f"'{t}' is declared in your manifest but is not part of the default schema. You may need to modify your Mother Tongues Dictionary to use this data.")
 
     def parse(self, manifest_path):
         # Allow for URL loaded manifest

@@ -28,11 +28,11 @@ class DfValidator():
                     all_null_values.append(self.df[self.df[col].isnull()])
                 all_null_values = concat(all_null_values)
                 e = DfNullValuesValidationError(notnull, all_null_values)
-                logger.warn(e)
+                logger.warning(e)
                 return False
         else:
             e = DfMissingKeysValidationError(notnull)
-            logger.warn(e)
+            logger.warning(e)
             return False
 
     def remove_dupes(self) -> DataFrame:

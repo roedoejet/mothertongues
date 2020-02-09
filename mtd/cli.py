@@ -111,9 +111,8 @@ def prepare(language):
     configs = return_configs_from_path(language)
     ls = LanguageSuite(configs)
     names = [l['config']['L1'] for l in ls.config_objects]
-    dictionaries = [Dictionary(l) for l in ls.config_objects]
-    write_static(dictionaries)
-    write_swagger(dictionaries)
+    write_static(ls.dictionaries)
+    write_swagger(ls.dictionaries)
     set_active_dictionaries(ls.config_objects)
     try:
         if 40 in logger._cache and logger._cache[40]:
@@ -127,29 +126,38 @@ def prepare(language):
 @click.argument('language', type=click.Path(exists=True))
 @click.argument('export_type', type=click.Choice(["raw-json", "raw-xlsx", "raw-csv", "raw-psv", "raw-tsv", "raw-html", "js", "json", "web", "mobile", "github"]))
 @click.argument('output', type=click.Path(exists=True, file_okay=False, dir_okay=True, writable=True), required=False)
-def export(language, export_type, output):
+@click.option('--enable-logging', '-el', is_flag=True, required=False, default=False, help='Log output to file')
+def export(language, export_type, output, enable_logging):
     """Exports Mother Tongues Dictionary
 
     :param str language: path to either a txt file with paths to one or more MTD language configuration files **or** a directory containing MTD language configuration files
     :param str export_type: choose type of export: ["raw-json", "raw-xlsx", "raw-csv", "raw-psv", "raw-tsv", "raw-html", "js", "json", "web", "mobile", "github"]
     :param str output: choose where output is exported to
     """
+    if enable_logging:
+        import logging
+        from mtd.tests.log import FORMATTER
+        from datetime import datetime as dt
+        now = dt.now()
+        fh = logging.FileHandler(f'{language}-{dt.timestamp(now)}.log')
+        fh.setLevel(logging.WARNING)
+        fh.setFormatter(FORMATTER)
+        logger.addHandler(fh)
     if export_type in ["mobile"]:
         click.echo(f"this feature is coming soon")
     else:
         language = os.path.abspath(language)
         configs = return_configs_from_path(language)
         ls = LanguageSuite(configs)
-        dictionaries = [Dictionary(l) for l in ls.config_objects]
         if output:
             output = os.path.abspath(output)
         if export_type.startswith('raw'):
-            for d in dictionaries:
+            for d in ls.dictionaries:
                 ext = export_type.split('-')[1]
                 output_name = os.path.join(output, f"{d.name}.{ext}")
                 d.export_raw_data(output_name, export_type=ext)
         elif export_type == "js" or export_type == "json":
-            for d in dictionaries:
+            for d in ls.dictionaries:
                 config_output_name = os.path.join(output, f"config-{d.name}.{export_type}")
                 data_output_name = os.path.join(output, f"dict_cached-{d.name}.{export_type}")
                 with open(config_output_name, 'w', encoding='utf8') as f:
@@ -157,7 +165,7 @@ def export(language, export_type, output):
                 with open(data_output_name, 'w', encoding='utf8') as f:
                     f.write(d.return_formatted_data(form=export_type))
         elif export_type == 'github':
-            for d in dictionaries:
+            for d in ls.dictionaries:
                 push_to_github(d)
         elif export_type == "web":
             freezer = Freezer(create_app())
