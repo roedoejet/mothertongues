@@ -5,8 +5,15 @@ from typing import List, Union
 
 VERSION = '0.15'
 
-def create_dictionary(language_config: Union[LanguageConfig, str]) -> Dictionary:
+def create_dictionary(language_config):
     """ Given a LanguageConfig (or a path to one), create a Dictionary
+
+    Args:
+        language_config (Union[LanguageConfig, str]): A valid language config, or path to one
+
+    Returns:
+        Dictionary: The Dictionary based on the provided configuration
+
     """
     if isinstance(language_config, LanguageConfig):
         return Dictionary(language_config)
@@ -14,8 +21,15 @@ def create_dictionary(language_config: Union[LanguageConfig, str]) -> Dictionary
         language_config = LanguageConfig(language_config)
         return Dictionary(language_config)
 
-def create_suite(language_configs: List[Union[LanguageConfig, str]]) -> LanguageSuite:
-    """ Create a LanguageSuite from a list of LanguageConfigs or paths to language configs
+def create_suite(language_configs):
+    """ Given a list of LanguageConfigs (or a list of paths), create corresponding Dictionaries
+
+    Args:
+        language_configs (List[Union[LanguageConfig, str]]): A valid language config, or path to one
+
+    Returns:
+        LanguageSuite: The LanguageSuite of all dictionaries
+
     """
     return LanguageSuite(language_configs)
 

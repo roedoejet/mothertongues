@@ -5,10 +5,10 @@ from pandas import concat, DataFrame
 from typing import List, Union
 
 class DfValidator():
-    '''Validate DataFrame to check for null values or duplicates etc...
+    '''Validate DataFrame to check for null values or duplicates
 
     Args:
-        :param DataFrame df: DataFrame to check
+        df (DataFrame): DataFrame to check
     '''
     def __init__(self, df: DataFrame):
         self.df = df.replace('', nan)

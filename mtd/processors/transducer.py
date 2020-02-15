@@ -15,10 +15,10 @@ class Transducer():
     '''Class that creates transducers in a variety of formats.
 
     Args:
-        :param list[dict] transducers_needed: A list of dicts containing a source key (str), target key (str) and list of transducer functions (either lambda functions or transducer names or paths)
-        :param str transducers_available_dir: Path to directory containing transducers
+        transducers_needed (List[dict], optional): A list of dicts containing a source key (str), target key (str) and list of transducer functions (either lambda functions or transducer names or paths)
+        transducers_available_dir (str, optional): Path to directory containing transducers
     '''
-    def __init__(self, transducers_needed: List[Dict[str, Union[str, List[str]]]]=[], transducers_available_dir=os.path.dirname(default_dir.__file__)):
+    def __init__(self, transducers_needed=[], transducers_available_dir=os.path.dirname(default_dir.__file__)):
         self.transducers_needed = transducers_needed
         csv_files = os.path.join(transducers_available_dir, "*.csv")
         json_files = os.path.join(transducers_available_dir, "*.json")
@@ -65,18 +65,12 @@ class Transducer():
                 for cor in transducer:
                     cor = {"from": cor["from"], "to": cor["to"]}
                     cors.append(cor)
-
         # prevent feeding in rules
-        for cor in cors:
+        for i, cor in enumerate(cors):
             # if output exists as input for another cor
             if cor['to'] in [temp_cor['from'] for temp_cor in cors]:
-                # assign a random, unique character as a temporary value. this could be more efficient
-                random_char = chr(random.randrange(9632, 9727))
-                # make sure character is unique
-                if [temp_char for temp_char in cors if 'temp' in list(temp_char.keys())]:
-                    while random_char in [temp_char['temp'] for temp_char in cors if 'temp' in list(temp_char.keys())]:
-                        random_char = chr(random.randrange(9632, 9727))
-                cor['temp'] = random_char
+                # assign a random, unique character as a temporary value. This makes use of the Supplementary Private Use Area A Unicode block.
+                cor['temp'] = chr(983040 + i)
 
         # sort cors
         cors.sort(key=lambda x: len(x['from']), reverse=True)

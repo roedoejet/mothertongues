@@ -11,9 +11,9 @@ class LanguageSuite():
     '''A collection of languages and their corresponding LanguageConfig and Dictionary objects
 
     Args:
-        :param :list: str or LanguageConfig: A list of LanguageConfigs or paths to files needed to initialize LanguageConfigs
+        config_paths (List[str|LanguageConfig]): A list of LanguageConfigs or paths to files needed to initialize LanguageConfigs
     '''
-    def __init__(self, config_paths: List[Union[str, LanguageConfig]]):
+    def __init__(self, config_paths):
         self.languages_path = os.path.dirname(ldir.__file__)
         self.config_objects = []
         for cp in config_paths:

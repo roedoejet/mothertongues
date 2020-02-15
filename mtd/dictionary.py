@@ -15,20 +15,21 @@ from slugify import slugify
 import datetime
 
 class Dictionary():
-    """A Mother Tongues Dictionary object
+    """A Mother Tongues Dictionary object containing all of your dictionary data.
 
-    - Properties:
-        df (pandas.DataFrame): A parsed, transduced, sorted, joined and indexed DataFrame of the data provided by the language_config that initialized the class instance
+    Args:
+        language_config (LanguageConfig): Configuration object to initialize Dictionary
 
-    - Attributes:
+    Attributes:
         config (dict): LanguageConfig
+        df (pandas.DataFrame): A parsed, transduced, sorted, joined and indexed DataFrame of the data provided by the language_config that initialized the class instance
         name (str): Name of Dictionary
         data_objs (list): List of dicts containing ResourceManifest and parsed data
      
-    Calling len on a Dictionary gives the length of the dataframe ie. how many entries
-    Dictionary is a subscriptable class which access the row in the dataframe at the given index
+    Note:
+        Calling len on a Dictionary gives the length of the dataframe ie. how many entries are in the dictionary. Dictionary is a subscriptable class which accesses the row in the dataframe at the given index
     """
-    def __init__(self, language_config: LanguageConfig):
+    def __init__(self, language_config):
         self.config = language_config['config']
         self.name = slugify(self.config['L1'])
         self.data_objs = language_config['data']
@@ -201,11 +202,19 @@ class Dictionary():
         elif form == 'js':
             return f"var dataDict = {formatted_json}"
 
-    def export_raw_data(self, export_path: str, export_type: str="json", flatten: bool=True) -> None:
-        """Use pandas export functions with some sensible defaults
-        to export raw data to xlsx/json/csv/psv/tsv/html
-        Writes file to path.
-        .. note:: Dictionary.export_raw_data exports **raw** data, not formatted data which is required for Mother Tongues apps
+    def export_raw_data(self, export_path, export_type = "json", flatten = True):
+        """Use pandas export functions with some sensible defaults to export raw data to xlsx/json/csv/psv/tsv/html
+        
+        Args:
+            export_path (str): the path to export to
+            export_type (str, optional): the type of file to export (json, psv, csv, tsv, html, xlsx). Defaults to 'json'.
+            flatten (bool, optional): whether to flatten the data. Defaults to True.
+        
+        Returns:
+            None: Writes file to path instead.
+
+        Note:
+            This method exports **raw** data, not formatted data which is required for Mother Tongues apps
         """
         export_path = os.path.abspath(export_path)
         flattened = self.return_flattened_data()

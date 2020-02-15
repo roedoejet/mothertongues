@@ -12,18 +12,18 @@ class ResourceManifest():
     '''A manifest file for a given resource.
 
        Resources in this case are lexical resources. They can be in any format supported by MTD and the resources
-       for a single Dictionary can be heterogeneous. They must be initialized by a manifest file that can be 
+       for a single Dictionary can be heterogeneous. They must be initialized by a manifest file that can be
        validated against the MTD resource manifest json schema.
 
        Args:
-            :param (dict or str) manifest_dict_or_path: Path to resource manifest or the dict itself
+            manifest (dict|str): Path to resource manifest or the dict itself
     '''
-    def __init__(self, manifest_dict_or_path: Union[str, dict]):
+    def __init__(self, manifest):
         self.schema = MANIFEST_SCHEMA
-        if isinstance(manifest_dict_or_path, dict):
-            self._manifest = manifest_dict_or_path
+        if isinstance(manifest, dict):
+            self._manifest = manifest
         else:
-            self._manifest = self.parse(manifest_dict_or_path)
+            self._manifest = self.parse(manifest)
         self.file_type = "na"
         if "file_type" in self._manifest:
             self.file_type = self._manifest['file_type']
@@ -94,8 +94,7 @@ class ResourceManifest():
         return manifest
 
 class BaseParser():
-    """This class contains common methods that are used
-    between many of the format specific parsers
+    """This class contains common methods which are inherited by the format specific parsers.
     """
     def __init__(self):
         # to be overwritten by parsers

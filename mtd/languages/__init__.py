@@ -21,10 +21,10 @@ class LanguageConfig():
     '''The configuration information necessary for making a Dictionary from a language.
 
     Args:
-        :param (str or dict): Path to a valid language config file according to MTD config schema
+        config_object (str|dict): Path to a valid language config file according to MTD config schema
 
     '''
-    def __init__(self, config_object: Union[str, dict]):
+    def __init__(self, config_object):
         self.config_schema = CONFIG_SCHEMA
         self.language_default_dir = os.path.dirname(ldir)
         if isinstance(config_object, dict):

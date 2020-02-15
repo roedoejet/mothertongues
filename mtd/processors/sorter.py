@@ -2,10 +2,22 @@ import re
 from pandas import DataFrame
 
 class ArbSorter(object):
-    '''Sort entries based on alphabet. Thanks to Lingweenie: https://lingweenie.org/conlang/sort.html
+    ''' Sort entries based on alphabet. Thanks to Lingweenie: https://lingweenie.org/conlang/sort.html
+
+        Given a sequence of letters (arbitrary-length Unicode strings), convert each into a numerical code.
+        Then, convert any string to be sorted into its numerical equivalent and sort on that.
     
+        Examples:
+            Here is an example of a sorter.
+
+            >>> sorter = ArbSorter(['a', 'b', 'c'])
+            >>> sorter.word_as_values('abc')
+            [0, 1, 2]
+            >>> sorter.values_as_word([0, 1, 2])
+            'abc'
+
         Args:
-            :param list[str] order: The order to sort by.
+            order (list[str]): The order to sort by.
     '''
     def __init__(self, order):
         split_order = sorted(order, key=len, reverse=True)
