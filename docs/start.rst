@@ -24,9 +24,9 @@ MTD Structure
 You can think of creating a Mother Tongues Dictionary as involving two distinct parts:
 
 1. **MTD** - The tool documented here, which is essentially a text processing tool. It is able to take data for one or more languages from multiple different
-sources (spreadsheets, websites, plain text files etc...) and combine the data, sort it, index it, find duplicates, transduce a 'compare form' to be used by the approximate search algorithm, and then export it to a number of different formats. 
+sources (spreadsheets, websites, plain text files etc...) and combine the data, sort it, index it, find duplicates, create a 'compare form' to be used by the approximate search algorithm, and then export it to a number of different formats. 
 
-2. **MTD-UI** - A front-end tool for *visualizing* your dictionary. Each front end tool must accept two files, a "config.js" file which has information about the dictionary including an alphabet to sort by and the name of the language etc... and a 'data_cached.js" file which contains all the lexical (word related)
+2. **MTD-UI** - A front-end tool for *visualizing* your dictionary. Each front end tool must accept two files. The first file is a "config.js" file which has information about the dictionary including an alphabet to sort by, the name of the language and other metadata.  The second file is a a 'data_cached.js" file which contains all the lexical (word related)
 data for the dictionary.
 
 Making a Dictionary
