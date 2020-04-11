@@ -1,0 +1,5 @@
+mapping: test_length_transducer.csv
+as_is: false
+prevent_feeding: false
+authors:
+  - Aidan Pine

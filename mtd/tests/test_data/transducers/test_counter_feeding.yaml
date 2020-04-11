@@ -1,0 +1,4 @@
+mapping: test_feeding.csv
+prevent_feeding: true
+authors:
+  - Aidan Pine

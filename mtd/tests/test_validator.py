@@ -1,6 +1,6 @@
 from unittest import TestCase
 from mtd.tests import SAMPLE_DATA_OBJ, SAMPLE_DATA_DF
-from mtd.processors.validator import DfValidator
+from mtd.processors.validator import return_null, return_dupes, remove_dupes
 from pandas import DataFrame
 from copy import deepcopy
 
@@ -15,14 +15,11 @@ class ValidatorTest(TestCase):
         self.missing_value_data = DataFrame(missing_val)
     
     def test_missing_key(self):
-        dfv = DfValidator(self.missing_key_data)
-        self.assertFalse(dfv.check_not_null())
+        self.assertFalse(return_null(self.missing_key_data))
 
     def test_missing_value(self):
-        dfv = DfValidator(self.missing_value_data)
-        self.assertFalse(dfv.check_not_null())
+        self.assertFalse(return_null(self.missing_value_data))
 
     def test_dupes(self):
-        dfv = DfValidator(self.duped_data)
-        self.assertTrue(SAMPLE_DATA_DF.equals(dfv.remove_dupes()))
-        self.assertTrue(self.duped_data.equals(dfv.log_dupes()))
+        self.assertTrue(SAMPLE_DATA_DF.equals(remove_dupes(self.duped_data)))
+        self.assertTrue(len(return_dupes(self.duped_data)) == 2)

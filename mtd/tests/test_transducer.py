@@ -21,7 +21,7 @@ class TransducerTest(TestCase):
         path = transducer.return_transducer_path('norm')
         name = transducer.return_transducer_name(path)
         self.assertEqual(name, 'norm')
-        self.assertTrue(os.path.exists(path))
+        self.assertTrue(path in transducer.available_transducers)
         with self.assertRaises(TransducerNotFoundError):
             transducer.return_transducer_path('foobar')
         with self.assertRaises(TransducerNotFoundError):
@@ -104,23 +104,19 @@ class TransducerTest(TestCase):
             transduced_data_df.equals(transducer.apply_to_data_frame(data_df)))
 
     def test_length_ordering(self):
-        '''Transductions should be reverse ordered by length. Here with a transducer that turns 
+        '''Transductions should be reverse ordered by length if specifed. Here with a transducer that turns 
         a->b and aa->c we get 'cbb' instead of 'bbbb'
         '''
-        t_path = os.path.join(self.test_transducers_path,
+        t_path_as_is = os.path.join(self.test_transducers_path,
                               'test_length_transducer.csv')
+        t_path = os.path.join(self.test_transducers_path,
+                              'test_length_transducer.yaml')
         transducer = Transducer()
+        transducer_fn_as_is = transducer.create_transducer_function(t_path_as_is)
         transducer_fn = transducer.create_transducer_function(t_path)
+        self.assertEqual('bbbb', transducer_fn_as_is('aaba'))
         self.assertEqual('cbb', transducer_fn('aaba'))
 
-    def test_intermediate(self):
-        '''Transductions should not feed. a -> b & b -> c should turn a -> b, not a -> (b) -> c
-        '''
-        t_path = os.path.join(self.test_transducers_path,
-                              'test_intermediate_transducer.csv')
-        transducer = Transducer()
-        transducer_fn = transducer.create_transducer_function(t_path)
-        self.assertEqual('bcb', transducer_fn('aba'))
 
     def test_composite_transducer(self):
         '''Transducer should allow composite transducer. A composite transducer is a list of transducers that are applied
@@ -128,7 +124,6 @@ class TransducerTest(TestCase):
         '''
         data = [{"word": "aaba"}]
         transduced_data = [{"word": "bbbb"}]
-
         data_df = DataFrame(data)
         transduced_data_df = DataFrame(transduced_data)
 
@@ -138,9 +133,8 @@ class TransducerTest(TestCase):
             transducers_needed=[{
                 'source': 'word',
                 'target': 'word',
-                'functions': ['test_composite']
-            }],
-            transducers_available_dir=self.test_transducers_path)
+                'functions': [t_path]
+            }])
  
         fns = transducer.load_composite(t_path)
         f_in = data[0]['word']
@@ -171,13 +165,31 @@ class TransducerTest(TestCase):
         self.assertEqual('TESTTEST', f_in)
 
     def test_feeding(self):
-        '''Prevent feeding. I.e. if a rules a->b and b->c exist, aba should produce bcb, not ccc
+        '''Allow feeding. I.e. if a rules a->b and b->c exist, aba should produce ccc not bcb.
+        '''
+        data = [{"word": "aba"}]
+        transduced_data = [{"word": "ccc"}]
+
+        t_path = os.path.join(self.test_transducers_path,
+                              'test_feeding.csv')
+
+        transducer = Transducer([{
+            'source': 'word',
+            'target': 'word',
+            'functions': [t_path]
+        }])
+        transducer_fn = transducer.create_transducer_function(t_path)
+        self.assertEqual(transduced_data[0]["word"],
+                         transducer_fn(data[0]['word']))
+
+    def test_counter_feeding(self):
+        '''Prevent feeding. I.e. if a rules a->b and b->c exist, aba should produce bcb not ccc.
         '''
         data = [{"word": "aba"}]
         transduced_data = [{"word": "bcb"}]
 
         t_path = os.path.join(self.test_transducers_path,
-                              'test_feeding.csv')
+                              'test_counter_feeding.yaml')
 
         transducer = Transducer([{
             'source': 'word',
