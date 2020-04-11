@@ -3,7 +3,7 @@ import time
 import os
 
 FIELD_STYLES = dict(
-    levelname=dict(color='green', bold=coloredlogs.CAN_USE_BOLD_FONT),
+    levelname=dict(color='green'),
 )
 
 FORMATTER = logging.Formatter('%(levelname)s - %(message)s')
