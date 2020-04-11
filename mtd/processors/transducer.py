@@ -37,16 +37,21 @@ class Transducer():
         t_name_or_path = os.path.expanduser(t_name_or_path)
         if os.path.exists(t_name_or_path):
             return t_name_or_path
+        elif t_name_or_path in self.available_transducers:
+            return t_name_or_path
         else:
-            return False
+            raise TransducerNotFoundError(t_name_or_path)
         
     def return_transducer_name(self, t_name_or_path: str):
         '''Check if transducer is in self.available_transducers or if path exists, otherwise raise error.
         '''
-        t_name_or_path = os.path.expanduser(t_name_or_path)
+
+        if not t_name_or_path:
+            raise TransducerNotFoundError(t_name_or_path)
         if t_name_or_path in self.available_transducers:
             return t_name_or_path
-        elif os.path.exists(t_name_or_path):
+        t_name_or_path = os.path.expanduser(t_name_or_path)
+        if os.path.exists(t_name_or_path):
             fn, ext = os.path.splitext(os.path.basename(t_name_or_path))
             return fn
         else:
@@ -80,11 +85,14 @@ class Transducer():
             composite = json.load(f)
         for t in composite:
             # Try and find transducers
-            path = self.return_transducer_path(t)
+            try:
+                path = self.return_transducer_path(t)
+            except TransducerNotFoundError:
+                path = False
             if not path and t in self.available_transducers:
                 fn = self.create_transducer_function(t)
             elif not path:
-                globs = glob.glob(os.path.join(t_path_dir, t + '*'))
+                globs = glob.glob(os.path.join(t_path_dir, t + '.*'))
                 # If there's a match
                 if globs:
                     globs = [x for x in filter(lambda x: 'composite' not in x, globs)]
