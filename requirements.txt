@@ -4,6 +4,7 @@ openpyxl
 pandas
 requests
 Fabric3
+g2p
 gspread
 jsonschema
 jsonpath-rw
@@ -16,3 +17,4 @@ flask_cors
 requests
 lxml
 tqdm
+js2py
