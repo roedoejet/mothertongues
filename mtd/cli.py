@@ -1,14 +1,19 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import click
 import os
 import glob
 import mtd as parent_dir
 import json
+from datetime import datetime as dt
 from mtd.app import app
 from mtd.tests import logger
 from mtd.dictionary import Dictionary
 from mtd.exceptions import CredentialsMissingError, UnfoundConfigError
 from mtd.languages import LanguageConfig
 from mtd.languages.suites import LanguageSuite
+from mtd.processors.validator import check_alphabet, return_null, return_dupes
 from jsonschema.exceptions import ValidationError
 from mtd.buildtools.write_static import set_active_dictionaries, write_static, write_swagger
 from flask.cli import FlaskGroup
@@ -121,6 +126,102 @@ def prepare(language):
             click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app.")
     except AttributeError:
         click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app. *Warning* Mother Tongues uses logger caching to check if your build finished with errors. Because you are using a version of Python < 3.7 this feature is disabled and running your dictionary might not work.")
+
+
+@click.argument('language', type=click.Path(exists=True))
+@click.option('--alphabet', '-al', is_flag=True, required=False, default=True, help='Check alphabet is readable and no missed characters in data')
+@app.cli.command()
+def check(language, alphabet):
+    ''' Utility to check various aspects of your Mother Tongues Dictionary.
+    '''
+    base_template = '''
+    ===========================================================
+    =                       MTD Report                        =
+    =                                                         =
+    =                                                         =
+    =                                                         =
+    =                                                         =
+    =                                                         =
+    ===========================================================
+
+    Time: {time}
+
+    Dictionaries
+    ++++++++++++
+
+    {dictionaries}
+
+    '''
+    dictionary_template = '''
+    {L1} to {L2} Dictionary
+    -----------------------
+
+    Config
+    ------
+    Alphabet: {original_alphabet}
+
+    Tests
+    -----
+
+    Alphabet Test: {alphabet_test} 
+        Characters Not in Alphabet: {letters_not_in_alphabet}
+    Null Items Test: {null_test}
+        Number of Null Items: {number_of_null_rows}
+    Duplicates Test: {duplicate_test}
+        Number of Duplicates: {number_of_duplicates}
+    
+    Data
+    ----
+
+    {duplicates}
+    '''
+    time = str(dt.now())
+    dictionaries = []
+    success = '✓'
+    fail = '✗'
+    language = os.path.abspath(language)
+    configs = return_configs_from_path(language)
+    ls = LanguageSuite(configs)
+    for i, lang in enumerate(ls.config_objects):
+        df = ls.dictionaries[i].df
+        dictionary = {'L1': lang.config['config']['L1'], 'L2': lang.config['config']['L2'], 'tests': {}}
+        # Check Alphabet
+        excess = check_alphabet(lang.config['config']['alphabet'], df)
+        if excess:
+            dictionary['tests']['alphabet_test'] = fail
+        else:
+            dictionary['tests']['alphabet_test'] = success
+        dictionary['letters_not_in_alphabet'] = json.dumps(excess)
+        # Check Null
+        null = return_null(df)
+        if null:
+            dictionary['tests']['null_test'] = fail
+        else:
+            dictionary['tests']['null_test'] = success
+        dictionary['number_of_null_rows'] = len(null)
+        # Check Duplicates
+        dupes = return_dupes(df)
+        if dupes:
+            dictionary['tests']['duplicate_test'] = fail
+        else:
+            dictionary['tests']['duplicate_test'] = success
+        dictionary['number_of_duplicates'] = len(dupes)
+        dictionary['duplicates'] = [x['value'] for x in dupes]
+        dictionary['original_alphabet'] = json.dumps(lang.config['config']['alphabet'])
+        dictionaries.append(dictionary)
+    base = base_template.format(time=time, 
+                        dictionaries='\n'.join([dictionary_template.format(L1=d['L1'], 
+                                                                 L2=d['L2'], 
+                                                                 alphabet_test=d['tests']['alphabet_test'],
+                                                                 letters_not_in_alphabet=d['letters_not_in_alphabet'],
+                                                                 null_test=d['tests']['null_test'],
+                                                                 number_of_null_rows=d['number_of_null_rows'],
+                                                                 duplicate_test=d['tests']['duplicate_test'],
+                                                                 number_of_duplicates=d['number_of_duplicates'],
+                                                                 duplicates=d['duplicates'],
+                                                                 original_alphabet=d['original_alphabet']) for d in dictionaries]))
+    with open(f'mtd-{time}.log', 'w') as f:
+        f.write(base)
 
 @app.cli.command()
 @click.argument('language', type=click.Path(exists=True))

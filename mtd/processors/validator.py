@@ -1,57 +1,57 @@
-from numpy import nan
 from mtd.exceptions import DfMissingKeysValidationError, DfNullValuesValidationError
 from mtd.tests import logger
 from pandas import concat, DataFrame
 from typing import List, Union
 
-class DfValidator():
-    '''Validate DataFrame to check for null values or duplicates
+def return_null(df, notnull: List[str]=['word', 'definition']) -> bool:
+    """Returns a list of null items
 
-    Args:
-        df (DataFrame): DataFrame to check
-    '''
-    def __init__(self, df: DataFrame):
-        self.df = df.replace('', nan)
-
-    def check_not_null(self, notnull: List[str]=['word', 'definition']) -> bool:
-        """Returns false if any of the keys in notnull are empty
-
-        :param list notnull: list of keys to guarantee non-null values for
-        """
-        if all([nn in self.df for nn in notnull]):
-            is_not_null = all([self.df[nn].notnull().all() for nn in notnull])
-            if is_not_null:
-                return is_not_null
-            else:
-                all_null_values = []
-                for col in notnull:
-                    all_null_values.append(self.df[self.df[col].isnull()])
-                all_null_values = concat(all_null_values)
-                e = DfNullValuesValidationError(notnull, all_null_values)
-                logger.warning(e)
-                return False
+    :param list notnull: list of keys to guarantee non-null values for
+    """
+    if all([nn in df for nn in notnull]):
+        is_not_null = all([df[nn].notnull().all() for nn in notnull])
+        if is_not_null:
+            return []
         else:
-            e = DfMissingKeysValidationError(notnull)
-            logger.warning(e)
-            return False
+            all_null_values = []
+            for col in notnull:
+                all_null_values.append(df[df[col].isnull()].values)
+            return all_null_values
+    else:
+        e = DfMissingKeysValidationError(notnull)
+        logger.error(e)
 
-    def remove_dupes(self) -> DataFrame:
-        """Removes and logs any true duplicate entries TODO: fix if list in df
+def check_alphabet(alphabet: List[str], df: DataFrame, key: str = 'word') -> List[str]:
+    ''' Checks if any characters exist in the DataFrame that aren't in the alphabet.
+    '''
+    errored = []
+    data = df[key].values
+    chars = list(set(''.join(data)))
+    alphabet = list(set(''.join(alphabet)))
+    for char in chars:
+        char = char.strip()
+        if char and char not in alphabet:
+            errored.append(char)
+    return errored
 
-           :param list notduped: list of keys (columns) to check for duplicates
-        """
-        dupes_removed = self.df.drop_duplicates(subset=["word", "definition"])
-        return dupes_removed
+def remove_dupes(df) -> DataFrame:
+    """Removes and logs any true duplicate entries TODO: fix if list in df
 
-    def log_dupes(self, dupe_columns: List[str] = ['word']) -> DataFrame:
-        '''Log all word/definition duplicates. TODO: why does ['word', 'definition'] not work for dupe_columns?
-        '''
-        dupes = self.df.loc[self.df.duplicated(subset=dupe_columns, keep=False)]
-        dcols = " and ".join(dupe_columns)
-        for i in range(len(dupes)):
-            dupe_i = dupes.index[i]
-            dupe_v = [v for v in dupes.values[i] if isinstance(v, str)]
-            logger.warning(f"The information at index {dupe_i} with the values {dupe_v} has duplicate values for {dcols}. Duplicates are not removed by default, so this is just a warning. Note that the index may not directly correspond to the location in your data.")
-        return dupes
+        :param list notduped: list of keys (columns) to check for duplicates
+    """
+    dupes_removed = df.drop_duplicates(subset=["word", "definition"])
+    return dupes_removed
+
+def return_dupes(df, dupe_columns: List[str] = ['word']) -> DataFrame:
+    '''return all word/definition duplicates. TODO: why does ['word', 'definition'] not work for dupe_columns?
+    '''
+    dupes = df.loc[df.duplicated(subset=dupe_columns, keep=False)]
+    dupe_msgs = []
+    dcols = " and ".join(dupe_columns)
+    for i in range(len(dupes)):
+        dupe_i = dupes.index[i]
+        dupe_v = [v for v in dupes.values[i] if isinstance(v, str)]
+        dupe_msgs.append({'name': dcols, 'index': dupe_i, 'value': dupe_v})
+    return dupe_msgs
 
 

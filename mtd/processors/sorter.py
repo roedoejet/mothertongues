@@ -20,7 +20,7 @@ class ArbSorter(object):
             order (list[str]): The order to sort by.
     '''
     def __init__(self, order):
-        split_order = sorted(order, key=len, reverse=True)
+        split_order = [re.escape(x) for x in sorted(order, key=len, reverse=True)]
         self.splitter = re.compile(u"(%s)" % "|".join(split_order), re.UNICODE)
         # Next, collect weights for the ordering.
         self.ords = {}

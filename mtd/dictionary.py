@@ -2,7 +2,7 @@ from mtd.parsers import parse
 from string import ascii_lowercase
 from mtd.processors.sorter import ArbSorter
 from mtd.processors.transducer import Transducer
-from mtd.processors.validator import DfValidator
+from mtd.processors.validator import return_null, return_dupes
 from mtd.exceptions import DfValidationError, DuplicateDataNameError, TransducerSourceNotFoundError
 from mtd.languages import LanguageConfig
 from mtd.parsers.utils import ResourceManifest
@@ -10,6 +10,7 @@ from mtd.tests import logger
 import os
 import json
 import pandas as pd
+from numpy import nan
 from typing import Dict, List, Union
 from slugify import slugify
 import datetime
@@ -32,12 +33,12 @@ class Dictionary():
     def __init__(self, language_config):
         self.config = language_config['config']
         self.name = slugify(self.config['L1'])
-        self.data_objs = language_config['data']
         # parse
-        self.data_objs = [parse(d['manifest'], d['resource']) for d in self.data_objs]
+        self.data_objs = [parse(d['manifest'], d['resource']) for d in language_config['data']]
         # validate
         for do in self.data_objs:
-            if not self.validate(do['data']):
+            do['data'] = do['data'].replace('', nan)
+            if return_null(do['data']):
                 logger.warning('Removing null rows')
                 do['data'] = do['data'].dropna(subset=['word'], how='all')
         # transduce
@@ -48,15 +49,12 @@ class Dictionary():
         self._df = self.joined()
         # index
         self.index_key_to_column()
-        # validate
-        self.validate(self._df)
         # validate ID
         if not self.validate_id(self._df):
             logger.warning("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
             self._df['entryID'] = self._df.index.astype(str)
         # log dupes
-        self.log_dupes(self._df)
-        
+        dupes = return_dupes(self._df)
         
     def __len__(self):
         return len(self._df.index)
@@ -70,26 +68,13 @@ class Dictionary():
     
     @df.setter
     def df(self, value: pd.DataFrame):
-        if not self.validate(value):
-            raise DfValidationError
         self._df = value
-
-    def validate(self, df: pd.DataFrame) -> bool:
-        dfvalidator = DfValidator(df)
-        # if word and definition are null, remove them.
-        notnull = dfvalidator.check_not_null()
-        return notnull
 
     def validate_id(self, df) -> bool:
         if not "entryID" in df:
             return False
         else:
-            dfvalidator = DfValidator(df)
-            return dfvalidator.check_not_null(notnull=['entryID'])
-
-    def log_dupes(self, df: pd.DataFrame) -> pd.DataFrame:
-        dfvalidator = DfValidator(df)
-        return dfvalidator.log_dupes()
+            return return_null(df, notnull=['entryID'])
 
     def joined(self) -> pd.DataFrame:
         keys = []

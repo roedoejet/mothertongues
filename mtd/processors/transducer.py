@@ -7,9 +7,16 @@ import csv
 import json
 import random
 import re
+import yaml
+
+from g2p.mappings import Mapping
+from g2p.mappings.utils import load_from_file
+from g2p.transducer import Transducer as G2PTransducer
 from pandas import DataFrame
 from typing import Callable, Dict, List, Union
 from collections import ChainMap
+
+TRANSDUCER_DIR = os.path.dirname(default_dir.__file__)
 
 class Transducer():
     '''Class that creates transducers in a variety of formats.
@@ -18,21 +25,20 @@ class Transducer():
         transducers_needed (List[dict], optional): A list of dicts containing a source key (str), target key (str) and list of transducer functions (either lambda functions or transducer names or paths)
         transducers_available_dir (str, optional): Path to directory containing transducers
     '''
-    def __init__(self, transducers_needed=[], transducers_available_dir=os.path.dirname(default_dir.__file__)):
+    def __init__(self, transducers_needed=[], transducers_config=os.path.join(TRANSDUCER_DIR, 'config.yaml')):
         self.transducers_needed = transducers_needed
-        csv_files = os.path.join(transducers_available_dir, "*.csv")
-        json_files = os.path.join(transducers_available_dir, "*.json")
-        self.paths_to_available_transducers = glob.glob(csv_files) + glob.glob(json_files)
-        self.available_transducers = {os.path.splitext(os.path.basename(p))[0]: p for p in self.paths_to_available_transducers}
+        with open(transducers_config, encoding='utf8') as f:
+            data = yaml.safe_load(f)
+        for mapping in data['mappings']:
+            mapping['mapping'] = os.path.join(TRANSDUCER_DIR, mapping['mapping'])
+        self.available_transducers = {x['language_name']: x for x in data['mappings']}
         
     def return_transducer_path(self, t_name_or_path):
         t_name_or_path = os.path.expanduser(t_name_or_path)
-        if t_name_or_path in self.available_transducers:
-            return self.available_transducers[t_name_or_path]
-        elif os.path.exists(t_name_or_path):
+        if os.path.exists(t_name_or_path):
             return t_name_or_path
         else:
-            raise TransducerNotFoundError(t_name_or_path)
+            return False
         
     def return_transducer_name(self, t_name_or_path: str):
         '''Check if transducer is in self.available_transducers or if path exists, otherwise raise error.
@@ -46,59 +52,20 @@ class Transducer():
         else:
             raise TransducerNotFoundError(t_name_or_path)
 
-    def get_correspondences(self, t_name_or_path: str) -> List[Dict[str, str]]:
-        """ Get all correspondences for transducer
-
-        :param t_name_or_path: <string> path to transducer or default transducer
-        """
-        cors = []
-        t_path = self.return_transducer_path(t_name_or_path)
-        if t_path.endswith('csv'):
-            with open(t_path, encoding='utf8') as f:
-                    reader = csv.reader(f)
-                    for cor in reader:
-                        cor = {"from": cor[0], "to": cor[1]}
-                        cors.append(cor)
-        elif t_path.endswith('json'):
-            with open(t_path, encoding='utf8') as f:
-                transducer = json.load(f)
-                for cor in transducer:
-                    cor = {"from": cor["from"], "to": cor["to"]}
-                    cors.append(cor)
-        # prevent feeding in rules
-        for i, cor in enumerate(cors):
-            # if output exists as input for another cor
-            if cor['to'] in [temp_cor['from'] for temp_cor in cors]:
-                # assign a random, unique character as a temporary value. This makes use of the Supplementary Private Use Area A Unicode block.
-                cor['temp'] = chr(983040 + i)
-
-        # sort cors
-        cors.sort(key=lambda x: len(x['from']), reverse=True)
-        return cors
-
     def create_transducer_function(self, t_name_or_path: str) -> Callable[[str], str]:
         """ Creates function based on transducer
 
         :param t_name_or_path: <string> path to transducer or default transducer
         """
-        cors = self.get_correspondences(t_name_or_path)
-        def transduce(to_parse: str):
-            '''String to transduce
-            '''
-            if isinstance(to_parse, str):
-                for cor in cors:
-                    reg_from = re.compile(re.escape(cor['from']))
-                    if "temp" in cor:
-                        to_parse = re.sub(reg_from, cor['temp'], to_parse)
-                    else:
-                        to_parse = re.sub(reg_from, cor['to'], to_parse)
-                for cor in cors:
-                    if "temp" in cor and cor["temp"] and re.search(cor["temp"], to_parse):
-                        reg_temp = re.compile(re.escape(cor['temp']))
-                        to_parse = re.sub(reg_temp, cor['to'], to_parse)
-                
-            return to_parse
-        return transduce
+        path = self.return_transducer_path(t_name_or_path)
+        if not path and t_name_or_path in self.available_transducers:
+            mapping = Mapping(**self.available_transducers[t_name_or_path])
+        elif path.endswith('yaml'):
+            mapping = Mapping(self.return_transducer_path(t_name_or_path))
+        else:
+            mapping = Mapping(load_from_file(self.return_transducer_path(t_name_or_path)))
+        transducer = G2PTransducer(mapping)
+        return lambda x: transducer(x).output_string
     
     def load_composite(self, t_name_or_path: str) -> List[Callable]:
         '''Load composite transducer from path or name
@@ -107,11 +74,33 @@ class Transducer():
             :param str t_name_or_path: name of transducer or path to transducer.
         '''
         t_path = self.return_transducer_path(t_name_or_path)
+        t_path_dir = os.path.abspath(os.path.dirname(t_path))
         fns = []
         with open(t_path, encoding='utf8') as f:
             composite = json.load(f)
         for t in composite:
-            fn = self.create_transducer_function(t)
+            # Try and find transducers
+            path = self.return_transducer_path(t)
+            if not path and t in self.available_transducers:
+                fn = self.create_transducer_function(t)
+            elif not path:
+                globs = glob.glob(os.path.join(t_path_dir, t + '*'))
+                # If there's a match
+                if globs:
+                    globs = [x for x in filter(lambda x: 'composite' not in x, globs)]
+                    if len(globs) > 1:
+                        for path in globs:
+                            # prioritize yaml
+                            if path.endswith('yaml') or globs.index(path) == len(globs) - 1:
+                                fn = self.create_transducer_function(path)
+                                break
+                    else:
+                        # return the first
+                        fn = self.create_transducer_function(globs[0])   
+                else:
+                    raise TransducerNotFoundError(t_name_or_path)     
+            else:       
+                fn = self.create_transducer_function(t)
             fns.append(fn)
         return fns
 
@@ -141,7 +130,7 @@ class Transducer():
                         fn = self.create_transducer_function(function)
                         df[transducer['target']] = df[source].apply(fn)
                     except:
-                        breakpoint()
+                        raise ValueError(f'could not create transducer from {function}. Please look at it and try again.')
         return df
     
     def return_js_template(self, t_name_or_path: str) -> str:
@@ -178,10 +167,16 @@ class Transducer():
                 composite_transducers = json.load(f)
                 return composite_js_template.format(name=name, composite_transducers=composite_transducers)
         else:
-            cors = self.get_correspondences(t_name_or_path)
-            keys = sorted([cor['from'] for cor in cors], key=len, reverse=True)
+            path = self.return_transducer_path(t_name_or_path)
+            if not path and t_name_or_path in self.available_transducers:
+                mapping = Mapping(**self.available_transducers[t_name_or_path])
+            elif path.endswith('yaml'):
+                cors = Mapping(self.return_transducer_path(t_name_or_path))
+            else:
+                cors = Mapping(load_from_file(self.return_transducer_path(t_name_or_path)))
+            keys = sorted([cor['in'] for cor in cors.mapping], key=len, reverse=True)
             # js_cors = [{k:v for k,v in cor} for cor in cors]
-            js_cors = [{cor['from']: cor['to']} for cor in cors]
+            js_cors = [{cor['in']: cor['out']} for cor in cors.mapping]
             js_cors = dict(ChainMap(*js_cors)) 
             return transducer_js_template.format(name=name, cors=js_cors, keys=keys)
         
