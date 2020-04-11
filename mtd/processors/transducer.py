@@ -63,7 +63,7 @@ class Transducer():
         :param t_name_or_path: <string> path to transducer or default transducer
         """
         path = self.return_transducer_path(t_name_or_path)
-        if not path and t_name_or_path in self.available_transducers:
+        if t_name_or_path in self.available_transducers:
             mapping = Mapping(**self.available_transducers[t_name_or_path])
         elif path.endswith('yaml'):
             mapping = Mapping(self.return_transducer_path(t_name_or_path))
