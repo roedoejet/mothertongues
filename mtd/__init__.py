@@ -3,7 +3,7 @@ from mtd.languages.suites import LanguageSuite
 from mtd.dictionary import Dictionary
 from typing import List, Union
 
-VERSION = '0.16'
+VERSION = '0.17'
 
 def create_dictionary(language_config):
     """ Given a LanguageConfig (or a path to one), create a Dictionary
