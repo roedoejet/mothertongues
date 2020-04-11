@@ -1,0 +1,34 @@
+mappings:
+  - mapping: circumflex_norm.csv
+    norm_form: none
+    language_name: circumflex_norm
+  - mapping: combining_comma.csv
+    norm_form: none
+    language_name: combining_comma
+  - mapping: combining_norm.csv
+    norm_form: none
+    language_name: combining_norm
+  - mapping: digraph_norm.csv
+    norm_form: none
+    language_name: digraph_norm
+  - mapping: dot_below_norm.csv
+    norm_form: none
+    language_name: dot_below_norm
+  - mapping: hacek_norm.csv
+    norm_form: none
+    language_name: hacek_norm
+  - mapping: macron_lowline_norm.csv
+    norm_form: none
+    language_name: macron_lowline_norm
+  - mapping: norm.csv
+    norm_form: none
+    language_name: norm
+  - mapping: slurpy_norm.csv
+    norm_form: none
+    language_name: slurpy_norm
+  - mapping: slurpy_to_line_norm.csv
+    norm_form: none
+    language_name: slurpy_to_line_norm
+  - mapping: underline_norm.csv
+    norm_form: none
+    language_name: underline_norm
