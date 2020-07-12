@@ -54,21 +54,22 @@ class Parser(BaseParser):
         chunked = self.chunks(self.resource, int(len(self.resource) / mp.cpu_count()))
         chunk_list = pool.map(self.resolve_targets_m, chunked)
         pool.close()
-        word_list = [item for sublist in chunk_list for item in sublist]
-        return word_list
+        return [item for sublist in chunk_list for item in sublist]
 
     def resolve_targets_m(self, resource) -> List[dict]:
-        word_list = []
-        for entry in tqdm(resource):
-            word_list.append(self.fill_entry_template(self.entry_template, entry, self.getValueFromJsonPath)) 
-        return word_list
+        return [
+            self.fill_entry_template(
+                self.entry_template, entry, self.getValueFromJsonPath
+            )
+            for entry in tqdm(resource)
+        ]
 
     def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
         listof = [match for match in convert_function(entry, listof_dict['listof'])]
         if not listof:
             return listof
+        new_els = []
         if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
-            new_els = []
             listof_dict['listof'] = listof_dict['value']['listof']
             listof_dict['value'] = listof_dict['value']['value']
             for el in listof:
@@ -80,9 +81,7 @@ class Parser(BaseParser):
                     new_entry = [match.value for match in item_json_expr.find(entry)]
                     el = self.fill_listof_entry_template(listof_dict, new_entry, convert_function)
                     new_els.append(el)
-            return new_els
         elif isinstance(listof_dict['value'], dict):
-            new_els = []
             items = [match.value for match in listof][0]
             if isinstance(items, dict):
                 items = [items]
@@ -94,9 +93,7 @@ class Parser(BaseParser):
                     new_json_expr = json_parse(f"{json_expr}.[{i}].[{v.strip()}]")
                     new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(entry)])
                 new_els.append(new_el)
-            return new_els
         else:
-            new_els = []
             for el in listof:
                 json_expr = json_parse(f"{el.full_path}")
                 items = [match.value for match in json_expr.find(entry)][0]
@@ -105,7 +102,8 @@ class Parser(BaseParser):
                     new_json_expr = json_parse(f"{json_expr}.[{i}]")
                     new_el = [match.value for match in new_json_expr.find(entry)][0]
                     new_els.append(new_el)
-            return new_els
+
+        return new_els
 
     
     def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
@@ -124,7 +122,7 @@ class Parser(BaseParser):
                 else:
                     new_lemma[k] = self.fill_entry_template(v, entry, convert_function)
             elif isinstance(v, list):
-                new_v = list()
+                new_v = []
                 for x in v:
                     value = list(self.fill_entry_template({k: x}, entry, convert_function).values())
                     if value[0]:

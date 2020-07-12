@@ -16,7 +16,7 @@ class XmlParserTest(TestCase):
         '''
         for data in self.data:
             parsed_data = parse(self.manifest, data[0])
-            self.assertTrue(parsed_data['data'].equals(data[1]))
+            self.assertTrue(parsed_data['data'].sort_index(axis=1).equals(data[1]))
 
     def test_data_obj_matches_sample(self):
         '''Check test XML data is parsed and looks like ground truth data.

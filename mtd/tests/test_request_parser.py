@@ -22,7 +22,7 @@ class RequestsParserTest(TestCase):
         '''
         for data in self.xml_data:
             parsed_data = parse(self.xml_manifest, data[0])
-            self.assertTrue(parsed_data['data'].equals(data[1]))
+            self.assertTrue(parsed_data['data'].sort_index(axis=1).equals(data[1]))
 
     def test_data_obj_matches_xml_sample(self):
         '''Check test Dict or List data is parsed and looks like ground truth data.
@@ -37,7 +37,7 @@ class RequestsParserTest(TestCase):
         '''
         for data in self.json_data:
             parsed_data = parse(self.json_manifest, data[0])
-            self.assertTrue(parsed_data['data'].equals(data[1]))
+            self.assertTrue(parsed_data['data'].sort_index(axis=1).equals(data[1]))
 
     def test_data_obj_matches_json_sample(self):
         '''Check test Dict or List data is parsed and looks like ground truth data.

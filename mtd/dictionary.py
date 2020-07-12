@@ -165,13 +165,14 @@ class Dictionary():
                         adhoc_vars.append(f"var {k} = {v};")
                 adhoc_vars = "\n".join(adhoc_vars)
             ## Add transducers
-            # for data_obj in self.data_objs:
-            #     transducers = []
-            #     if "transducers" in data_obj['manifest']:
-            #         transducers = data_obj['manifest']['transducers']
-            #     transducer_obj = Transducer(transducers)
-            #     transducers.append(transducer_obj.return_js_template(transducers))
-            # transducers_js = "\n".join([t.return_js_template() for t in transducers])
+            transducers_config = {}
+            for data_obj in self.data_objs:
+                transducers = []
+                if "transducers" in data_obj['manifest']:
+                    transducers = data_obj['manifest']['transducers']
+                transducer_obj = Transducer(transducers)
+                configs = transducer_obj.return_mapping_configs()
+                config_template_object["L1"]["transducers"] = configs
             return f"var config = {json.dumps(config_template_object)}" + adhoc_vars
         elif form == 'json':
             return json.dumps(config_template_object)

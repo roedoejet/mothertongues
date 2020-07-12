@@ -17,7 +17,7 @@ class PklParserTest(TestCase):
         '''Check test pkl data is parsed and looks like ground truth SAMPLE_DATA_DF
         '''
         parsed_data = parse(self.manifest, self.data)
-        self.assertTrue(parsed_data['data'].equals(SAMPLE_DATA_DF))
+        self.assertTrue(parsed_data['data'].sort_index(axis=1).equals(SAMPLE_DATA_DF))
 
     def test_data_obj_matches_sample(self):
         '''Check test pkl data is parsed and looks like ground truth SAMPLE_DATA_OBJ

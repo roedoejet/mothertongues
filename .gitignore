@@ -15,3 +15,7 @@ docs/_build/
 *.cprof
 *.prof
 *.log
+mtd/static/assets/js/config-h-nq-min-m.js
+mtd/static/assets/js/config-test.js
+mtd/static/assets/js/dict_cached-h-nq-min-m.js
+mtd/static/assets/js/dict_cached-test.js

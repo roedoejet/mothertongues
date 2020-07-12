@@ -1,7 +1,7 @@
 from mtd.tests.test_data import csv as csv_path
 from mtd.tests import SAMPLE_DATA_DF, SAMPLE_DATA_OBJ
 import os
-from unittest import TestCase
+from unittest import main, TestCase
 from mtd.parsers import parse
 
 class CsvParserTest(TestCase):
@@ -14,7 +14,7 @@ class CsvParserTest(TestCase):
         '''Check test CSV data is parsed and looks like ground truth SAMPLE_DATA_DF
         '''
         parsed_data = parse(self.manifest, self.data)
-        self.assertTrue(parsed_data['data'].equals(SAMPLE_DATA_DF))
+        self.assertTrue(parsed_data['data'].sort_index(axis=1).equals(SAMPLE_DATA_DF))
 
     def test_data_obj_matches_sample(self):
         '''Check test CSV data is parsed and looks like ground truth SAMPLE_DATA_OBJ
@@ -22,3 +22,6 @@ class CsvParserTest(TestCase):
         parsed_data = parse(self.manifest, self.data)
         parsed_data_obj = parsed_data['data'].to_dict(orient='records')
         self.assertEqual(SAMPLE_DATA_OBJ, parsed_data_obj)
+
+if __name__ == "__main__":
+    main()
