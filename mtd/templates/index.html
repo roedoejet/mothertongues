@@ -43,8 +43,10 @@
     <div class="container">
       <div class="row">
         <div class="one-half column">
-          <h4 class="hero-heading">Hey, you've just made some sweet Mother Tongues Dictionaries. Congrats! Check them out below.</h4>
+          <h4 class="hero-heading">Hey, you've just made some sweet Mother Tongues Dictionaries. Congrats! Check them
+            out below.</h4>
           <a class="button button-primary" href="https://mothertongues.org">Learn about Mother Tongues</a>
+          <a class="button button-primary" href="https://docs.mothertongues.org">View Mother Tongues Docs</a>
         </div>
         <div class="one-half column phones">
           <!-- <img class="phone" src="images/iphone.png">
@@ -54,13 +56,13 @@
     </div>
   </div>
 
-  <div class="section get-help">
+  <!-- <div class="section get-help">
     <div class="container">
       <h3 class="section-heading">Need help getting started?</h3>
       <p class="section-description">Check out the Documentation below</p>
-      <a class="button button-primary" href="http://getskeleton.com">View Skeleton Docs</a>
+      <a class="button button-primary" href="https://docs.mothertongues.org">View Mother Tongues Docs</a>
     </div>
-  </div>
+  </div> -->
 
   <div class="section">
     <div class="container">
@@ -68,7 +70,8 @@
       <p class="section-description">Click on the links below to preview the dictionaries you've created.</p>
       <div class="row">
         <div class="one-half column category">
-          {% for name in data %} <a class="button button-primary" href="/dictionaries/{{ name }}">{{name}}</a> {% endfor %}
+          {% for name in data %} <a class="button button-primary" href="/dictionaries/{{ name }}">{{name}}</a>
+          {% endfor %}
         </div>
         <div class="one-half column category">
         </div>
