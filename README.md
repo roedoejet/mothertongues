@@ -4,14 +4,14 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/roedoejet/mothertongues/badge.svg?branch=master)](https://coveralls.io/github/roedoejet/mothertongues?branch=master)
 [![Build Status](https://travis-ci.org/roedoejet/mothertongues.svg?branch=master)](https://travis-ci.org/roedoejet/mothertongues)
-[![Documentation Status](https://readthedocs.org/projects/mother-tongues-dictionaries/badge/?version=latest)](https://mother-tongues-dictionaries.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://img.shields.io/badge/-docs-blue)](https://docs.mothertongues.org)
 [![PyPI package](https://img.shields.io/pypi/v/mothertongues.svg)](https://pypi.org/project/mothertongues/)
 [![license](https://img.shields.io/github/license/roedoejet/mothertongues.svg)](LICENSE)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-MTD is the first of two open-source tools that allow language communities and developers to quickly and inexpensively make their dictionary data digitally accessible. MTD is a tool that parses and prepares your data for being used with an [MTD UI](https://github.com/roedoejet/mothertongues-ui).
+MTD is the first of two open-source tools that allow language communities and developers to quickly and inexpensively make their dictionary data digitally accessible. MTD is a tool that parses and prepares your data for being used with an MTD User Interface. Currently [mobile](https://github.com/roedoejet/mothertongues-ui) and [web](https://github.com/MotherTongues/mothertongues-UI-Web) are supported.
 
-Please visit the [website](https://www.mothertongues.org) or [docs](https://mother-tongues-dictionaries.readthedocs.io/en/latest/) for more information.
+Please visit the [website](https://www.mothertongues.org) or [docs](https://docs.mothertongues.org) for more information.
 
 ## Table of Contents
 
@@ -43,49 +43,18 @@ In order to create a Mother Tongues Dictionary you will need at least two things
 - A configuration file for you language/dictionary
 - A configuration file for each source of data
 
-You can find out more about how to create these files against the MTD configuration schema by visiting the [docs](https://mother-tongues-dictionaries.readthedocs.io/en/latest/)
+You can find out more about how to create these files against the MTD configuration schema by visiting the [guides](https://docs.mothertongues.org/docs/mtd-guides)
 
-Once you have those files, you can either create a dictionary programatically or using the command line interface.
+Once you have those files, you can either create a dictionary using the command line interface.
 
-### Using Python directly
+The basic workflow for creating a dictionary is as follows:
 
-```python
-from mtd import create_dictionary
+1. Fork and clone the [mtd-starter](https://github.com/roedoejet/mtd-starter)
+2. [Edit and prepare](https://docs.mothertongues.org/docs/mtd-guides-prepare) the repo using your own data
+3. [Export your data](https://docs.mothertongues.org/docs/mtd-guides-ui#exporting-your-data) to a format readable by the Mother Tongues User Interfaces
+4. Chose an interface, either [mobile](https://github.com/roedoejet/mothertongues-ui) or [web](https://github.com/MotherTongues/mothertongues-UI-Web)
+5. Add your exported data (`config.js` and `dict_cached.js`) from step 3 and then [publish](https://docs.mothertongues.org/docs/mtd-guides-publishing) your dictionary! 🎉
 
-dictionary = create_dictionary(PATH_TO_LANGUAGE_CONFIG)
-
-# write a file containing configuration information
-config_js = dictionary.return_formatted_config(form='js')
-with open('config.js', 'w', encoding='utf8') as f:
-    f.write(config_js)
-
-# write a file containing lexical data
-dict_cached_js = dictionary.return_formatted_data(form='js')
-with open('dict_cached.js', 'w', encoding='utf8') as f:
-    f.write(dict_cached_js)
-```
-
-The two files that are then created above (`config.js` and `dict_cached.js`) can be dropped into any MTD-UI to build a dictionary.
-
-### Using the CLI
-
-You can either export your dictionary as a static site:
-
-```
-mtd export <PATH_TO_LANGUAGE_CONFIG> web <OUTPUT_DIR>
-```
-
-Or, you can build it first:
-
-```
-mtd prepare <PATH_TO_LANGUAGE_CONFIG>
-```
-
-And then serve it locally:
-
-```
-mtd run
-```
 
 ## Contributing
 
