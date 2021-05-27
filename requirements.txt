@@ -9,7 +9,7 @@ gspread
 jsonschema
 jsonpath-rw
 jsonpointer
-coloredlogs
+coloredlogs<=14.0
 python-slugify
 flask_restful
 flask_cors
