@@ -56,7 +56,7 @@ class Languages(Resource):
                 return jsonify(self.available)
 
 
-languages_api = Blueprint('resources.languages', __name__)
+languages_api = Blueprint('resources-languages', __name__)
 
 CORS(languages_api)
 
