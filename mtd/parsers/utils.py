@@ -7,6 +7,7 @@ from mtd.tests import logger
 from typing import Dict, List, Union
 from jsonpath_rw import jsonpath, parse as json_parse
 import requests
+import os
 
 class ResourceManifest():
     '''A manifest file for a given resource.
@@ -20,16 +21,27 @@ class ResourceManifest():
     '''
     def __init__(self, manifest):
         self.schema = MANIFEST_SCHEMA
+        self.path = None
         if isinstance(manifest, dict):
             self._manifest = manifest
         else:
             self._manifest = self.parse(manifest)
+        if self.path:
+            self.path_dir = os.path.dirname(self.path)
+            if 'transducers' in self._manifest:
+                for t in self._manifest['transducers']:
+                    for i, fn in enumerate(t['functions']):
+                        if fn.endswith('.yaml'):
+                            path = os.path.abspath(os.path.join(self.path_dir, fn))
+                            t['functions'][i] = path
+                    
         self.file_type = "na"
         if "file_type" in self._manifest:
             self.file_type = self._manifest['file_type']
         # List of keys not used by specific file types
         txt_keys = ["location"]
         json_keys = ["skipheader"]
+        
         xlsx_keys = []
         xml_keys = ["skipheader"]
         self.type_specific_keys = { "csv": txt_keys, "json": json_keys, "psv": txt_keys, "tsv": txt_keys, "xlsx": xlsx_keys, "xml": xml_keys, "na": []}
@@ -88,6 +100,7 @@ class ResourceManifest():
             try:
                 with open(manifest_path, 'r', encoding='utf8') as f:
                     manifest = json.load(f)
+                    self.path = manifest_path
             except ValueError:
                 raise ValidationError(f"The manifest JSON file at {manifest_path} seems to be malformed. Please run it through a JSON validator")
 

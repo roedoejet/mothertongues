@@ -19,6 +19,7 @@ from mtd.buildtools.write_static import set_active_dictionaries, write_static, w
 from flask.cli import FlaskGroup
 from flask_frozen import Freezer
 from mtd.static import ACTIVE
+import pathlib
 from distutils.dir_util import copy_tree
 from base64 import b64encode
 from urllib.parse import urljoin
@@ -106,7 +107,7 @@ def cli():
     """Management script for Mother Tongues Dictionaries."""
 
 @app.cli.command()
-@click.argument('language', type=click.Path(exists=True))
+@click.argument('language', type=click.Path(exists=True, resolve_path=True))
 def prepare(language):
     """Prepares all necessary files for Mother Tongues dictionary web app and API
 
@@ -128,7 +129,7 @@ def prepare(language):
         click.echo(f"Successfully built static files for the following dictionaries: {names}. You may now run the app. *Warning* Mother Tongues uses logger caching to check if your build finished with errors. Because you are using a version of Python < 3.7 this feature is disabled and running your dictionary might not work.")
 
 
-@click.argument('language', type=click.Path(exists=True))
+@click.argument('language', type=click.Path(exists=True, resolve_path=True))
 @click.option('--alphabet', '-al', is_flag=True, required=False, default=True, help='Check alphabet is readable and no missed characters in data')
 @app.cli.command()
 def check(language, alphabet):
@@ -224,9 +225,9 @@ def check(language, alphabet):
         f.write(base)
 
 @app.cli.command()
-@click.argument('language', type=click.Path(exists=True))
+@click.argument('language', type=click.Path(exists=True, resolve_path=True))
 @click.argument('export_type', type=click.Choice(["raw-json", "raw-xlsx", "raw-csv", "raw-psv", "raw-tsv", "raw-html", "js", "json", "web", "mobile", "github"]))
-@click.argument('output', type=click.Path(exists=True, file_okay=False, dir_okay=True, writable=True), required=False)
+@click.argument('output', type=click.Path(exists=True, file_okay=False, dir_okay=True, writable=True, resolve_path=True), required=False)
 @click.option('--enable-logging', '-el', is_flag=True, required=False, default=False, help='Log output to file')
 def export(language, export_type, output, enable_logging):
     """Exports Mother Tongues Dictionary
@@ -288,7 +289,7 @@ def export(language, export_type, output, enable_logging):
 
 
 @app.cli.command(with_appcontext=False)
-@click.argument('path', type=click.Path(exists=True))
+@click.argument('path', type=click.Path(exists=True, resolve_path=True))
 def available(path):
     """ Return names of all language configs at specified path
 

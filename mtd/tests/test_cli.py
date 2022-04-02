@@ -21,6 +21,7 @@ class CliTester(TestCase):
     def test_available(self):
         result = self.runner.invoke(args=['available', self.dictionary_dir])
         self.assertIn('The following languages are available', result.output)
+        
         self.assertEqual(result.exit_code, 0)
 
     def test_not_available(self):

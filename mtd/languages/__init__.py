@@ -7,6 +7,8 @@ from jsonschema.exceptions import ValidationError
 from urllib.parse import urlparse
 from typing import List, Union
 import requests
+import logging
+from pathlib import Path
 from string import ascii_uppercase, ascii_lowercase
 
 ldir = os.path.dirname(ldir.__file__)
@@ -27,6 +29,7 @@ class LanguageConfig():
     def __init__(self, config_object):
         self.config_schema = CONFIG_SCHEMA
         self.language_default_dir = os.path.dirname(ldir)
+        self.path = None
         if isinstance(config_object, dict):
             self._config = config_object
         elif 'http' in urlparse(config_object).scheme:
@@ -35,6 +38,7 @@ class LanguageConfig():
         else:
             if not os.path.isabs(config_object):
                 config_object = os.path.join(self.language_default_dir, config_object)
+            self.path = config_object
             with open(config_object, 'r', encoding='utf8') as f:
                 self._config = json.load(f)
         if 'alphabet' in self._config['config']:
@@ -42,6 +46,18 @@ class LanguageConfig():
                 self._config['config']['alphabet'] = self.parse_alphabet(self._config['config']['alphabet'])
         else:
             self._config['config']['alphabet'] = list(ascii_uppercase) + list(ascii_lowercase)
+        if self.path:
+            self.path_dir = os.path.dirname(self.path)
+            for data in self._config['data']:
+                for k, v in data.items():
+                    if isinstance(v, str):
+                        if not os.path.isabs(v):
+                            path = os.path.abspath(os.path.join(self.path_dir, v)) 
+                            if not os.path.exists(path):
+                                logging.error(f"Path {v} relative to the config file at {self.path} does not exist")
+                            data[k] = path
+                        elif not os.path.exists(v):
+                            logging.error(f"Resource path at {v} does not exist")
         self._config = self.validate_config_object(self._config)
         
     def __getitem__(self, position):
