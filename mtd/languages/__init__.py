@@ -43,6 +43,8 @@ class LanguageConfig():
                 self._config = json.load(f)
         if 'alphabet' in self._config['config']:
             if isinstance(self._config['config']['alphabet'], str):
+                if self.path and not os.path.isabs(self._config['config']['alphabet']) and isinstance(self.path, str):
+                    self._config['config']['alphabet'] = os.path.abspath(os.path.join(os.path.dirname(self.path), self._config['config']['alphabet']))
                 self._config['config']['alphabet'] = self.parse_alphabet(self._config['config']['alphabet'])
         else:
             self._config['config']['alphabet'] = list(ascii_uppercase) + list(ascii_lowercase)

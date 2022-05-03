@@ -31,17 +31,17 @@ class ResourceManifest():
             if 'transducers' in self._manifest:
                 for t in self._manifest['transducers']:
                     for i, fn in enumerate(t['functions']):
-                        if fn.endswith('.yaml'):
-                            path = os.path.abspath(os.path.join(self.path_dir, fn))
+                        if fn.endswith('.yaml') or fn.endswith('.json'):
+                            path = fn if os.path.isabs(fn) else os.path.abspath(os.path.join(self.path_dir, fn))
                             t['functions'][i] = path
-                    
+
         self.file_type = "na"
         if "file_type" in self._manifest:
             self.file_type = self._manifest['file_type']
         # List of keys not used by specific file types
         txt_keys = ["location"]
         json_keys = ["skipheader"]
-        
+
         xlsx_keys = []
         xml_keys = ["skipheader"]
         self.type_specific_keys = { "csv": txt_keys, "json": json_keys, "psv": txt_keys, "tsv": txt_keys, "xlsx": xlsx_keys, "xml": xml_keys, "na": []}
