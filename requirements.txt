@@ -5,6 +5,7 @@ pandas
 requests
 Fabric3
 g2p
+networkx==2.8.8
 gspread~=3.6.0
 jsonschema
 jsonpath-rw
