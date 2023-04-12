@@ -7,7 +7,7 @@ from mtd.languages import MANIFEST_SCHEMA
 from jsonschema.exceptions import ValidationError
 from mtd.parsers.utils import ResourceManifest
 from typing import Dict, List, Union
-from jsonpath_rw import parse as json_parse
+from jsonpath_ng import parse as json_parse
 from tqdm import tqdm
 import multiprocessing as mp
 
