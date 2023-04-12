@@ -5,7 +5,7 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from mtd.tests import logger
 from typing import Dict, List, Union
-from jsonpath_rw import jsonpath, parse as json_parse
+from jsonpath_ng import jsonpath, parse as json_parse
 import requests
 import os
 
@@ -162,7 +162,7 @@ class BaseParser():
         return new_lemma
     
     def validate_type(self, k, v):
-        '''Some parsers like lxml and jsonpath_rw return lists when the data manifest does not specify a list, this corrects that.
+        '''Some parsers like lxml and jsonpath_ng return lists when the data manifest does not specify a list, this corrects that.
         '''
         if type(v) == list and len(v) > 0 and type(v[0]) == jsonpath.DatumInContext:
             v = v[0].value
