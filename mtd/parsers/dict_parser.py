@@ -16,6 +16,7 @@ class Parser(JsonParser):
     :param ResourceManifest manifest: Manifest for parser
     '''
     def __init__(self, manifest: ResourceManifest, resource: Union[dict, list]):
+        self.path_cache = {}
         self.manifest = manifest
         self.resource = resource
         if "location" in self.manifest:
