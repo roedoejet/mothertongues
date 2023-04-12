@@ -18,6 +18,7 @@ class Parser(JsonParser):
     :param (str or json) resource_path: Dict or path to pkl
     '''
     def __init__(self, manifest: ResourceManifest, resource_path: Union[str, dict, list]):
+        self.path_cache = {}
         self.manifest = manifest
         try:
             if isinstance(resource_path, str):

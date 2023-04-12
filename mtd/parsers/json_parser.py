@@ -9,7 +9,6 @@ from mtd.parsers.utils import ResourceManifest
 from typing import Dict, List, Union
 from jsonpath_ng import parse as json_parse
 from tqdm import tqdm
-import multiprocessing as mp
 
 class Parser(BaseParser):
     '''
@@ -20,6 +19,7 @@ class Parser(BaseParser):
     '''
     def __init__(self, manifest: ResourceManifest, resource_path: Union[str, dict, list]):
         self.manifest = manifest
+        self.path_cache = {}
         try:
             if isinstance(resource_path, str):
                 with open(resource_path, encoding='utf8') as f:
@@ -32,36 +32,24 @@ class Parser(BaseParser):
             self.resource = resolve_pointer(self.resource, self.manifest['location'])
         self.entry_template = self.manifest['targets']
 
+    def get_matcher(self, path: str):
+        if path not in self.path_cache:
+            self.path_cache[path] = json_parse(path)
+        return self.path_cache[path]
+
     def getValueFromJsonPath(self, entry: dict, path: str):
-        jsonpath_expr = json_parse(path)
+        jsonpath_expr = self.get_matcher(path)
         result = jsonpath_expr.find(entry)
         if not result:
             result = ''
         return result
 
-    def chunks(self, l, n):
-        """Yield successive n-sized chunks from l."""
-        if not n:
-            n = 1
-        for i in range(0, len(l), n):
-            yield l[i:i + n]
-        
-    def resolve_targets(self):
-        ''' This function chunks the resource into equal chunks for each available core.
-            A 5000 entry corpus ran in 34 seconds compared with 103. TODO: This should still be faster...
-        '''
-        pool = mp.Pool(mp.cpu_count())
-        chunked = self.chunks(self.resource, int(len(self.resource) / mp.cpu_count()))
-        chunk_list = pool.map(self.resolve_targets_m, chunked)
-        pool.close()
-        return [item for sublist in chunk_list for item in sublist]
-
-    def resolve_targets_m(self, resource) -> List[dict]:
+    def resolve_targets(self) -> List[dict]:
         return [
             self.fill_entry_template(
                 self.entry_template, entry, self.getValueFromJsonPath
             )
-            for entry in tqdm(resource)
+            for entry in tqdm(self.resource)
         ]
 
     def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
@@ -73,11 +61,11 @@ class Parser(BaseParser):
             listof_dict['listof'] = listof_dict['value']['listof']
             listof_dict['value'] = listof_dict['value']['value']
             for el in listof:
-                json_expr = json_parse(f"{el.full_path}")
+                json_expr = self.get_matcher(f"{el.full_path}")
                 items = [match.value for match in json_expr.find(entry)][0]
                 for item in items:
                     i = items.index(item)
-                    item_json_expr = json_parse(f"{json_expr}.[{i}]")
+                    item_json_expr = self.get_matcher(f"{json_expr}.[{i}]")
                     new_entry = [match.value for match in item_json_expr.find(entry)]
                     el = self.fill_listof_entry_template(listof_dict, new_entry, convert_function)
                     new_els.append(el)
@@ -89,23 +77,22 @@ class Parser(BaseParser):
             for el in items:
                 i = items.index(el)
                 new_el = {}
-                for k,v in listof_dict['value'].items():
-                    new_json_expr = json_parse(f"{json_expr}.[{i}].[{v.strip()}]")
+                for k, v in listof_dict['value'].items():
+                    new_json_expr = self.get_matcher(f"{json_expr}.[{i}].[{v.strip()}]")
                     new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(entry)])
                 new_els.append(new_el)
         else:
             for el in listof:
-                json_expr = json_parse(f"{el.full_path}")
+                json_expr = self.get_matcher(f"{el.full_path}")
                 items = [match.value for match in json_expr.find(entry)][0]
                 for item in items:
                     i = items.index(item)
-                    new_json_expr = json_parse(f"{json_expr}.[{i}]")
+                    new_json_expr = self.get_matcher(f"{json_expr}.[{i}]")
                     new_el = [match.value for match in new_json_expr.find(entry)][0]
                     new_els.append(new_el)
 
         return new_els
 
-    
     def fill_entry_template(self, entry_template: dict, entry, convert_function) -> dict:
         '''This recursive function "fills in" the data according to the resource manifest. This is a slight modification from the one used by all parsers.
 
@@ -134,7 +121,7 @@ class Parser(BaseParser):
                 except:
                     breakpoint()
         return new_lemma
-    
+
     def parse(self) -> Dict[str, Union[dict, pd.DataFrame]]:
         try:
             data = self.resolve_targets()
