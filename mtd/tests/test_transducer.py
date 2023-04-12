@@ -1,7 +1,7 @@
 from unittest import main, TestCase
 from mtd.processors.transducer import Transducer
 from pandas import DataFrame
-from pandas.util.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 import os
 import mtd.tests.test_data.transducers as test_transducers_path
 import mtd.transducers as transducers_path
