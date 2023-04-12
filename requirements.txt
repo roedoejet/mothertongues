@@ -5,10 +5,10 @@ pandas
 requests
 Fabric3
 g2p
-networkx==2.8.8
+networkx>=2.5,<=2.8.4
 gspread~=3.6.0
 jsonschema
-jsonpath-rw
+jsonpath-ng
 jsonpointer
 coloredlogs<=14.0
 python-slugify
