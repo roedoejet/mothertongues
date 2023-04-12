@@ -2,7 +2,7 @@ from unittest import TestCase
 from mtd.processors.sorter import ArbSorter
 from string import ascii_lowercase
 from pandas import DataFrame
-from pandas.util.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 
 
 class SorterTest(TestCase):
