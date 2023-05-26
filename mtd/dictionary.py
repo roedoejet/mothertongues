@@ -36,11 +36,18 @@ class Dictionary():
         # parse
         self.data_objs = [parse(d['manifest'], d['resource']) for d in language_config['data']]
         # validate
-        for do in self.data_objs:
+        for d, do in zip(language_config["data"], self.data_objs):
+            # Make empty things NaN in order to use Pandas' `dropna`
+            # method to find them (FIXME: is this really the best way
+            # to do this?)
             do['data'] = do['data'].replace('', nan)
-            if return_null(do['data']):
-                logger.warning('Removing null rows')
+            null_rows = return_null(do['data'])
+            if null_rows:
+                logger.warning('Removing entries with no "word" in %s: %s',
+                               d["resource"], null_rows)
                 do['data'] = do['data'].dropna(subset=['word'], how='all')
+            # Don't leave NaNs lying around!
+            do['data'] = do['data'].replace(nan, "")
         # transduce
         self.transduce()
         # sort
@@ -51,7 +58,9 @@ class Dictionary():
         self.index_key_to_column()
         # validate ID
         if not self.validate_id(self._df):
-            logger.warning("No value for 'entryID' was found in your data. Using index instead. Note, this will not be consistent across builds.")
+            logger.warning("No value for 'entryID' was found in your data, "
+                           "or some entryIDs were missing. Using index instead. "
+                           "Note, this will not be consistent across builds.")
             self._df['entryID'] = self._df.index.astype(str)
         # log dupes
         dupes = return_dupes(self._df)
@@ -71,10 +80,12 @@ class Dictionary():
         self._df = value
 
     def validate_id(self, df) -> bool:
-        if not "entryID" in df:
+        """Verify that the entryID column exists and contains no null
+        values."""
+        if "entryID" not in df:
             return False
         else:
-            return return_null(df, notnull=['entryID'])
+            return len(return_null(df, notnull=['entryID'])) == 0
 
     def joined(self) -> pd.DataFrame:
         keys = []
