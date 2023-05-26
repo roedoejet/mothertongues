@@ -3,10 +3,15 @@ from mtd.tests import logger
 from pandas import concat, DataFrame
 from typing import List, Union
 
-def return_null(df, notnull: List[str]=['word', 'definition']) -> List:
-    """Returns a list of null items
+def return_null(df, notnull: List[str]=['word', 'definition']) -> List[List]:
+    """Returns a list of lists of null items for each column in `notnull`.
+
+    If no null items at all were found, returns the empty list.
+    Raises DfMissingKeysValidationError if any of the columns in
+    `notnull` are missing.
 
     :param list notnull: list of keys to guarantee non-null values for
+
     """
     if all([nn in df for nn in notnull]):
         is_not_null = all([df[nn].notnull().all() for nn in notnull])
