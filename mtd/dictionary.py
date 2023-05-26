@@ -43,10 +43,9 @@ class Dictionary():
             do['data'] = do['data'].replace('', nan)
             null_rows = return_null(do['data'])
             if null_rows:
-                logger.warning('Removing entries with no "word" in %s: %s',
-                               d["resource"], null_rows)
+                logger.warning('Removing entries with no "word" in %s', d["resource"])
                 do['data'] = do['data'].dropna(subset=['word'], how='all')
-            # Don't leave NaNs lying around!
+            # Don't leave NaNs lying around, as transduce() will fail, cryptically!
             do['data'] = do['data'].replace(nan, "")
         # transduce
         self.transduce()
@@ -62,8 +61,10 @@ class Dictionary():
                            "or some entryIDs were missing. Using index instead. "
                            "Note, this will not be consistent across builds.")
             self._df['entryID'] = self._df.index.astype(str)
-        # log dupes
+        # log dupes (FIXME: no, this does not actually do that)
         dupes = return_dupes(self._df)
+        # restore null values so validation will work
+        do['data'] = do['data'].replace('', None)
         
     def __len__(self):
         return len(self._df.index)
