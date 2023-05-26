@@ -47,8 +47,8 @@ def remove_dupes(df) -> DataFrame:
     dupes_removed = df.drop_duplicates(subset=["word", "definition"])
     return dupes_removed
 
-def return_dupes(df, dupe_columns: List[str] = ['word']) -> DataFrame:
-    '''return all word/definition duplicates. TODO: why does ['word', 'definition'] not work for dupe_columns?
+def return_dupes(df, dupe_columns: List[str] = ['word', 'definition']) -> DataFrame:
+    '''return all word/definition duplicates.
     '''
     dupes = df.loc[df.duplicated(subset=dupe_columns, keep=False)]
     dupe_msgs = []
