@@ -33,6 +33,7 @@ class Dictionary():
     def __init__(self, language_config):
         self.config = language_config['config']
         self.name = slugify(self.config['L1'])
+        logger.info("Parsing data")
         # parse
         self.data_objs = [parse(d['manifest'], d['resource']) for d in language_config['data']]
         # validate
@@ -48,8 +49,10 @@ class Dictionary():
             # Don't leave NaNs lying around, as transduce() will fail, cryptically!
             do['data'] = do['data'].replace(nan, "")
         # transduce
+        logger.info("Applying approximate search transducers")
         self.transduce()
         # sort
+        logger.info("Sorting entries")
         self.sort()
         # join
         self._df = self.joined()
@@ -62,9 +65,9 @@ class Dictionary():
                            "Note, this will not be consistent across builds.")
             self._df['entryID'] = self._df.index.astype(str)
         # log dupes (FIXME: no, this does not actually do that)
+        logger.info("Finding duplicate entries")
         dupes = return_dupes(self._df)
-        # restore null values so validation will work
-        do['data'] = do['data'].replace('', None)
+        logger.info("DONE!")
         
     def __len__(self):
         return len(self._df.index)
