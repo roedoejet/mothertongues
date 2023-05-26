@@ -3,7 +3,7 @@ from mtd.tests import logger
 from pandas import concat, DataFrame
 from typing import List, Union
 
-def return_null(df, notnull: List[str]=['word', 'definition']) -> bool:
+def return_null(df, notnull: List[str]=['word', 'definition']) -> List:
     """Returns a list of null items
 
     :param list notnull: list of keys to guarantee non-null values for
@@ -18,8 +18,8 @@ def return_null(df, notnull: List[str]=['word', 'definition']) -> bool:
                 all_null_values.append(df[df[col].isnull()].values)
             return all_null_values
     else:
-        e = DfMissingKeysValidationError(notnull)
-        logger.error(e)
+        raise DfMissingKeysValidationError(notnull)
+
 
 def check_alphabet(alphabet: List[str], df: DataFrame, key: str = 'word') -> List[str]:
     ''' Checks if any characters exist in the DataFrame that aren't in the alphabet.
