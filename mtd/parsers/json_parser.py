@@ -53,43 +53,30 @@ class Parser(BaseParser):
         ]
 
     def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
-        listof = [match for match in convert_function(entry, listof_dict['listof'])]
+        listof = convert_function(entry, listof_dict['listof'])
         if not listof:
             return listof
         new_els = []
-        if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
+        if "value" in listof_dict and isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
             listof_dict['listof'] = listof_dict['value']['listof']
             listof_dict['value'] = listof_dict['value']['value']
             for el in listof:
-                json_expr = self.get_matcher(f"{el.full_path}")
-                items = [match.value for match in json_expr.find(entry)][0]
-                for item in items:
-                    i = items.index(item)
-                    item_json_expr = self.get_matcher(f"{json_expr}.[{i}]")
-                    new_entry = [match.value for match in item_json_expr.find(entry)]
-                    el = self.fill_listof_entry_template(listof_dict, new_entry, convert_function)
+                for item in el.value:
+                    el = self.fill_listof_entry_template(listof_dict, [item], convert_function)
                     new_els.append(el)
-        elif isinstance(listof_dict['value'], dict):
-            items = [match.value for match in listof][0]
+        elif "value" in listof_dict and isinstance(listof_dict['value'], dict):
+            items = listof[0].value
             if isinstance(items, dict):
                 items = [items]
-            json_expr = listof[0].full_path
             for el in items:
-                i = items.index(el)
                 new_el = {}
                 for k, v in listof_dict['value'].items():
-                    new_json_expr = self.get_matcher(f"{json_expr}.[{i}].[{v.strip()}]")
-                    new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(entry)])
+                    new_json_expr = self.get_matcher(v.strip())
+                    new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(el)])
                 new_els.append(new_el)
         else:
             for el in listof:
-                json_expr = self.get_matcher(f"{el.full_path}")
-                items = [match.value for match in json_expr.find(entry)][0]
-                for item in items:
-                    i = items.index(item)
-                    new_json_expr = self.get_matcher(f"{json_expr}.[{i}]")
-                    new_el = [match.value for match in new_json_expr.find(entry)][0]
-                    new_els.append(new_el)
+                new_els.append(el.value)
 
         return new_els
 
