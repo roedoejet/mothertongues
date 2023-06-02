@@ -76,7 +76,8 @@ class Parser(BaseParser):
                 new_els.append(new_el)
         else:
             for el in listof:
-                new_els.append(el.value)
+                for item in el.value:
+                    new_els.append(item)
 
         return new_els
 
