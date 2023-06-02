@@ -19,12 +19,12 @@
         "theme": "theme",
         "secondary_theme": "secondary_theme",
         "example_sentence": {
-            "listof": "example_sentence",
-            "value": "[*]"
+          "listof": "example_sentence",
+          "value": "this is simply IGNORED!!!"
         },
         "example_sentence_definition": {
             "listof": "example_sentence_definition",
-            "value": "[*]"
+            "value": "it does NOTHING!"
         },
         "example_sentence_audio": {
             "listof": "example_sentence_audio",
