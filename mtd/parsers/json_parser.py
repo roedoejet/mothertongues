@@ -53,31 +53,42 @@ class Parser(BaseParser):
         ]
 
     def fill_listof_entry_template(self, listof_dict: dict, entry, convert_function) -> list:
+        # Run the query
         listof = convert_function(entry, listof_dict['listof'])
         if not listof:
             return listof
         new_els = []
-        if "value" in listof_dict and isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
-            listof_dict['listof'] = listof_dict['value']['listof']
-            listof_dict['value'] = listof_dict['value']['value']
-            for el in listof:
-                for item in el.value:
-                    el = self.fill_listof_entry_template(listof_dict, [item], convert_function)
-                    new_els.append(el)
-        elif "value" in listof_dict and isinstance(listof_dict['value'], dict):
-            items = listof[0].value
-            if isinstance(items, dict):
-                items = [items]
-            for el in items:
-                new_el = {}
-                for k, v in listof_dict['value'].items():
-                    new_json_expr = self.get_matcher(v.strip())
-                    new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(el)])
-                new_els.append(new_el)
+        if "value" in listof_dict:
+            # Legacy (somewhat bogus) behaviour, which assumes an extra list somewhere
+            if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
+                # Recurse one level down (apparently no more than this)
+                listof_dict['listof'] = listof_dict['value']['listof']
+                listof_dict['value'] = listof_dict['value']['value']
+                for el in listof:
+                    for item in el.value:
+                        el = self.fill_listof_entry_template(listof_dict, [item], convert_function)
+                        new_els.append(el)
+            elif "value" in listof_dict and isinstance(listof_dict['value'], dict):
+                # Create outputs with dictionaries of queries from "value" on results
+                for el in listof:
+                    items = el.value
+                    if isinstance(items, dict):
+                        items = [items]
+                    for item in el.value:
+                        new_el = {}
+                        for k, v in listof_dict['value'].items():
+                            new_json_expr = self.get_matcher(v.strip())
+                            new_el[k] = self.validate_type(k, [match.value for match in new_json_expr.find(item)])
+                        new_els.append(new_el)
+            else:
+                # Do ... something, totally ignoring the "value" key
+                for el in listof:
+                    for item in el.value:
+                        new_els.append(item)
         else:
+            # New mode, just give me the list of items THAT I ASKED FOR
             for el in listof:
-                for item in el.value:
-                    new_els.append(item)
+                new_els.append(el.value)
 
         return new_els
 
