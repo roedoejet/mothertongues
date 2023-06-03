@@ -65,16 +65,19 @@ class Parser(BaseParser):
                 listof_dict['listof'] = listof_dict['value']['listof']
                 listof_dict['value'] = listof_dict['value']['value']
                 for el in listof:
-                    for item in el.value:
-                        el = self.fill_listof_entry_template(listof_dict, [item], convert_function)
-                        new_els.append(el)
-            elif "value" in listof_dict and isinstance(listof_dict['value'], dict):
+                    items = el.value
+                    if isinstance(items, dict):
+                        items = [items]
+                    for item in items:
+                        new_el = self.fill_listof_entry_template(listof_dict, item, convert_function)
+                        new_els.append(new_el)
+            elif isinstance(listof_dict['value'], dict):
                 # Create outputs with dictionaries of queries from "value" on results
                 for el in listof:
                     items = el.value
                     if isinstance(items, dict):
                         items = [items]
-                    for item in el.value:
+                    for item in items:
                         new_el = {}
                         for k, v in listof_dict['value'].items():
                             new_json_expr = self.get_matcher(v.strip())
@@ -83,7 +86,10 @@ class Parser(BaseParser):
             else:
                 # Do ... something, totally ignoring the "value" key
                 for el in listof:
-                    for item in el.value:
+                    items = el.value
+                    if isinstance(items, dict):
+                        items = [items]
+                    for item in items:
                         new_els.append(item)
         else:
             # New mode, just give me the list of items THAT I ASKED FOR
