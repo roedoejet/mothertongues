@@ -68,9 +68,14 @@ class Parser(BaseParser):
                     items = el.value
                     if isinstance(items, dict):
                         items = [items]
-                    for item in items:
-                        new_el = self.fill_listof_entry_template(listof_dict, item, convert_function)
+                    # Special case for more reasonable behaviour of not flattening the list
+                    if listof_dict["listof"] == "$":
+                        new_el = self.fill_listof_entry_template(listof_dict, items, convert_function)
                         new_els.append(new_el)
+                    else:
+                        for item in items:
+                            new_el = self.fill_listof_entry_template(listof_dict, item, convert_function)
+                            new_els.append(new_el)
             elif isinstance(listof_dict['value'], dict):
                 # Create outputs with dictionaries of queries from "value" on results
                 for el in listof:
