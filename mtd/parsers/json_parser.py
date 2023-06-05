@@ -68,8 +68,10 @@ class Parser(BaseParser):
         if "value" in listof_dict:
             if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
                 # Recurse one level down (apparently no more than this)
-                listof_dict['listof'] = listof_dict['value']['listof']
-                listof_dict['value'] = listof_dict['value']['value']
+                next_listof_dict = {
+                    "listof": listof_dict['value']['listof'],
+                    "value": listof_dict['value']['value'],
+                }
                 # `listof` will usually have only one element, which
                 # is the actual list we were looking for
                 for el in listof:
@@ -77,7 +79,7 @@ class Parser(BaseParser):
                     if isinstance(items, dict):
                         items = [items]
                     for item in items:
-                        new_el = self.fill_listof_entry_template(listof_dict, item, convert_function)
+                        new_el = self.fill_listof_entry_template(next_listof_dict, item, convert_function)
                         new_els.append(new_el)
             elif isinstance(listof_dict['value'], dict):
                 # Create outputs with dictionaries of queries from "value" on results
