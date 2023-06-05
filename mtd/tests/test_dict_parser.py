@@ -8,7 +8,8 @@ from mtd.parsers import parse
 class DictParserTest(TestCase):
     def setUp(self):
         self.path = os.path.dirname(json_path.__file__)
-        self.data = [(SAMPLE_DATA_OBJ, SAMPLE_DATA_DF, SAMPLE_DATA_OBJ), (SAMPLE_DATA_OBJ_REDUCED_EMPTY, SAMPLE_DATA_DF_REDUCED_EMPTY, SAMPLE_DATA_OBJ_REDUCED_EMPTY)]
+        self.data = [(SAMPLE_DATA_OBJ, SAMPLE_DATA_DF, SAMPLE_DATA_OBJ),
+                     (SAMPLE_DATA_OBJ_REDUCED_EMPTY, SAMPLE_DATA_DF_REDUCED_EMPTY, SAMPLE_DATA_OBJ_REDUCED_EMPTY)]
         self.manifest = os.path.join(self.path, 'dict_manifest.json')
         self.maxDiff = None
 

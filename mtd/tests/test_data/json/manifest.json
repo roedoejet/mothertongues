@@ -30,7 +30,7 @@
         "example_sentence_audio": {
             "listof": "example_sentence_audio",
             "value": {
-                "listof": "[*]",
+                "listof": "$",
                 "value": {
                     "speaker": "speaker",
                     "filename": "filename"
@@ -40,7 +40,7 @@
         "example_sentence_definition_audio": {
             "listof": "example_sentence_definition_audio",
             "value": {
-                "listof": "[*]",
+                "listof": "$",
                 "value": {
                     "speaker": "speaker",
                     "filename": "filename"
