@@ -67,7 +67,6 @@ class Parser(BaseParser):
         new_els = []
         if "value" in listof_dict:
             if isinstance(listof_dict['value'], dict) and "listof" in listof_dict['value']:
-                # Recurse one level down (apparently no more than this)
                 next_listof_dict = {
                     "listof": listof_dict['value']['listof'],
                     "value": listof_dict['value']['value'],
