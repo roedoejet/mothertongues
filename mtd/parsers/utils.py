@@ -164,7 +164,7 @@ class BaseParser():
     def validate_type(self, k, v):
         '''Some parsers like lxml and jsonpath_ng return lists when the data manifest does not specify a list, this corrects that.
         '''
-        if type(v) == list and len(v) > 0 and type(v[0]) == jsonpath.DatumInContext:
+        if type(v) == list and len(v) == 1 and type(v[0]) == jsonpath.DatumInContext:
             v = v[0].value
         if isinstance(v, list) and len(v) == 1 and self.return_manifest_key_type(k, self.manifest.manifest) != list:
             return v[0]

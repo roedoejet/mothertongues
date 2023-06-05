@@ -19,17 +19,16 @@
         "theme": "theme",
         "secondary_theme": "secondary_theme",
         "example_sentence": {
-          "listof": "example_sentence",
-          "value": "this is simply IGNORED!!!"
+            "listof": "example_sentence",
+            "value": "$"
         },
         "example_sentence_definition": {
-            "listof": "example_sentence_definition",
-            "value": "it does NOTHING!"
+            "listof": "example_sentence_definition"
         },
         "example_sentence_audio": {
             "listof": "example_sentence_audio",
             "value": {
-                "listof": "[*]",
+                "listof": "$",
                 "value": {
                     "speaker": "speaker",
                     "filename": "filename"
@@ -39,7 +38,7 @@
         "example_sentence_definition_audio": {
             "listof": "example_sentence_definition_audio",
             "value": {
-                "listof": "[*]",
+                "listof": "$",
                 "value": {
                     "speaker": "speaker",
                     "filename": "filename"
