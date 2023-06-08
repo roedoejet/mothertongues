@@ -107,6 +107,10 @@
                     "type": "string",
                     "definition": "Word in L1"
                 },
+                "sense": {
+                    "type": "string",
+                    "definition": "Particular sense of word in L1"
+                },
                 "definition": {
                     "type": "string",
                     "definition": "Definition in L2"
