@@ -1,22 +1,31 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "definitions": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://mothertongues.org/manifest_schema.json",
+    "title": "Mother Tongues Dictionary Manifest",
+    "description": "Manifest for constructing MTD dictionary",
+    "$defs": {
         "audio": {
             "type": "object",
+            "description": "Clip of recorded audio with optional word alignments",
             "properties": {
                 "speaker": {
                     "type": "string"
                 },
                 "filename": {
                     "type": "string"
+                },
+                "starts": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             },
-            "required": [
-                "filename"
-            ]
+            "required": ["filename"]
         },
         "listof": {
             "type": "object",
+            "description": "Extract a list of items from the input data",
             "properties": {
                 "listof": {
                     "type": "string"
@@ -31,92 +40,106 @@
                         }
                     ]
                 }
-            }
+            },
+            "required": ["listof"]
         }
     },
     "type": "object",
     "properties": {
         "file_type": {
             "type": "string",
+            "description": "Type of input file",
             "enum": ["csv", "json", "psv", "pkl", "tsv", "xlsx", "xml"]
         },
         "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of dictionary"
         },
         "display": {
-            "type": "string"
+            "type": "string",
+            "description": "Primary field for display (not used)"
         },
         "location": {
             "type": "string"
         },
         "skipheader": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Skip header row in tabular (csv, psv, tsv, xlsx) input"
         },
         "compare": {
-            "type": "string"
+            "type": "string",
+            "description": "Field used for comparing entries"
         },
         "sorting": {
-            "type": "string"
+            "type": "string",
+            "description": "Field used for sorting entries"
         },
         "transducers": {
             "type": "array",
+            "description": "Transducers used to generate targets (e.g. for search)",
             "items": {
                 "type": "object",
                 "properties": {
                     "source": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Source field"
                     },
                     "target": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Target field"
                     },
                     "functions": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "description": "G2P transducer as YAML file or text of Python lambda"
                         }
                     }
                 },
-                "required": [
-                    "source",
-                    "target",
-                    "functions"
-                ]
+                "required": ["source", "target", "functions"]
             }
         },
         "targets": {
             "type": "object",
+            "definition": "Target fields in output and where to find them",
             "properties": {
                 "word": {
-                    "type": "string"
+                    "type": "string",
+                    "definition": "Word in L1"
                 },
                 "definition": {
-                    "type": "string"
+                    "type": "string",
+                    "definition": "Definition in L2"
                 },
                 "entryID": {
-                    "type": "string"
+                    "type": "string",
+                    "definition": "Unique entry ID (will be generated if missing)"
                 },
                 "optional": {
                     "type": "array",
+                    "definition": "Optional information for display, e.g. part of speech",
                     "items": {
                         "type": "object"
                     }
                 },
                 "theme": {
-                    "type": "string"
+                  "type": "string",
+                  "definition": "Primary semantic category"
                 },
                 "secondary_theme": {
-                    "type": "string"
+                  "type": "string",
+                  "definition": "Secondary semantic category"
                 },
                 "audio": {
                     "oneOf": [
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/audio"
+                                "$ref": "#/$defs/audio"
                             }
                         },
                         {
-                            "$ref": "#/definitions/listof"
+                            "$ref": "#/$defs/listof"
                         }
                     ]
                 },
@@ -125,11 +148,11 @@
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/audio"
+                                "$ref": "#/$defs/audio"
                             }
                         },
                         {
-                            "$ref": "#/definitions/listof"
+                            "$ref": "#/$defs/listof"
                         }
                     ]
                 },
@@ -142,7 +165,7 @@
                             }
                         },
                         {
-                            "$ref": "#/definitions/listof"
+                            "$ref": "#/$defs/listof"
                         }
                     ]
                 },
@@ -155,7 +178,7 @@
                             }
                         },
                         {
-                            "$ref": "#/definitions/listof"
+                            "$ref": "#/$defs/listof"
                         }
                     ]
                 },
@@ -166,12 +189,12 @@
                             "items": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/definitions/audio"
+                                    "$ref": "#/$defs/audio"
                                 }
                             }
                         },
                         {
-                            "$ref": "#/definitions/listof"
+                            "$ref": "#/$defs/listof"
                         }
                     ]
                 },
@@ -182,28 +205,22 @@
                             "items": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/definitions/audio"
+                                    "$ref": "#/$defs/audio"
                                 }
                             }
                         },
                         {
-                            "$ref": "#/definitions/listof"
+                            "$ref": "#/$defs/listof"
                         }
                     ]
                 },
                 "img": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Image for this entry"
                 }
             },
-            "required": [
-                "word",
-                "definition"
-            ]
+            "required": ["word", "definition"]
         }
     },
-    "required": [
-        "name",
-        "sorting",
-        "targets"
-    ]
+    "required": ["name", "sorting", "targets"]
 }

@@ -1,22 +1,30 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://mothertongues.org/config_schema.json",
+    "description": "Configuration for MTD dictionary",
     "type": "object",
     "properties": {
         "config": {
             "type": "object",
             "properties": {
                 "L1": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Name of language of headwords"
                 },
                 "L2": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Name of language of definitions"
                 },
                 "L1_compare_transducer_name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Name of transducer to expand L1 queries (FIXME: unused)"
                 },
                 "optional_field_name": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Name of field with optional value (FIXME: unused)"
                 },
                 "alphabet": {
+                    "description": "List of characters in L1 alphabet",
                     "oneOf": [
                         {
                             "type": "string"
@@ -31,6 +39,7 @@
                 },
                 "credits": {
                     "type": "array",
+                    "description": "List of authors and contributors",
                     "items": {
                         "type": "object",
                         "properties": {
@@ -56,13 +65,11 @@
                     }
                 }
             },
-            "required": [
-                "L1",
-                "L2"
-            ]
+            "required": ["L1", "L2"]
         },
         "data": {
             "type": "array",
+            "description": "Paths to input files (manifest and input data)",
             "items": {
                 "type": "object",
                 "properties": {
@@ -78,18 +85,12 @@
                     },
                     "resource": {}
                 },
-                "required": [
-                    "manifest",
-                    "resource"
-                ]
+                "required": ["manifest", "resource"]
             }
         },
         "github_credentials_path": {
             "type": "string"
         }
     },
-    "required": [
-        "config",
-        "data"
-    ]
+    "required": ["config", "data"]
 }
