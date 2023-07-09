@@ -1,9 +1,10 @@
-from mtd.languages import LanguageConfig
-from mtd.languages.suites import LanguageSuite
-from mtd.dictionary import Dictionary
 from typing import List, Union
 
-VERSION = '0.18'
+from mtd.dictionary import Dictionary
+from mtd.languages import LanguageConfig
+from mtd.languages.suites import LanguageSuite
+from mtd.version import __version__ as VERSION
+
 
 def create_dictionary(language_config):
     """ Given a LanguageConfig (or a path to one), create a Dictionary
