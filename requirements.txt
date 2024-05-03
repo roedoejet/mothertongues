@@ -16,5 +16,5 @@ Flask-RESTful==0.3.10
 Flask-Cors==4.0.0
 requests==2.31.0
 lxml==5.1.0
-tqdm==4.66.1
+tqdm==4.66.3
 Js2Py==0.74
